@@ -1,0 +1,45 @@
+Oracle JDK 15
+
+ontology-services-toolkit - branch ost-rdfox-41:
+	mvn install:install-file -Dfile="C:\Users\abdul\Master\Programs\RDFox\lib/JRDFox.jar" -DgroupId="tech.oxfordsemantic" -DartifactId=JRDFox -Dversion="4.1.0" -Dpackaging=jar
+	mvn clean install
+
+OptiqueVQS - branch master:
+	https://stackoverflow.com/questions/46353477/jdk9-and-maven-jar-plugin - https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jar-plugin
+	Change <version.plugin.maven-jar-plugin>2.6</version.plugin.maven-jar-plugin>
+	To <version.plugin.maven-jar-plugin>3.0.2</version.plugin.maven-jar-plugin>
+
+	<configuration>
+	    <source>1.8</source>
+	    <target>1.8</target>
+	</configuration>
+	
+	<dependency>
+	    <groupId>ontology-services-toolkit</groupId>
+	    <artifactId>ontology-services-toolkit</artifactId>
+	    <version>1.0.0-OST</version>
+	    <scope>compile</scope>
+	</dependency>
+
+	mvn clean install
+	mvn exec:java@VQSStart
+	
+
+
+Blazegraph:
+	/Users/abdul/Master/Data/a-box.ttl
+
+
+
+
+Older version for testing:
+	JRDFox-windows.jar
+	mvn install:install-file -Dfile="C:\Users\abdul\Master\Programs\RDFox\lib/JRDFox-windows.jar" -DgroupId="uk.ox.jrdfox" -DartifactId=jrdfox -Dversion="1.2776.2017" -Dpackaging=jar
+	mvn clean install
+	
+	  <dependency>
+	    <groupId>jakarta.xml.bind</groupId>
+	    <artifactId>jakarta.xml.bind-api</artifactId>
+	    <version>2.3.2</version>
+	  </dependency>
+
