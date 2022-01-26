@@ -1,0 +1,46 @@
+# Exploration wellbores connected to Discovery, Field, Company and ProductionLicence. 
+# Field is also connected to FieldStatus.
+# Answer rows: 1389
+
+# The query has 6 concept and 10 data properties (with existential filters). Depth is 3.
+
+# ExpWB 
+#   Discovery
+#   Field
+#     FieldStatus
+#   Company
+#   ProdLicence
+
+
+
+
+
+
+
+PREFIX ns1: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX ns2: <http://sws.ifi.uio.no/vocab/npd-v2#> 
+SELECT ?c1 ?c2 ?a1 ?a2 ?a3 ?c4 ?a4 ?c5 ?a6 ?a7 ?c3 ?a8 ?a9 ?a10 ?c6 ?a5 WHERE { 
+?c1 ns1:type ns2:ExplorationWellbore.
+?c2 ns1:type ns2:Discovery.
+?c4 ns1:type ns2:Field.
+?c5 ns1:type ns2:Company.
+?c3 ns1:type ns2:ProductionLicence.
+?c6 ns1:type ns2:FieldStatus.
+
+?c1 ns2:wellboreForDiscovery ?c2.
+?c1 ns2:explorationWellboreForField ?c4.
+?c1 ns2:drillingOperatorCompany ?c5.
+?c1 ns2:explorationWellboreForLicence ?c3.
+?c6 ns2:statusForField ?c4.
+
+?c2 ns2:discoveryYear ?a1.
+?c2 ns2:name ?a2.
+?c2 ns2:status ?a3.
+?c4 ns2:name ?a4.
+?c5 ns2:name ?a6.
+?c5 ns2:isFormerLicenceOperator ?a7.
+?c3 ns2:originalAreaSize ?a8.
+?c3 ns2:name ?a9.
+?c3 ns2:licensingActivityName ?a10.
+?c6 ns2:status ?a5.
+}

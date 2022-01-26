@@ -1,0 +1,43 @@
+
+# Adding a not very restrictive filter to temperature. Local property
+
+#13166 results
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PREFIX ns1: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX ns2: <http://sws.ifi.uio.no/vocab/npd-v2#> 
+SELECT * WHERE { 
+?c1 ns1:type ns2:ExplorationWellbore.
+?c2 ns1:type ns2:Field.
+?c5 ns1:type ns2:ProductionLicence.
+?c3 ns1:type ns2:Company.
+?c4 ns1:type ns2:FieldStatus.
+?c8 ns1:type ns2:Discovery.
+?c6 ns1:type ns2:ProductionLicenceStatus.
+?c7 ns1:type ns2:ProductionLicenceArea.
+
+?c1 ns2:explorationWellboreForField ?c2.
+?c1 ns2:explorationWellboreForLicence ?c5.
+?c2 ns2:currentFieldOperator ?c3.
+?c4 ns2:statusForField ?c2.
+?c8 ns2:includedInField ?c2.
+?c6 ns2:statusForLicence ?c5.
+?c7 ns2:isGeometryOfFeature ?c5.
+
+?c1 ns2:wellboreBottomHoleTemperature ?a7.
+FILTER (?a7 >= 120).
+
+}

@@ -1,0 +1,40 @@
+
+
+# 84 results
+# A very restrictive query far out, but also removed all the existential data propetires.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PREFIX ns1: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX ns2: <http://sws.ifi.uio.no/vocab/npd-v2#> 
+SELECT * WHERE { 
+?c1 ns1:type ns2:ExplorationWellbore.
+?c2 ns1:type ns2:Discovery.
+?c4 ns1:type ns2:Field.
+?c5 ns1:type ns2:Company.
+?c3 ns1:type ns2:ProductionLicence.
+?c6 ns1:type ns2:FieldStatus.
+
+?c1 ns2:wellboreForDiscovery ?c2.
+?c1 ns2:explorationWellboreForField ?c4.
+?c1 ns2:drillingOperatorCompany ?c5.
+?c1 ns2:explorationWellboreForLicence ?c3.
+?c6 ns2:statusForField ?c4.
+
+?c3 ns2:originalAreaSize ?a8.
+
+FILTER(?a8 >= 200 && ?a8 <= 400).
+
+}

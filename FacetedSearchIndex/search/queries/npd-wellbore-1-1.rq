@@ -1,0 +1,27 @@
+PREFIX ns1: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX ns2: <http://sws.ifi.uio.no/vocab/npd-v2#>
+PREFIX ns3: <http://sws.ifi.uio.no/vocab/npd-v2-ptl#>
+SELECT ?c1 ?a4 ?c2 ?a1 ?a2 ?a3 ?c3 ?a6 ?c4 ?c5 ?c10 ?a5 ?a7 ?a8 ?a9 WHERE {
+?c1 ns1:type ns2:Wellbore.
+?c2 ns1:type ns2:Field.
+?c10 ns1:type ns2:WellboreDocument.
+?c3 ns1:type ns2:ProductionLicence.
+?c4 ns1:type ns2:Company.
+?c5 ns1:type ns3:ProductionLicence.
+
+?c2 ns2:discoveryWellbore ?c1.
+?c10 ns2:documentForWellbore ?c1.
+?c2 ns2:currentFieldOwner ?c3.
+?c2 ns2:currentFieldOperator ?c4.
+?c5 ns3:licenceOperatorCompany ?c4.
+
+?c1 ns2:wellboreWellType ?a4.
+?c1 ns2:name ?a5.
+?c2 ns2:status ?a6.
+?c10 ns2:documentFormat ?a1.
+?c10 ns2:documentType ?a2.
+?c10 ns2:documentSize ?a3.
+?c3 ns2:isActive ?a7.
+?c3 ns2:originalAreaSize ?a8.
+?c4 ns2:name ?a9.
+}

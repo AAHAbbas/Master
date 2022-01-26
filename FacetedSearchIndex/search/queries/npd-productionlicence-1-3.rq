@@ -1,0 +1,26 @@
+# This linear query goes between productionlicence and the company. It has 5 concept nodes.
+
+# Added a data property far out there.
+
+# 784
+
+
+PREFIX ns1: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX ns2: <http://sws.ifi.uio.no/vocab/npd-v2#> 
+PREFIX ns3: <http://sws.ifi.uio.no/vocab/npd-v2-ptl#> 
+
+SELECT * WHERE { 
+?c1 ns1:type ns3:ProductionLicence.
+?c2 ns1:type ns2:Company.
+?c3 ns1:type ns3:ProductionLicence.
+?c4 ns1:type ns2:Company.
+?c5 ns1:type ns3:ProductionLicence.
+?c1 ns3:licenceOperatorCompany ?c2.
+?c2 ^ns3:licenceOperatorCompany ?c3.
+?c3 ns3:licenceOperatorCompany ?c4.
+?c4 ^ns3:licenceOperatorCompany ?c5.
+
+?c5 ns3:name ?a1.
+FILTER(?a1 = "242").
+
+}
