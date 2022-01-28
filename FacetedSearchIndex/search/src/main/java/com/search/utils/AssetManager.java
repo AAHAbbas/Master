@@ -26,7 +26,7 @@ public class AssetManager {
                 new Ontology("file:///Users/abdul/Master/Data/npd-db.ttl.owl"));
 
         this.endpoints.put("dataset-local-npd",
-                new EndpointDataset("http://localhost:3030/npd-factpages/query"));
+                new EndpointDataset("http://192.168.0.103:9999/blazegraph/namespace/kb/sparql"));
     }
 
     public ConceptConfiguration getConceptConfiguration(String ccId) throws Exception {
