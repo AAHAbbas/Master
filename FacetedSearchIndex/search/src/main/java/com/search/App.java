@@ -2,6 +2,7 @@ package com.search;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import com.search.core.ConceptConfiguration;
@@ -17,14 +18,15 @@ import org.apache.logging.log4j.Logger;
 import co.elastic.clients.elasticsearch.cluster.HealthResponse;
 
 /* TODOS:
-1. Use RDFox datastore and not dataset endpoint
-2. Add comments
-3. Cleanup code
-4. Use ElasticsearchProperties: RestClient.builder(properties.hosts()).build();
-5. WARNING: request [GET http://localhost:9200/_cluster/health] returned 1 warnings: [299 Elasticsearch-7.16.2-2b937c44140b6559905130a8650c64dbd0879cfb "Elasticsearch built-in security features are not enabled. Without authentication, your cluster could be accessible to anyone. See https://www.elastic.co/guide/en/elasticsearch/reference/7.16/security-minimal-setup.html to enable security."]
-6. Either update jgrapht version or don't use jgpraht at all
-7. Change rdf4j to jena
-8. Use newer RDFox version, from 1.2776.2017 and ontology-services-toolkit 1.0.0-SNAPSHOT to 4.1.0 and ontology-services-toolkit 1.0.0-OST
+1. Create ES Model
+2. Add comments and Logger colors
+3. Use RDFox datastore and not dataset endpoint
+4. Cleanup code
+5. Use ElasticsearchProperties: RestClient.builder(properties.hosts()).build();
+6. WARNING: request [GET http://localhost:9200/_cluster/health] returned 1 warnings: [299 Elasticsearch-7.16.2-2b937c44140b6559905130a8650c64dbd0879cfb "Elasticsearch built-in security features are not enabled. Without authentication, your cluster could be accessible to anyone. See https://www.elastic.co/guide/en/elasticsearch/reference/7.16/security-minimal-setup.html to enable security."]
+7. Either update jgrapht version or don't use jgpraht at all
+8. Change rdf4j to jena
+9. Use newer RDFox version, from 1.2776.2017 and ontology-services-toolkit 1.0.0-SNAPSHOT to 4.1.0 and ontology-services-toolkit 1.0.0-OST
 */
 
 /*
@@ -40,11 +42,10 @@ public class App {
     // To construct such an index, one needs a source endpoint, a model and a
     // configuration.
     public static void main(String[] args) throws Exception {
-        // constructFacetIndex();
-        constructFacetIndexTest();
+        constructFacetIndex();
     }
 
-    private static void constructFacetIndexTest() throws Exception {
+    private static void constructFacetIndex() throws Exception {
         AssetManager assetManager = new AssetManager();
         assetManager.loadConceptConfiguration();
 
@@ -53,9 +54,16 @@ public class App {
         Set<ConceptConfiguration> configs = new HashSet<ConceptConfiguration>(
                 assetManager.getConceptConfiguration().values());
 
-        // Construct the index.
         indexModel.constructFacetIndex(dataset, configs, null);
-        indexModel.executeAbstractQuery(assetManager.getVQSQuery("keyword"), configs);
+        Map<String, Set<String>> updatedFacetValues = indexModel
+                .executeAbstractQuery(assetManager.getVQSQuery("npd-explorationwellbore-1-1"),
+                        configs);
+
+        LOGGER.info("Updated facet values:");
+
+        updatedFacetValues.entrySet().forEach(entry -> {
+            LOGGER.info(entry.getKey() + ": " + entry.getValue());
+        });
     }
 
     public static void test() {

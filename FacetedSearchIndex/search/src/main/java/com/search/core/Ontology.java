@@ -27,6 +27,7 @@ public class Ontology {
     public Ontology(String ontologyURI) throws Exception {
         RDFoxSessionManager session = new RDFoxSessionManager();
         OptiqueVQSAPI vqsAPI = new OptiqueVQSAPI(session);
+        vqsAPI.clearAllSessions();
         vqsAPI.loadOntologySession(ontologyURI);
 
         System.out.println("Extract data from ontology file into ontology class for fast lookup.");
