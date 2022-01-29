@@ -49,6 +49,10 @@ public class ElasticSearchRepository {
         return client.indices().delete(request);
     }
 
+    public PutMappingResponse updateMapping(PutMappingRequest request) throws ElasticsearchException, IOException {
+        return client.indices().putMapping(request);
+    }
+
     public GetAliasResponse getAllAlias() throws ElasticsearchException, IOException {
         return client.indices().getAlias(new GetAliasRequest.Builder().build());
     }
