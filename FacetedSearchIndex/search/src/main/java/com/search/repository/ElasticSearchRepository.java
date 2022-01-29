@@ -23,7 +23,7 @@ public class ElasticSearchRepository {
         client = ElasticsearchConfig.open();
     }
 
-    public HealthResponse getHealth() throws IOException {
+    public HealthResponse getHealth() throws ElasticsearchException, IOException {
         try {
             return client.cluster().health();
         } catch (ConnectException e) {
