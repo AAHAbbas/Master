@@ -1,6 +1,7 @@
 package com.search.repository;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 import co.elastic.clients.elasticsearch.cluster.HealthResponse;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.BulkResponse;
@@ -31,7 +32,7 @@ public class ElasticSearchRepository {
     }
 
     public <TDocument> SearchResponse<TDocument> search(SearchRequest request, Class<TDocument> tDocumentClass)
-            throws IOException {
+            throws ElasticsearchException, IOException {
         // Gson gson = new Gson();
         // String jsonString = gson.toJson(request);
         // logger.info("elasticsearch request ::::: " + jsonString);
@@ -39,20 +40,21 @@ public class ElasticSearchRepository {
         return client.search(request, tDocumentClass);
     }
 
-    public CreateIndexResponse indexCreate(CreateIndexRequest request) throws IOException {
+    public CreateIndexResponse indexCreate(CreateIndexRequest request) throws ElasticsearchException, IOException {
         return client.indices().create(request);
     }
 
-    public DeleteIndexResponse deleteIndex(String oldIndexName) throws IOException {
-        DeleteIndexRequest request = new DeleteIndexRequest.Builder().index(oldIndexName).build();
+    public DeleteIndexResponse deleteIndex(String indexName) throws ElasticsearchException, IOException {
+        DeleteIndexRequest request = new DeleteIndexRequest.Builder().index(indexName).build();
         return client.indices().delete(request);
     }
 
-    public GetAliasResponse getAllAlias() throws IOException {
+    public GetAliasResponse getAllAlias() throws ElasticsearchException, IOException {
         return client.indices().getAlias(new GetAliasRequest.Builder().build());
     }
 
-    public UpdateAliasesResponse addAlias(String indexName, String aliasName) throws IOException {
+    public UpdateAliasesResponse addAlias(String indexName, String aliasName)
+            throws ElasticsearchException, IOException {
         UpdateAliasesRequest request = new UpdateAliasesRequest.Builder()
                 .actions(new Action.Builder()
                         .add(new AddAction.Builder()
@@ -65,7 +67,7 @@ public class ElasticSearchRepository {
         return client.indices().updateAliases(request);
     }
 
-    public BulkResponse bulkIndex(BulkRequest bulkRequest) throws IOException {
+    public BulkResponse bulkIndex(BulkRequest bulkRequest) throws ElasticsearchException, IOException {
         // Gson gson = new Gson();
         // String jsonString = gson.toJson(bulkRequest);
         // logger.info("elasticsearch request ::::: " + jsonString);
