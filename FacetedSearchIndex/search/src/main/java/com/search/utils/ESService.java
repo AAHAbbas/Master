@@ -68,4 +68,18 @@ public class ESService {
 
         return builder.build();
     }
+
+    // Delete an index by specifying index name
+    public void deleteIndex(String indexName) {
+        try {
+            repo.deleteIndex(indexName);
+            LOGGER.info("Successfully deleted index [" + indexName + "]");
+        } catch (IOException | ElasticsearchException e) {
+            if (e.getMessage().contains("index_not_found_exception")) {
+                LOGGER.error("Cannot delete index [" + indexName + "] because it doesn't exists");
+            }
+
+            e.printStackTrace();
+        }
+    }
 }
