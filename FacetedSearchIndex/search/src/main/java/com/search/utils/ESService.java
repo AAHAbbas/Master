@@ -16,14 +16,18 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.rdf4j.query.BindingSet;
 
 import co.elastic.clients.elasticsearch._types.ElasticsearchException;
+import co.elastic.clients.elasticsearch._types.mapping.BooleanProperty;
 import co.elastic.clients.elasticsearch._types.mapping.FloatNumberProperty;
+import co.elastic.clients.elasticsearch._types.mapping.IntegerNumberProperty;
 import co.elastic.clients.elasticsearch._types.mapping.KeywordProperty;
 import co.elastic.clients.elasticsearch._types.mapping.LongNumberProperty;
 import co.elastic.clients.elasticsearch._types.mapping.Property;
 import co.elastic.clients.elasticsearch._types.mapping.TextProperty;
 import co.elastic.clients.elasticsearch._types.mapping.TypeMapping;
 import co.elastic.clients.elasticsearch._types.mapping.TypeMapping.Builder;
-import co.elastic.clients.elasticsearch.core.IndexRequest;
+import co.elastic.clients.elasticsearch.core.BulkRequest;
+import co.elastic.clients.elasticsearch.core.bulk.BulkOperation;
+import co.elastic.clients.elasticsearch.core.bulk.IndexOperation;
 import co.elastic.clients.elasticsearch.indices.CreateIndexRequest;
 import co.elastic.clients.elasticsearch.indices.CreateIndexResponse;
 import co.elastic.clients.elasticsearch.indices.PutMappingRequest;
@@ -86,32 +90,41 @@ public class ESService {
         }
     }
 
-    // TODO: BULK instead
-    public void addDocuments(String indexName, List<BindingSet> documents, List<Variable> variables) {
-        for (int i = 0; i < documents.size(); i++) {
-            Map<String, Object> body = new HashMap<>();
-            BindingSet document = documents.get(i);
+    public void addDocuments(String indexName, List<BindingSet> queryResult, List<Variable> variables) {
+        List<BulkOperation> body = new ArrayList<>();
 
-            for (int j = 0; j < variables.size(); i++) {
+        for (int i = 0; i < queryResult.size(); i++) {
+            Map<String, Object> document = new HashMap<>();
+            BindingSet data = queryResult.get(i);
+
+            for (int j = 0; j < variables.size(); j++) {
                 String bindingName = "o" + Integer.toString(i);
 
-                if (document.getBinding(bindingName) != null) {
-                    body.put("col" + j, document.getBinding(bindingName).getValue().stringValue());
+                if (data.getBinding(bindingName) != null) {
+                    document.put("field" + j, data.getBinding(bindingName).getValue().stringValue());
                 }
             }
 
-            co.elastic.clients.elasticsearch.core.IndexRequest.Builder<Object> request = new IndexRequest.Builder<>()
-                    .index(indexName)
-                    .document(body);
-
-            try {
-                repo.createDocument(request.build());
-                LOGGER.info("Successfully added a document to index [" + indexName + "]");
-            } catch (ElasticsearchException | IOException e) {
-                LOGGER.error("Cannot add a document to index [" + indexName + "]");
-                e.printStackTrace();
-            }
+            body.add(new BulkOperation.Builder()
+                    .index(new IndexOperation.Builder<Map<String, Object>>()
+                            .index(indexName)
+                            .document(document)
+                            .build())
+                    .build());
         }
+
+        BulkRequest request = new BulkRequest.Builder()
+                .operations(body)
+                .build();
+
+        try {
+            repo.bulkIndex(request);
+            LOGGER.info("Successfully added documents to index [" + indexName + "]");
+        } catch (ElasticsearchException | IOException e) {
+            LOGGER.error("Cannot add documents to index [" + indexName + "]");
+            e.printStackTrace();
+        }
+
     }
 
     private TypeMapping createMapping(ArrayList<Field> fields) {
