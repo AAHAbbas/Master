@@ -35,10 +35,6 @@ public class ElasticSearchRepository {
 
     public <TDocument> SearchResponse<TDocument> search(SearchRequest request, Class<TDocument> tDocumentClass)
             throws ElasticsearchException, IOException {
-        // Gson gson = new Gson();
-        // String jsonString = gson.toJson(request);
-        // logger.info("elasticsearch request ::::: " + jsonString);
-
         return client.search(request, tDocumentClass);
     }
 
@@ -78,10 +74,6 @@ public class ElasticSearchRepository {
     }
 
     public BulkResponse bulkIndex(BulkRequest bulkRequest) throws ElasticsearchException, IOException {
-        // Gson gson = new Gson();
-        // String jsonString = gson.toJson(bulkRequest);
-        // logger.info("elasticsearch request ::::: " + jsonString);
-
         return client.bulk(bulkRequest);
     }
 }
