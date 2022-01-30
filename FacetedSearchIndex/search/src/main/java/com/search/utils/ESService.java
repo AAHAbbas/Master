@@ -152,6 +152,10 @@ public class ESService {
             return property.long_(new LongNumberProperty.Builder().nullValue(0L).build());
         } else if (type.equals("float")) {
             return property.float_(new FloatNumberProperty.Builder().build());
+        } else if (type.equals("boolean")) {
+            return property.boolean_(new BooleanProperty.Builder().build());
+        } else if (type.equals("integer")) {
+            return property.integer(new IntegerNumberProperty.Builder().build());
         } else {
             LOGGER.error("Invalid Elasticsearch field type");
             return null;
