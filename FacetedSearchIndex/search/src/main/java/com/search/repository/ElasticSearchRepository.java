@@ -5,6 +5,8 @@ import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 import co.elastic.clients.elasticsearch.cluster.HealthResponse;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.BulkResponse;
+import co.elastic.clients.elasticsearch.core.IndexRequest;
+import co.elastic.clients.elasticsearch.core.IndexResponse;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.indices.*;
@@ -40,7 +42,7 @@ public class ElasticSearchRepository {
         return client.search(request, tDocumentClass);
     }
 
-    public CreateIndexResponse indexCreate(CreateIndexRequest request) throws ElasticsearchException, IOException {
+    public CreateIndexResponse createIndex(CreateIndexRequest request) throws ElasticsearchException, IOException {
         return client.indices().create(request);
     }
 
@@ -51,6 +53,10 @@ public class ElasticSearchRepository {
 
     public PutMappingResponse updateMapping(PutMappingRequest request) throws ElasticsearchException, IOException {
         return client.indices().putMapping(request);
+    }
+
+    public IndexResponse createDocument(IndexRequest<Object> request) throws ElasticsearchException, IOException {
+        return client.index(request);
     }
 
     public GetAliasResponse getAllAlias() throws ElasticsearchException, IOException {
