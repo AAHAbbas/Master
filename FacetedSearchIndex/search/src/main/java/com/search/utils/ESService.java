@@ -3,13 +3,17 @@ package com.search.utils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import com.fasterxml.jackson.databind.introspect.DefaultAccessorNamingStrategy.FirstCharBasedValidator;
+import com.search.graph.Variable;
 import com.search.repository.ElasticSearchRepository;
 import com.search.types.Field;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.eclipse.rdf4j.query.BindingSet;
 
 import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 import co.elastic.clients.elasticsearch._types.mapping.FloatNumberProperty;
@@ -19,6 +23,7 @@ import co.elastic.clients.elasticsearch._types.mapping.Property;
 import co.elastic.clients.elasticsearch._types.mapping.TextProperty;
 import co.elastic.clients.elasticsearch._types.mapping.TypeMapping;
 import co.elastic.clients.elasticsearch._types.mapping.TypeMapping.Builder;
+import co.elastic.clients.elasticsearch.core.IndexRequest;
 import co.elastic.clients.elasticsearch.indices.CreateIndexRequest;
 import co.elastic.clients.elasticsearch.indices.CreateIndexResponse;
 import co.elastic.clients.elasticsearch.indices.PutMappingRequest;
@@ -35,6 +40,7 @@ public class ESService {
     }
 
     // Create an index with index by specifying index name and fields
+    // TODO: Add settings later
     public void createIndex(String indexName, ArrayList<Field> fields) throws ElasticsearchException {
         TypeMapping mapping = createMapping(fields);
         CreateIndexRequest request = new CreateIndexRequest.Builder()
@@ -43,7 +49,7 @@ public class ESService {
                 .build();
 
         try {
-            CreateIndexResponse response = repo.indexCreate(request);
+            CreateIndexResponse response = repo.createIndex(request);
             LOGGER.info("Successfully created an index: " + response);
         } catch (ElasticsearchException | IOException e) {
             LOGGER.error("An exception occured when trying to create an ES index");
@@ -80,6 +86,34 @@ public class ESService {
         }
     }
 
+    // TODO: BULK instead
+    public void addDocuments(String indexName, List<BindingSet> documents, List<Variable> variables) {
+        for (int i = 0; i < documents.size(); i++) {
+            Map<String, Object> body = new HashMap<>();
+            BindingSet document = documents.get(i);
+
+            for (int j = 0; j < variables.size(); i++) {
+                String bindingName = "o" + Integer.toString(i);
+
+                if (document.getBinding(bindingName) != null) {
+                    body.put("col" + j, document.getBinding(bindingName).getValue().stringValue());
+                }
+            }
+
+            co.elastic.clients.elasticsearch.core.IndexRequest.Builder<Object> request = new IndexRequest.Builder<>()
+                    .index(indexName)
+                    .document(body);
+
+            try {
+                repo.createDocument(request.build());
+                LOGGER.info("Successfully added a document to index [" + indexName + "]");
+            } catch (ElasticsearchException | IOException e) {
+                LOGGER.error("Cannot add a document to index [" + indexName + "]");
+                e.printStackTrace();
+            }
+        }
+    }
+
     private TypeMapping createMapping(ArrayList<Field> fields) {
         Builder builder = new TypeMapping.Builder();
         for (Field field : fields) {
@@ -93,6 +127,7 @@ public class ESService {
         return builder.build();
     }
 
+    // TODO: Use Enum of valid datatypes instead
     private ObjectBuilder<Property> getProperty(String type) {
         co.elastic.clients.elasticsearch._types.mapping.Property.Builder property = new Property.Builder();
 
