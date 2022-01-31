@@ -83,7 +83,7 @@ public class ESService {
             LOGGER.info("Successfully deleted index [" + indexName + "]");
         } catch (ElasticsearchException | IOException e) {
             if (e.getMessage().contains("index_not_found_exception")) {
-                LOGGER.info("Cannot delete index [" + indexName + "] because it doesn't exists");
+                LOGGER.error("Cannot delete index [" + indexName + "] because it doesn't exists");
             } else {
                 e.printStackTrace();
             }
@@ -98,7 +98,7 @@ public class ESService {
             BindingSet data = queryResult.get(i);
 
             for (int j = 0; j < variables.size(); j++) {
-                String bindingName = "o" + Integer.toString(i);
+                String bindingName = "o" + Integer.toString(j);
 
                 if (data.getBinding(bindingName) != null) {
                     document.put("field" + j, data.getBinding(bindingName).getValue().stringValue());
