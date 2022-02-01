@@ -33,9 +33,9 @@ public class ElasticSearchRepository {
         }
     }
 
-    public <TDocument> SearchResponse<TDocument> search(SearchRequest request, Class<TDocument> tDocumentClass)
+    public <TDocument> SearchResponse<TDocument> search(SearchRequest request, Class<TDocument> document)
             throws ElasticsearchException, IOException {
-        return client.search(request, tDocumentClass);
+        return client.search(request, document);
     }
 
     public CreateIndexResponse createIndex(CreateIndexRequest request) throws ElasticsearchException, IOException {
