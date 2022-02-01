@@ -27,6 +27,8 @@ public class AssetManager {
 
         this.endpoints.put("dataset-local-npd",
                 new EndpointDataset("http://192.168.0.103:9999/blazegraph/namespace/kb/sparql"));
+
+        loadConceptConfiguration();
     }
 
     public ConceptConfiguration getConceptConfiguration(String ccId) throws Exception {
