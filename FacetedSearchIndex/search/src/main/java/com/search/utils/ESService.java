@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.search.graph.Variable;
+import com.search.model.Test;
 import com.search.repository.ElasticSearchRepository;
 import com.search.types.Field;
 
@@ -25,9 +26,12 @@ import co.elastic.clients.elasticsearch._types.mapping.Property;
 import co.elastic.clients.elasticsearch._types.mapping.TextProperty;
 import co.elastic.clients.elasticsearch._types.mapping.TypeMapping;
 import co.elastic.clients.elasticsearch._types.mapping.TypeMapping.Builder;
+import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
+import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.bulk.BulkOperation;
 import co.elastic.clients.elasticsearch.core.bulk.IndexOperation;
+import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.indices.CreateIndexRequest;
 import co.elastic.clients.elasticsearch.indices.CreateIndexResponse;
 import co.elastic.clients.elasticsearch.indices.PutMappingRequest;
@@ -36,8 +40,7 @@ import co.elastic.clients.util.ObjectBuilder;
 
 public class ESService {
     private static final Logger LOGGER = LogManager.getLogger(ESManager.class);
-
-    ElasticSearchRepository repo;
+    private ElasticSearchRepository repo;
 
     public ESService() {
         repo = new ElasticSearchRepository();
@@ -61,6 +64,20 @@ public class ESService {
         }
     }
 
+    // Delete an index by specifying index name
+    public void deleteIndex(String indexName) {
+        try {
+            repo.deleteIndex(indexName);
+            LOGGER.info("Successfully deleted index [" + indexName + "]");
+        } catch (ElasticsearchException | IOException e) {
+            if (e.getMessage().contains("index_not_found_exception")) {
+                LOGGER.error("Cannot delete index [" + indexName + "] because it doesn't exists");
+            } else {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void addFieldToIndex(String indexName, Field field) {
         ObjectBuilder<Property> property = getProperty(field.type);
         PutMappingRequest request = new PutMappingRequest.Builder()
@@ -73,20 +90,6 @@ public class ESService {
         } catch (ElasticsearchException | IOException e) {
             LOGGER.error("An exception occured when trying to update the mapping to index [" + indexName + "]");
             e.printStackTrace();
-        }
-    }
-
-    // Delete an index by specifying index name
-    public void deleteIndex(String indexName) {
-        try {
-            repo.deleteIndex(indexName);
-            LOGGER.info("Successfully deleted index [" + indexName + "]");
-        } catch (ElasticsearchException | IOException e) {
-            if (e.getMessage().contains("index_not_found_exception")) {
-                LOGGER.error("Cannot delete index [" + indexName + "] because it doesn't exists");
-            } else {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -124,7 +127,23 @@ public class ESService {
             LOGGER.error("Cannot add documents to index [" + indexName + "]");
             e.printStackTrace();
         }
+    }
 
+    // TODO: Maybe use scan or verify size, what's the best solution for performance
+    public List<Hit<Test>> search(String indexName, BoolQuery query) {
+        SearchRequest request = new SearchRequest.Builder()
+                .size(10000)
+                .index(indexName)
+                .query(query._toQuery())
+                .build();
+        try {
+            return repo.search(request, Test.class).hits().hits();
+        } catch (ElasticsearchException | IOException e) {
+            LOGGER.error("Couldn't execute a query on index " + indexName + "");
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     private TypeMapping createMapping(ArrayList<Field> fields) {
