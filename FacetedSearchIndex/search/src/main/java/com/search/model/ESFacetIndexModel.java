@@ -30,6 +30,8 @@ import com.search.graph.ConceptVariable;
 import com.search.graph.DatatypeVariable;
 import com.search.graph.LabeledEdge;
 import com.search.graph.Variable;
+import com.search.types.Constants;
+import com.search.types.DataType;
 import com.search.types.Field;
 import com.search.utils.Filter;
 import com.search.utils.ESService;
@@ -82,21 +84,31 @@ public class ESFacetIndexModel extends FacetIndexModel {
 
             for (int i = 0; i < variables.size(); i++) {
                 Variable variable = variables.get(i);
-                String fieldType = "text"; // Default field type
+                DataType fieldType = DataType.TEXT;
 
-                if (variable.getType().equals("decimal"))
-                    fieldType = "float";
+                if (variable.getType().equals("float") || variable.getType().equals("decimal"))
+                    fieldType = DataType.FLOAT;
+
+                if (variable.getType().equals("double"))
+                    fieldType = DataType.DOUBLE;
+
+                if (variable.getType().equals("long"))
+                    fieldType = DataType.LONG;
+
+                if (variable.getType().equals("integer") || variable.getType().equals("int"))
+                    fieldType = DataType.INTEGER;
 
                 if (variable.getType().equals("boolean"))
-                    fieldType = "boolean";
+                    fieldType = DataType.BOOLEAN;
 
-                if (variable.getType().equals("integer"))
-                    fieldType = "integer";
+                // TODO: Test if dateTime works
+                if (variable.getType().equals("dateTime") || variable.getType().equals("date"))
+                    fieldType = DataType.DATETIME;
 
                 if (variable instanceof ConceptVariable)
-                    fieldType = "boolean";
+                    fieldType = DataType.BOOLEAN;
 
-                fields.add(new Field("field" + i, fieldType));
+                fields.add(new Field(i, fieldType));
             }
 
             fieldsInIndex.put(indexName, fields);
@@ -107,20 +119,20 @@ public class ESFacetIndexModel extends FacetIndexModel {
             LOGGER.debug("SPARQL query used to fetch data for an index:\n" + query);
 
             LOGGER.info("Running SPARQL query to fetch data ...");
-            List<BindingSet> queryResult = dataset.runQuery(query);
+            List<BindingSet> data = dataset.runQuery(query);
             LOGGER.info("Done running query over dataset");
 
-            LOGGER.debug("Source endpoint returned " + queryResult.size() + " documents in total");
+            LOGGER.debug("Source endpoint returned " + data.size() + " documents in total");
             LOGGER.debug("Number of fields in the index: " + variables.size());
 
             LOGGER.info("Adding documents to index [" + indexName + "]");
-            service.addDocuments(indexName, queryResult, variables);
+            service.addDocuments(indexName, data, variables.size());
             LOGGER.info("Added documents to the index " + type);
 
-            numberOfDocuments += queryResult.size();
+            numberOfDocuments += data.size();
 
             LOGGER.info("Done creating index for concept: " + type + ". Index/Config id: "
-                    + indexName + ". " + variables.size() + " fields and " + queryResult.size() + " documents");
+                    + indexName + ". " + variables.size() + " fields and " + data.size() + " documents");
         }
 
         return numberOfDocuments;
@@ -255,7 +267,7 @@ public class ESFacetIndexModel extends FacetIndexModel {
             }
         }
 
-        LOGGER.info("Done running approx. query over the index");
+        LOGGER.info("Done running approx. query over the index [" + indexName + "]");
         LOGGER.info("Number of columns in the results: " + fields);
         LOGGER.info("Results contains " + documents + " documents");
 
@@ -312,7 +324,7 @@ public class ESFacetIndexModel extends FacetIndexModel {
 
         for (Entry<Variable, Variable> entry : queryToConfigMap.entrySet()) {
             Variable variable = entry.getKey();
-            String fieldName = "field" + config.getVariableOrdering(queryToConfigMap.get(variable));
+            String fieldName = Constants.FIELD_PREFIX + config.getVariableOrdering(queryToConfigMap.get(variable));
 
             // If we have a concept variable in the approximated query, we have to add a not
             // null filter

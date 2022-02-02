@@ -7,9 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.search.graph.Variable;
 import com.search.model.Test;
 import com.search.repository.ElasticSearchRepository;
+import com.search.types.Constants;
+import com.search.types.DataType;
 import com.search.types.Field;
 
 import org.apache.logging.log4j.LogManager;
@@ -18,6 +19,8 @@ import org.eclipse.rdf4j.query.BindingSet;
 
 import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 import co.elastic.clients.elasticsearch._types.mapping.BooleanProperty;
+import co.elastic.clients.elasticsearch._types.mapping.DateProperty;
+import co.elastic.clients.elasticsearch._types.mapping.DoubleNumberProperty;
 import co.elastic.clients.elasticsearch._types.mapping.FloatNumberProperty;
 import co.elastic.clients.elasticsearch._types.mapping.IntegerNumberProperty;
 import co.elastic.clients.elasticsearch._types.mapping.KeywordProperty;
@@ -39,7 +42,7 @@ import co.elastic.clients.elasticsearch.indices.PutMappingResponse;
 import co.elastic.clients.util.ObjectBuilder;
 
 public class ESService {
-    private static final Logger LOGGER = LogManager.getLogger(ESManager.class);
+    private static final Logger LOGGER = LogManager.getLogger(ESService.class);
     private ElasticSearchRepository repo;
 
     public ESService() {
@@ -57,7 +60,7 @@ public class ESService {
 
         try {
             CreateIndexResponse response = repo.createIndex(request);
-            LOGGER.info("Successfully created an index: " + response);
+            LOGGER.info("Successfully created an index: " + response.index());
         } catch (ElasticsearchException | IOException e) {
             LOGGER.error("An exception occured when trying to create an ES index");
             e.printStackTrace();
@@ -93,25 +96,26 @@ public class ESService {
         }
     }
 
-    public void addDocuments(String indexName, List<BindingSet> queryResult, List<Variable> variables) {
+    public void addDocuments(String indexName, List<BindingSet> data, int numOfVariables) {
         List<BulkOperation> body = new ArrayList<>();
 
-        for (int i = 0; i < queryResult.size(); i++) {
-            Map<String, Object> document = new HashMap<>();
-            BindingSet data = queryResult.get(i);
+        for (int i = 0; i < data.size(); i++) {
+            Map<String, Object> documents = new HashMap<>();
+            BindingSet document = data.get(i);
 
-            for (int j = 0; j < variables.size(); j++) {
+            for (int j = 0; j < numOfVariables; j++) {
                 String bindingName = "o" + Integer.toString(j);
 
-                if (data.getBinding(bindingName) != null) {
-                    document.put("field" + j, data.getBinding(bindingName).getValue().stringValue());
+                if (document.getBinding(bindingName) != null) {
+                    documents.put(Constants.FIELD_PREFIX + j,
+                            document.getBinding(bindingName).getValue().stringValue());
                 }
             }
 
             body.add(new BulkOperation.Builder()
                     .index(new IndexOperation.Builder<Map<String, Object>>()
                             .index(indexName)
-                            .document(document)
+                            .document(documents)
                             .build())
                     .build());
         }
@@ -159,25 +163,29 @@ public class ESService {
         return builder.build();
     }
 
-    // TODO: Use Enum of valid datatypes instead
-    private ObjectBuilder<Property> getProperty(String type) {
+    private ObjectBuilder<Property> getProperty(DataType type) {
         co.elastic.clients.elasticsearch._types.mapping.Property.Builder property = new Property.Builder();
 
-        if (type.equals("text")) {
-            return property.text(new TextProperty.Builder().analyzer("standard").build());
-        } else if (type.equals("keyword")) {
-            return property.keyword(new KeywordProperty.Builder().build());
-        } else if (type.equals("long")) {
-            return property.long_(new LongNumberProperty.Builder().nullValue(0L).build());
-        } else if (type.equals("float")) {
-            return property.float_(new FloatNumberProperty.Builder().build());
-        } else if (type.equals("boolean")) {
-            return property.boolean_(new BooleanProperty.Builder().build());
-        } else if (type.equals("integer")) {
-            return property.integer(new IntegerNumberProperty.Builder().build());
-        } else {
-            LOGGER.error("Invalid Elasticsearch field type");
-            return null;
+        switch (type) {
+            case TEXT:
+                return property.text(new TextProperty.Builder().analyzer("standard").build());
+            case KEYWORD:
+                return property.keyword(new KeywordProperty.Builder().build());
+            case INTEGER:
+                return property.integer(new IntegerNumberProperty.Builder().build());
+            case LONG:
+                return property.long_(new LongNumberProperty.Builder().nullValue(0L).build());
+            case FLOAT:
+                return property.float_(new FloatNumberProperty.Builder().build());
+            case DOUBLE:
+                return property.double_(new DoubleNumberProperty.Builder().build());
+            case BOOLEAN:
+                return property.boolean_(new BooleanProperty.Builder().build());
+            case DATETIME:
+                return property.date(new DateProperty.Builder().build());
+            default:
+                LOGGER.error("Invalid Elasticsearch field type [" + type.toString() + "]");
+                return null;
         }
     }
 }

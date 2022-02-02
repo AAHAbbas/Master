@@ -2,10 +2,10 @@ package com.search.types;
 
 public class Field {
     public String name;
-    public String type;
+    public DataType type;
 
-    public Field(String name, String type) {
-        this.name = name;
+    public Field(int id, DataType type) {
+        this.name = Constants.FIELD_PREFIX + id;
         this.type = type;
     }
 }
