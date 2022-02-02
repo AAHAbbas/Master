@@ -16,9 +16,11 @@ import co.elastic.clients.elasticsearch._types.FieldValue;
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
+import co.elastic.clients.elasticsearch._types.query_dsl.RangeQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.TermQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery.Builder;
 import co.elastic.clients.elasticsearch.core.search.Hit;
+import co.elastic.clients.json.JsonData;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.search.core.ConceptConfiguration;
@@ -30,7 +32,6 @@ import com.search.graph.LabeledEdge;
 import com.search.graph.Variable;
 import com.search.types.Field;
 import com.search.utils.Filter;
-import com.search.utils.ESManager;
 import com.search.utils.ESService;
 
 import uk.ac.ox.cs.JRDFox.store.DataStore;
@@ -41,21 +42,18 @@ import org.apache.logging.log4j.Logger;
 // The default ES Facet Index Model where the index is stored in ES
 // This index uses full columns on all the variables.
 public class ESFacetIndexModel extends FacetIndexModel {
-    private ESManager esManager;
     private ESService service;
     private static final Logger LOGGER = LogManager.getLogger(ESFacetIndexModel.class);
     private Map<String, ArrayList<Field>> fieldsInIndex = new HashMap<>();
 
     public ESFacetIndexModel() {
-        this.esManager = new ESManager();
         this.service = new ESService();
     }
 
     // For each listed class, we create a new table with data from the source
-    // endpoint.
-    // The properties of each concept is tagged with the type, but if the type is
-    // "objectProperty", then we use the VARCHAR type, and we just use the name of
-    // the related object in the cell.
+    // endpoint. The properties of each concept is tagged with the type, but if the
+    // type is "objectProperty", then we use the VARCHAR type, and we just use the
+    // name of the related object in the cell.
     @Override
     public int constructFacetIndex(EndpointDataset dataset, Set<ConceptConfiguration> configs,
             DataStore store) {
@@ -65,16 +63,13 @@ public class ESFacetIndexModel extends FacetIndexModel {
         LOGGER.info("Start constructing the facet index");
         LOGGER.debug("Concepts to include in the index:");
 
-        for (ConceptConfiguration config : configs) {
-            LOGGER.debug(config.getRoot().getType());
-        }
-
         // For each concept, construct an index
         for (ConceptConfiguration config : configs) {
             String indexName = config.getId();
             Variable root = config.getRoot();
             String type = root.getType();
 
+            LOGGER.debug(config.getRoot().getType());
             LOGGER.info("Start constructing facet index for " + type);
 
             // Get an ordered list of all the variables in the conceptConfig
@@ -223,64 +218,18 @@ public class ESFacetIndexModel extends FacetIndexModel {
 
         LOGGER.debug("Finding local attributes (size = " + localVariables.size() + "): " + localVariables.values());
 
-        // // Build SQL query to fetch data from the facet index. Only use local
-        // variables
-        // // in the select clause.
-        // StringBuilder sb = new StringBuilder();
-        // sb.append("SELECT");
-        // String prefix = " ";
-
-        // for (Entry<Variable, String> entry : localVariables.entrySet()) {
-        // sb.append(prefix + "\"" + "col" + config.getVariableOrdering(entry.getKey())
-        // + "\"");
-        // prefix = ", ";
-        // }
-
-        // sb.append(" FROM \"" + indexName + "\"");
-        // prefix = " WHERE ";
-
-        // for (Entry<Variable, Variable> entry : homomorphicMap.entrySet()) {
-        // Variable queryVariable = entry.getKey();
-        // String columnName = "col" +
-        // config.getVariableOrdering(homomorphicMap.get(queryVariable));
-
-        // // If we have a concept variable in the approximated query, we have to add a
-        // not
-        // // null filter
-        // if (queryVariable instanceof ConceptVariable) {
-        // sb.append(prefix);
-        // sb.append("\"" + columnName + "\"");
-        // sb.append("=TRUE");
-        // prefix = " AND ";
-        // }
-
-        // // If the variable is a datatype variable
-        // if (queryVariable instanceof DatatypeVariable) {
-        // sb.append(prefix);
-        // sb.append("\"" + columnName + "\"");
-        // sb.append(" IS NOT NULL");
-        // prefix = " AND ";
-        // }
-
-        // for (Filter f : abstractQuery.getFiltersForVariable(queryVariable)) {
-        // sb.append(prefix);
-        // sb.append("\"" + columnName + "\"");
-        // sb.append(" ");
-        // sb.append(esManager.formatFilter(f));
-        // prefix = " AND ";
-        // }
-        // }
-
         BoolQuery query = buildQuery(abstractQuery, config, homomorphicMap);
         List<Hit<Test>> result = service.search(indexName, query);
+        // TODO: Find another solution to large Test data model
+
         // Turn the results into a map object, which will be returned
         Map<String, Set<String>> propertyValues = new HashMap<String, Set<String>>();
         int fields = fieldsInIndex.get(indexName).size();
         int documents = 0;
 
         // Loop over the results, and record each distinct value for each of the
-        // properties/attributes.
-        // I do not know how heavy it is to do this filtering, but it has to be done.
+        // properties/attributes. I do not know how heavy it is to do this filtering,
+        // but it has to be done.
         for (Hit<Test> hit : result) {
             HashMap<String, String> data = new ObjectMapper().convertValue(hit.source(), HashMap.class);
             documents += 1;
@@ -293,6 +242,8 @@ public class ESFacetIndexModel extends FacetIndexModel {
                 String attributeURI = localVariables.get(correspondingCCVar);
 
                 // Add empty set if it does not exist yet.
+                // TODO: Fix first attribute is always null Example:
+                // "01:45:07.857 [main] INFO com.search.App.lambda$0() - null: [true, false]"
                 if (propertyValues.get(attributeURI) == null) {
                     propertyValues.put(attributeURI, new HashSet<String>());
                 }
@@ -356,7 +307,8 @@ public class ESFacetIndexModel extends FacetIndexModel {
 
         // Build a query to fetch data from the facet index.
         Builder query = QueryBuilders.bool();
-        List<Query> filters = new ArrayList<>();
+        List<Query> filterQueries = new ArrayList<>();
+        List<Query> notQueries = new ArrayList<>();
 
         for (Entry<Variable, Variable> entry : queryToConfigMap.entrySet()) {
             Variable variable = entry.getKey();
@@ -365,33 +317,82 @@ public class ESFacetIndexModel extends FacetIndexModel {
             // If we have a concept variable in the approximated query, we have to add a not
             // null filter
             if (variable instanceof ConceptVariable) {
-                filters.add(new Query.Builder().term(new TermQuery.Builder()
-                        .field(fieldName)
-                        .value(new FieldValue.Builder()
-                                .booleanValue(true)
+                filterQueries.add(new Query.Builder()
+                        .term(new TermQuery.Builder()
+                                .field(fieldName)
+                                .value(new FieldValue.Builder()
+                                        .booleanValue(true)
+                                        .build())
                                 .build())
-                        .build()).build());
+                        .build());
             }
 
-            // // If the variable is a datatype variable
-            // if (queryVariable instanceof DatatypeVariable) {
-            // sb.append(prefix);
-            // sb.append("\"" + columnName + "\"");
-            // sb.append(" IS NOT NULL");
-            // prefix = " AND ";
-            // }
+            // TODO: Handle regex filters
+            for (Filter filter : abstractQuery.getFiltersForVariable(variable)) {
+                JsonData value = JsonData.of(filter.getValue().stringValue());
+                co.elastic.clients.elasticsearch._types.query_dsl.RangeQuery.Builder rangeQuery = new RangeQuery.Builder()
+                        .field(fieldName);
 
-            // for (Filter filter : abstractQuery.getFiltersForVariable(variable)) {
-            // query.append(prefix);
-            // query.append("\"" + columnName + "\"");
-            // query.append(" ");
-            // query.append(esManager.formatFilter(filter));
-            // prefix = " AND ";
-            // }
+                switch (filter.getOperator()) {
+                    case LT:
+                        filterQueries.add(new Query.Builder()
+                                .range(rangeQuery.lt(value)
+                                        .build())
+                                .build());
+                        break;
+                    case LE:
+                        filterQueries.add(new Query.Builder()
+                                .range(rangeQuery.lte(value)
+                                        .build())
+                                .build());
+                        break;
+                    case GT:
+                        filterQueries.add(new Query.Builder()
+                                .range(rangeQuery.gt(value)
+                                        .build())
+                                .build());
+                        break;
+                    case GE:
+                        filterQueries.add(new Query.Builder()
+                                .range(rangeQuery.gte(value)
+                                        .build())
+                                .build());
+                        break;
+                    case EQ: // TODO: add support for different value types
+                        filterQueries.add(new Query.Builder()
+                                .term(new TermQuery.Builder()
+                                        .field(fieldName)
+                                        .value(new FieldValue.Builder()
+                                                .stringValue(filter
+                                                        .getValue()
+                                                        .stringValue())
+                                                .build())
+                                        .build())
+                                .build());
+                        break;
+                    case NE:
+                        notQueries.add(new Query.Builder()
+                                .term(new TermQuery.Builder()
+                                        .field(fieldName)
+                                        .value(new FieldValue.Builder()
+                                                .stringValue(filter.getValue().stringValue())
+                                                .build())
+                                        .build())
+                                .build());
 
+                    default:
+                        LOGGER.error("Invalid filter type '" + filter.getOperator().getSymbol() + "'");
+                }
+            }
         }
 
-        query.filter(filters);
+        if (!notQueries.isEmpty()) {
+            query.must(notQueries);
+        }
+
+        if (!filterQueries.isEmpty()) {
+            query.filter(filterQueries);
+        }
 
         return query.build();
     }
