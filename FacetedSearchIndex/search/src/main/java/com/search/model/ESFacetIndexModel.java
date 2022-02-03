@@ -101,7 +101,6 @@ public class ESFacetIndexModel extends FacetIndexModel {
                 if (variable.getType().equals("boolean"))
                     fieldType = DataType.BOOLEAN;
 
-                // TODO: Test if dateTime works
                 if (variable.getType().equals("dateTime") || variable.getType().equals("date"))
                     fieldType = DataType.DATETIME;
 
@@ -202,6 +201,7 @@ public class ESFacetIndexModel extends FacetIndexModel {
     // Executes the a vqs query over the cache. It returns a map containing distinct
     // facet values for each local facet.
     @Override
+    @SuppressWarnings("unchecked")
     public Map<String, Set<String>> executeAbstractQuery(VqsQuery abstractQuery, Set<ConceptConfiguration> configs)
             throws SQLException, IOException {
         String root = abstractQuery.getRoot().getType();
@@ -215,6 +215,11 @@ public class ESFacetIndexModel extends FacetIndexModel {
                 config = c;
                 continue;
             }
+        }
+
+        if (config == null) {
+            LOGGER.error("Couldn't find common root in both the abstract query and concept configuration");
+            return null;
         }
 
         String indexName = config.getId();
