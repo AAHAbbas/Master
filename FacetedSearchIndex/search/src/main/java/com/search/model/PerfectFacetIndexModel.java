@@ -28,13 +28,11 @@ import uk.ac.ox.cs.JRDFox.store.TupleIterator;
 public class PerfectFacetIndexModel extends FacetIndexModel {
     DataStore store;
 
-    public int constructFacetIndex(EndpointDataset datasource, Set<ConceptConfiguration> conceptConfigurations,
+    public void constructFacetIndex(EndpointDataset datasource, Set<ConceptConfiguration> conceptConfigurations,
             DataStore store) throws SQLException, IOException {
         this.store = store;
         System.out.println(
                 "The full facet index model does not need any index, so nothing is created. Only data source is stored.");
-
-        return 0;
     }
 
     // Executes the a vqs query over the cache. It returns a map containing distinct

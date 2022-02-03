@@ -23,13 +23,11 @@ public class SimpleFacetIndexModel extends FacetIndexModel {
 
     private EndpointDataset dataset; // Store the sourceEndpoint and use it when executing query over model.
 
-    public int constructFacetIndex(EndpointDataset datasource, Set<ConceptConfiguration> conceptConfigurations,
+    public void constructFacetIndex(EndpointDataset datasource, Set<ConceptConfiguration> conceptConfigurations,
             DataStore store) throws SQLException, IOException {
         this.dataset = datasource;
         System.out.println(
                 "The full facet index model does not need any index, so nothing is created. Only data source is stored.");
-
-        return 0;
     }
 
     // Executes the a vqs query over the cache. It returns a map containing distinct

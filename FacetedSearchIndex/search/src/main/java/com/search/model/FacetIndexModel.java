@@ -12,20 +12,16 @@ import com.search.core.EndpointDataset;
 import com.search.core.VqsQuery;
 import com.search.core.ConceptConfiguration;
 
-// Abstract Facet index main class. A Facet index can be stored anywhere, and with any structure, but each facet index must have the functions listed below.
+// A Facet index can be stored anywhere, and with any structure, but each facet index must have the functions listed below.
 public abstract class FacetIndexModel {
+        // Create the main cache, create the facet index
+        public abstract void constructFacetIndex(EndpointDataset dataset,
+                        Set<ConceptConfiguration> conceptConfigurations,
+                        DataStore store) throws SQLException, IOException, JRDFoxException;
 
-    // This method should create the main cache. It is given a dataset, and a set of
-    // classes with corresponding properties, a.k.a configuration.
-    public abstract int constructFacetIndex(EndpointDataset dataset, Set<ConceptConfiguration> conceptConfigurations,
-            DataStore store) throws SQLException, IOException, JRDFoxException;
-
-    // This method executes an abstract query over the index. It returns an
-    // OutputData.
-    // The list of updateAttributes are the ones we want to find in the output data,
-    // the ones we want to get updated.
-    public abstract Map<String, Set<String>> executeAbstractQuery(VqsQuery vqsQuery,
-            Set<ConceptConfiguration> conceptConfiguration)
-            throws SQLException, IOException, IllegalArgumentException, Exception;
-
+        // Executes an abstract query over the index. The list of updateAttributes are
+        // the ones we want to find in the output data, the ones we want to get updated.
+        public abstract Map<String, Set<String>> executeAbstractQuery(VqsQuery vqsQuery,
+                        Set<ConceptConfiguration> conceptConfiguration)
+                        throws SQLException, IOException, IllegalArgumentException, Exception;
 }
