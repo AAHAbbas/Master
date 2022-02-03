@@ -21,7 +21,6 @@ import org.eclipse.rdf4j.query.algebra.StatementPattern;
 import org.eclipse.rdf4j.query.algebra.ValueConstant;
 import org.eclipse.rdf4j.query.algebra.ValueExpr;
 import org.eclipse.rdf4j.query.algebra.Var;
-import org.jgrapht.graph.ClassBasedEdgeFactory;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 // An VQS query is a java representation of a VQS query - a SPARQL query that can be constructed in OtiqueVQS.
@@ -44,8 +43,7 @@ public class VqsQuery {
     public VqsQuery(Ontology ontology, String sparqlRepresentation, String rootVariableName) throws Exception {
         this.sparqlRepresentation = sparqlRepresentation;
         this.ontology = ontology;
-        this.graph = new DirectedAcyclicGraph<Variable, LabeledEdge>(
-                new ClassBasedEdgeFactory<Variable, LabeledEdge>(LabeledEdge.class));
+        this.graph = new DirectedAcyclicGraph<>(LabeledEdge.class);
         this.filters = new HashMap<Variable, Set<Filter>>();
 
         // Construct a visitor and visit.

@@ -16,7 +16,6 @@ import org.eclipse.rdf4j.query.algebra.helpers.AbstractQueryModelVisitor;
 import org.eclipse.rdf4j.query.parser.ParsedQuery;
 import org.eclipse.rdf4j.query.parser.sparql.SPARQLParser;
 import org.jgrapht.Graph;
-import org.jgrapht.graph.ClassBasedEdgeFactory;
 import org.jgrapht.graph.DirectedMultigraph;
 
 // Class used to parse a SPARQL query construct all the parts needed to construct e.g an abstract query.
@@ -25,8 +24,7 @@ public class SparqlQueryVisitor extends AbstractQueryModelVisitor<Exception> {
     public Set<ValueExpr> compareFilters = new HashSet<ValueExpr>();
     public Set<StatementPattern> statementPatterns = new HashSet<StatementPattern>();
 
-    Graph<Variable, LabeledEdge> directedGraph = new DirectedMultigraph<Variable, LabeledEdge>(
-            new ClassBasedEdgeFactory<Variable, LabeledEdge>(LabeledEdge.class));
+    Graph<Variable, LabeledEdge> directedGraph = new DirectedMultigraph<>(LabeledEdge.class);
     ConceptVariable root;
     Map<Variable, Set<Filter>> filters;
 

@@ -16,17 +16,14 @@ import com.search.graph.LabeledEdge;
 import com.search.graph.Variable;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
-import org.jgrapht.graph.ClassBasedEdgeFactory;
 
-// The concept configuration. Right now this contains the graph, which contains variables of certain types.
+// Contains the graph which consists of variables of certain types.
 // The variable index data structures are used to keep track of the ids (indicies) of the variables.
-//TODO make a constructor which takes everything, and then calculates the variable index.
+//TODO: Make a constructor which takes everything, and then calculates the variable index.
+
 public class ConceptConfiguration {
-
     private String id; // The id of the concept configuration
-
-    private Ontology ontology; // The ontology the config is over.
-
+    private Ontology ontology; // The ontology the config
     private int variableCounter; // Counter used to set the label of each variable in the concept configuration.
 
     private boolean variableOrderingHasBeenCalculated; // This is set to false when the variables has been ordered and
@@ -42,8 +39,7 @@ public class ConceptConfiguration {
 
     // The only constructor
     public ConceptConfiguration(Ontology ontology, String id) {
-        this.graph = new DirectedAcyclicGraph<Variable, LabeledEdge>(
-                new ClassBasedEdgeFactory<Variable, LabeledEdge>(LabeledEdge.class));
+        this.graph = new DirectedAcyclicGraph<>(LabeledEdge.class);
         this.id = id;
         this.ontology = ontology;
         this.variableOrderingHasBeenCalculated = false;
