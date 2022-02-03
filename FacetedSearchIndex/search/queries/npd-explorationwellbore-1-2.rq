@@ -1,6 +1,6 @@
 
 # Adding a filter on field areasizea, this is quite deep into the query, however, 
-there are plenty of other existential filters on the data properties. The thing with this is that it is very restictive. It reduces to 84 results.
+# there are plenty of other existential filters on the data properties. The thing with this is that it is very restictive. It reduces to 84 results.
 
 # 84 results
 
@@ -19,7 +19,7 @@ there are plenty of other existential filters on the data properties. The thing 
 
 PREFIX ns1: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
 PREFIX ns2: <http://sws.ifi.uio.no/vocab/npd-v2#> 
-SELECT ?c1 ?c2 ?a1 ?a2 ?a3 ?c4 ?a4 ?c5 ?a6 ?a7 ?c3 ?a8 ?a9 ?a10 ?c6 ?a5 WHERE { 
+SELECT ?c1 ?c2 ?a1 ?a2 ?a3 ?c4 ?a4 ?c5 ?a6 ?a7 ?c3 ?a8 ?a9 ?a10 ?a11 ?c6 ?a5 WHERE { 
 ?c1 ns1:type ns2:ExplorationWellbore.
 ?c2 ns1:type ns2:Discovery.
 ?c4 ns1:type ns2:Field.
@@ -36,6 +36,7 @@ SELECT ?c1 ?c2 ?a1 ?a2 ?a3 ?c4 ?a4 ?c5 ?a6 ?a7 ?c3 ?a8 ?a9 ?a10 ?c6 ?a5 WHERE {
 ?c2 ns2:discoveryYear ?a1.
 ?c2 ns2:name ?a2.
 ?c2 ns2:status ?a3.
+?c2 ns2:idNPD ?a11.
 ?c4 ns2:name ?a4.
 ?c5 ns2:name ?a6.
 ?c5 ns2:isFormerLicenceOperator ?a7.
@@ -44,5 +45,5 @@ SELECT ?c1 ?c2 ?a1 ?a2 ?a3 ?c4 ?a4 ?c5 ?a6 ?a7 ?c3 ?a8 ?a9 ?a10 ?c6 ?a5 WHERE {
 ?c3 ns2:licensingActivityName ?a10.
 ?c6 ns2:status ?a5.
 
-FILTER(?a8 >= 200 && ?a8 <= 400).
+FILTER(?a11 >= 2000 && ?a11 <= 2022).
 }
