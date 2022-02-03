@@ -5,8 +5,12 @@ import co.elastic.clients.elasticsearch._types.ElasticsearchException;
 import co.elastic.clients.elasticsearch.cluster.HealthResponse;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.BulkResponse;
+import co.elastic.clients.elasticsearch.core.ClosePointInTimeRequest;
+import co.elastic.clients.elasticsearch.core.ClosePointInTimeResponse;
 import co.elastic.clients.elasticsearch.core.IndexRequest;
 import co.elastic.clients.elasticsearch.core.IndexResponse;
+import co.elastic.clients.elasticsearch.core.OpenPointInTimeRequest;
+import co.elastic.clients.elasticsearch.core.OpenPointInTimeResponse;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.indices.*;
@@ -76,4 +80,15 @@ public class ElasticSearchRepository {
     public BulkResponse bulkIndex(BulkRequest bulkRequest) throws ElasticsearchException, IOException {
         return client.bulk(bulkRequest);
     }
+
+    public OpenPointInTimeResponse openPoint(OpenPointInTimeRequest openRequest)
+            throws ElasticsearchException, IOException {
+        return client.openPointInTime(openRequest);
+    }
+
+    public ClosePointInTimeResponse closePoint(ClosePointInTimeRequest closeRequest)
+            throws ElasticsearchException, IOException {
+        return client.closePointInTime(closeRequest);
+    }
+
 }

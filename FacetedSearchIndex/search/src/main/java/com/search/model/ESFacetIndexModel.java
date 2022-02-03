@@ -236,7 +236,18 @@ public class ESFacetIndexModel extends FacetIndexModel {
         LOGGER.debug("Finding local attributes (size = " + localVariables.size() + "): " + localVariables.values());
 
         BoolQuery query = buildQuery(abstractQuery, config, homomorphicMap);
-        List<Hit<Test>> result = service.search(indexName, query);
+
+        // TODO: Fix case when no field to sort on is found
+        String sortOnField = "";
+
+        for (Field field : fieldsInIndex.get(indexName)) {
+            if (field.type != DataType.BOOLEAN) {
+                sortOnField = field.name;
+                break;
+            }
+        }
+
+        List<Hit<Test>> result = service.search(indexName, query, sortOnField);
         // TODO: Find another solution to large Test data model
 
         // Turn the results into a map object, which will be returned

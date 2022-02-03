@@ -18,6 +18,9 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.rdf4j.query.BindingSet;
 
 import co.elastic.clients.elasticsearch._types.ElasticsearchException;
+import co.elastic.clients.elasticsearch._types.FieldSort;
+import co.elastic.clients.elasticsearch._types.SortOptions;
+import co.elastic.clients.elasticsearch._types.Time;
 import co.elastic.clients.elasticsearch._types.mapping.BooleanProperty;
 import co.elastic.clients.elasticsearch._types.mapping.DateProperty;
 import co.elastic.clients.elasticsearch._types.mapping.DoubleNumberProperty;
@@ -31,10 +34,16 @@ import co.elastic.clients.elasticsearch._types.mapping.TypeMapping;
 import co.elastic.clients.elasticsearch._types.mapping.TypeMapping.Builder;
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
+import co.elastic.clients.elasticsearch.core.ClosePointInTimeRequest;
+import co.elastic.clients.elasticsearch.core.ClosePointInTimeResponse;
+import co.elastic.clients.elasticsearch.core.OpenPointInTimeRequest;
+import co.elastic.clients.elasticsearch.core.OpenPointInTimeResponse;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.bulk.BulkOperation;
 import co.elastic.clients.elasticsearch.core.bulk.IndexOperation;
 import co.elastic.clients.elasticsearch.core.search.Hit;
+import co.elastic.clients.elasticsearch.core.search.PointInTimeReference;
 import co.elastic.clients.elasticsearch.indices.CreateIndexRequest;
 import co.elastic.clients.elasticsearch.indices.CreateIndexResponse;
 import co.elastic.clients.elasticsearch.indices.PutMappingRequest;
@@ -49,7 +58,7 @@ public class ESService {
         repo = new ElasticSearchRepository();
     }
 
-    // Create an index with index by specifying index name and fields
+    // Create an index by specifying index name and fields
     // TODO: Add settings later
     public void createIndex(String indexName, ArrayList<Field> fields) throws ElasticsearchException {
         TypeMapping mapping = createMapping(fields);
@@ -81,6 +90,7 @@ public class ESService {
         }
     }
 
+    // Add field to an already exsisting index by specifying index name and a field
     public void addFieldToIndex(String indexName, Field field) {
         ObjectBuilder<Property> property = getProperty(field.type);
         PutMappingRequest request = new PutMappingRequest.Builder()
@@ -96,6 +106,8 @@ public class ESService {
         }
     }
 
+    // Add documents to an index by specifying index name, list of documents to add
+    // and number of fields in the index
     public void addDocuments(String indexName, List<BindingSet> data, int numOfVariables) {
         List<BulkOperation> body = new ArrayList<>();
 
@@ -133,23 +145,75 @@ public class ESService {
         }
     }
 
-    // TODO: Maybe use scan or verify size, what's the best solution for performance
-    public List<Hit<Test>> search(String indexName, BoolQuery query) {
-        SearchRequest request = new SearchRequest.Builder()
-                .size(10000)
-                .index(indexName)
-                .query(query._toQuery())
-                .build();
+    // Perform search operation on an index by specifying index name and a query
+    public List<Hit<Test>> search(String indexName, BoolQuery query, String field) {
+        List<Hit<Test>> result = new ArrayList<>();
+
         try {
-            return repo.search(request, Test.class).hits().hits();
+            OpenPointInTimeRequest openRequest = new OpenPointInTimeRequest.Builder()
+                    .index(indexName)
+                    .keepAlive(new Time.Builder()
+                            .time(Constants.ES_KEEP_ALIVE)
+                            .build())
+                    .build();
+
+            OpenPointInTimeResponse openResponse = repo.openPoint(openRequest);
+            String pitId = openResponse.id();
+            Boolean done = false;
+            Boolean firstPass = true;
+            List<String> sortResult = new ArrayList<>();
+
+            List<SortOptions> sort = new ArrayList<>();
+            sort.add(new SortOptions.Builder().field(new FieldSort.Builder().field(field).build())
+                    .build());
+
+            while (!done) {
+                co.elastic.clients.elasticsearch.core.SearchRequest.Builder request = new SearchRequest.Builder()
+                        .size(Constants.ES_SEARCH_REQUEST_SIZE)
+                        .pit(new PointInTimeReference.Builder()
+                                .id(pitId)
+                                .keepAlive(new Time.Builder()
+                                        .time(Constants.ES_KEEP_ALIVE).build())
+                                .build())
+                        .sort(sort)
+                        .query(query._toQuery());
+
+                if (!firstPass) {
+                    request.searchAfter(sortResult);
+                }
+
+                SearchResponse<Test> response = repo.search(request.build(), Test.class);
+                result.addAll(response.hits().hits());
+                int size = response.hits().hits().size();
+                sortResult = response.hits().hits().get(size - 1).sort();
+
+                if (size < Constants.ES_SEARCH_REQUEST_SIZE) {
+                    done = true;
+                }
+
+                firstPass = false;
+            }
+
+            ClosePointInTimeResponse closeResponse = repo.closePoint(new ClosePointInTimeRequest.Builder()
+                    .id(pitId)
+                    .build());
+
+            if (closeResponse.succeeded()) {
+                LOGGER.info("Point in Time closed successfully");
+            } else {
+                LOGGER.error("Point in Time failed to close");
+            }
+
         } catch (ElasticsearchException | IOException e) {
             LOGGER.error("Couldn't execute a query on index " + indexName + "");
             e.printStackTrace();
         }
 
-        return null;
+        return result;
     }
 
+    // Create an ES mapping by specifying a list of fields that should added to an
+    // index
     private TypeMapping createMapping(ArrayList<Field> fields) {
         Builder builder = new TypeMapping.Builder();
         for (Field field : fields) {
@@ -163,6 +227,7 @@ public class ESService {
         return builder.build();
     }
 
+    // Returns an ES property for the index mapping
     private ObjectBuilder<Property> getProperty(DataType type) {
         co.elastic.clients.elasticsearch._types.mapping.Property.Builder property = new Property.Builder();
 
