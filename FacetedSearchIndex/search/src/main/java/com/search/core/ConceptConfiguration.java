@@ -37,7 +37,8 @@ public class ConceptConfiguration {
     private DirectedAcyclicGraph<Variable, LabeledEdge> graph; // The directed graph defining the configuration.
 
     public ConceptConfiguration(Ontology ontology, String id, ConceptVariable root, List<ConceptVariable> vars,
-            List<ConceptEdge> edges) {
+            List<ConceptEdge> edges, Boolean addAllDataType, Boolean addAllObject,
+            ConceptVariable dataTypePropertySource, ConceptVariable objectPropertySource) {
         this.graph = new DirectedAcyclicGraph<>(LabeledEdge.class);
         this.id = id;
         this.ontology = ontology;
@@ -46,8 +47,19 @@ public class ConceptConfiguration {
         setVariableIds(vars);
         setRoot(root);
         addEdges(edges);
-        addAllMissingDatatypePropertiesToAllVariables();
-        // addAllMissingObjectPropertiesToAllVariables();
+
+        if (addAllDataType) {
+            addAllMissingDatatypePropertiesToAllVariables();
+        } else if (dataTypePropertySource != null) {
+            addAllMissingDatatypePropertiesToVariable(dataTypePropertySource);
+        }
+
+        if (addAllObject) {
+            addAllMissingObjectPropertiesToAllVariables();
+        } else if (objectPropertySource != null) {
+            addAllMissingObjectPropertiesToVariable(objectPropertySource);
+        }
+
         calculateVariableOrdering();
     }
 
