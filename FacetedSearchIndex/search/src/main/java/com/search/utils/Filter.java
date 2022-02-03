@@ -3,12 +3,9 @@ package com.search.utils;
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.query.algebra.Compare.CompareOp;
 
-// A filter, usually related to a specific query variable.
 public class Filter {
-    // The operator between the variable and the value.
-    private CompareOp operator;
-    // The value to compare to
-    private Value value;
+    private CompareOp operator; // The operator between the variable and the value
+    private Value value; // The value to compare to
 
     public Filter(CompareOp operator, Value value) {
         this.operator = operator;
@@ -25,6 +22,5 @@ public class Filter {
 
     public String toString() {
         return operator.toString() + value.toString();
-
     }
 }

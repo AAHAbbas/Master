@@ -8,46 +8,47 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 
 import uio.ifi.ontology.toolkit.projection.controller.triplestore.RDFoxSessionManager;
 import uio.ifi.ontology.toolkit.projection.view.OptiqueVQSAPI;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 // Class representing an ontology
-// This has later been replaced by what we call a navigation graph.
+// This has later been replaced by what we call a navigation graph
 public class Ontology {
-    String ontologyURI; // The URI of the ontology
-    Set<String> conceptURIs;
-    Map<String, HashSet<Entry<String, String>>> objectProperties;
-    Map<String, HashSet<Entry<String, String>>> datatypeProperties; // Maps conceptURIs to pairs of datatype property
-                                                                    // URIs and their type.
+    private static final Logger LOGGER = LogManager.getLogger(Ontology.class);
+    private Set<String> concepts;
+    private Map<String, HashSet<Entry<String, String>>> objectProperties;
+    // Maps conceptURIs to pairs of datatype property, URIs and their type
+    private Map<String, HashSet<Entry<String, String>>> datatypeProperties;
 
-    // Constructor. This takes the ontology and extracts everything we need for the
-    // facet index.
-    public Ontology(String ontologyURI) throws Exception {
+    // This takes the ontology and extracts everything we need for the facet index
+    public Ontology(String ontologyURI) {
         RDFoxSessionManager session = new RDFoxSessionManager();
-        OptiqueVQSAPI vqsAPI = new OptiqueVQSAPI(session);
-        vqsAPI.clearAllSessions();
-        vqsAPI.loadOntologySession(ontologyURI);
+        OptiqueVQSAPI vqsApi = new OptiqueVQSAPI(session);
+        vqsApi.clearAllSessions();
+        vqsApi.loadOntologySession(ontologyURI);
 
-        System.out.println("Extract data from ontology file into ontology class for fast lookup.");
+        LOGGER.info("Extracting data from the ontology file into ontology class for fast lookup");
 
-        // Put all concept URIs into a set:
-        conceptURIs = new HashSet<String>();
-        JSONArray concepts = vqsAPI.getCoreConcepts(ontologyURI).getJSONObject("result").getJSONArray("options");
-        for (int i = 0; i < concepts.length(); i++)
-            conceptURIs.add(concepts.getJSONObject(i).getString("id"));
+        // Put all concept URIs into a set
+        concepts = new HashSet<>();
+        JSONArray conceptJSON = vqsApi.getCoreConcepts(ontologyURI).getJSONObject("result").getJSONArray("options");
+        for (int i = 0; i < conceptJSON.length(); i++)
+            concepts.add(conceptJSON.getJSONObject(i).getString("id"));
 
         // Get data properties and corresponding target type
-        datatypeProperties = new HashMap<String, HashSet<Entry<String, String>>>();
-        for (String conceptURI : conceptURIs) {
-            JSONArray propertiesJSON = vqsAPI.getConceptFacets(ontologyURI, conceptURI).getJSONObject("result")
+        datatypeProperties = new HashMap<>();
+        for (String conceptURI : concepts) {
+            JSONArray properties = vqsApi.getConceptFacets(ontologyURI, conceptURI).getJSONObject("result")
                     .getJSONArray("fields");
-            HashSet<Entry<String, String>> collectedProperties = new HashSet<Entry<String, String>>();
+            HashSet<Entry<String, String>> collectedProperties = new HashSet<>();
 
-            for (int i = 0; i < propertiesJSON.length(); i++) {
-                String property = propertiesJSON.getJSONObject(i).getString("id");
-                String targetType = propertiesJSON.getJSONObject(i).getString("type");
+            for (int i = 0; i < properties.length(); i++) {
+                String property = properties.getJSONObject(i).getString("id");
+                String targetType = properties.getJSONObject(i).getString("type");
                 collectedProperties.add(new AbstractMap.SimpleEntry<String, String>(property, targetType));
             }
 
@@ -55,67 +56,60 @@ public class Ontology {
         }
 
         // Get all object properties and corresponsing target type
-        objectProperties = new HashMap<String, HashSet<Entry<String, String>>>();
-        for (String conceptURI : conceptURIs) {
-            JSONArray propertiesJSON = vqsAPI.getNeighbourConcepts(ontologyURI, conceptURI).getJSONObject("result")
+        objectProperties = new HashMap<>();
+        for (String conceptURI : concepts) {
+            JSONArray properties = vqsApi.getNeighbourConcepts(ontologyURI, conceptURI).getJSONObject("result")
                     .getJSONArray("options");
-            HashSet<Entry<String, String>> collectedProperties = new HashSet<Entry<String, String>>();
+            HashSet<Entry<String, String>> collectedProperties = new HashSet<>();
 
-            for (int i = 0; i < propertiesJSON.length(); i++) {
-                String targetType = propertiesJSON.getJSONObject(i).getString("id");
-                String property = propertiesJSON.getJSONObject(i).getJSONObject("prop").getString("id");
+            for (int i = 0; i < properties.length(); i++) {
+                String targetType = properties.getJSONObject(i).getString("id");
+                String property = properties.getJSONObject(i).getJSONObject("prop").getString("id");
                 collectedProperties.add(new AbstractMap.SimpleEntry<String, String>(property, targetType));
             }
 
             objectProperties.put(conceptURI, collectedProperties);
         }
 
-        System.out.println("Done loading the ontology.");
+        LOGGER.info("Done loading the ontology");
     }
 
-    // Return the set of all concept URIs.
-    public Set<String> getConceptURIs() throws JSONException {
-        return conceptURIs;
+    // Return the set of all concept URIs
+    public Set<String> getConceptURIs() {
+        return concepts;
     }
 
-    // Return a the set of data property URIs of a concept.
-    // Returns entries (pairs) of propertyURI and type.
-    public Set<Entry<String, String>> getDataPropertiesWithType(String conceptURI)
-            throws IllegalArgumentException, Exception {
-
-        return datatypeProperties.get(conceptURI);
+    // Return a the set of data property URIs of a concept
+    // Returns entries (pairs) of propertyURI and type
+    public Set<Entry<String, String>> getDataPropertiesWithType(String concept) {
+        return datatypeProperties.get(concept);
     }
 
-    public Set<Entry<String, String>> getObjectPropertiesWithType(String conceptURI) {
-        return objectProperties.get(conceptURI);
+    public Set<Entry<String, String>> getObjectPropertiesWithType(String concept) {
+        return objectProperties.get(concept);
     }
 
-    // Return a the set of data property URIs of a concept.
-    // Returns just a set of strings.
-    public Set<String> getDataProperties(String conceptURI) throws IllegalArgumentException, Exception {
-        Set<String> returnSet = new HashSet<String>();
+    // Return a the set of data property URIs of a concept
+    public Set<String> getDataProperties(String concept) {
+        Set<String> result = new HashSet<>();
 
-        for (Entry<String, String> a : this.datatypeProperties.get(conceptURI))
-            returnSet.add(a.getKey());
+        for (Entry<String, String> entry : this.datatypeProperties.get(concept))
+            result.add(entry.getKey());
 
-        return returnSet;
+        return result;
     }
 
-    // Returns all the object properties going out from a given conceptURI.
-    public Set<Entry<String, String>> getObjectProperties(String conceptURI)
-            throws IllegalArgumentException, JSONException {
-
-        return objectProperties.get(conceptURI);
+    // Returns all the object properties going out from a given concept URI
+    public Set<Entry<String, String>> getObjectProperties(String concept) {
+        return objectProperties.get(concept);
     }
 
-    // Given a concept uri and a property uri, give the type of the target of the
+    // Given a concept URI and a property URI, give the type of the target of the
     // property
-    public String getPropertyTargetType(String sourceConceptURI, String propertyURI)
-            throws IllegalArgumentException, JSONException {
-
-        for (Entry<String, String> propEntry : this.datatypeProperties.get(sourceConceptURI)) {
-            if (propEntry.getKey().equals(propertyURI))
-                return propEntry.getValue();
+    public String getPropertyTargetType(String source, String property) {
+        for (Entry<String, String> entry : this.datatypeProperties.get(source)) {
+            if (entry.getKey().equals(property))
+                return entry.getValue();
         }
 
         return null;

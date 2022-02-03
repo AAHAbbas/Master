@@ -12,7 +12,7 @@ import java.util.Set;
 
 import com.search.core.ConceptConfiguration;
 import com.search.core.EndpointDataset;
-import com.search.core.VqsQuery;
+import com.search.core.VQSQuery;
 import com.search.graph.ConceptVariable;
 import com.search.graph.LabeledEdge;
 import com.search.graph.Variable;
@@ -37,7 +37,7 @@ public class PerfectFacetIndexModel extends FacetIndexModel {
 
     // Executes the a vqs query over the cache. It returns a map containing distinct
     // facet values for each local facet.
-    public Map<String, Set<String>> executeAbstractQuery(VqsQuery vqsQuery, Set<ConceptConfiguration> ccs)
+    public Map<String, Set<String>> executeAbstractQuery(VQSQuery vqsQuery, Set<ConceptConfiguration> ccs)
             throws IllegalArgumentException, Exception {
         System.out.println("Start calculate values for perfect model");
         String pivotConcept = vqsQuery.getRoot().getType();
@@ -89,7 +89,7 @@ public class PerfectFacetIndexModel extends FacetIndexModel {
         return dataPropertyDistinctValues;
     }
 
-    public String constructPerfectModelQuery(VqsQuery vqsQuery, List<String> orderedLocalDataProperties)
+    public String constructPerfectModelQuery(VQSQuery vqsQuery, List<String> orderedLocalDataProperties)
             throws IOException {
         // Start to make the sparql query used by the perfect system.
         StringBuilder sb = new StringBuilder();

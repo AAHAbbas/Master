@@ -23,152 +23,145 @@ import org.eclipse.rdf4j.query.algebra.ValueExpr;
 import org.eclipse.rdf4j.query.algebra.Var;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 // An VQS query is a java representation of a VQS query - a SPARQL query that can be constructed in OtiqueVQS.
 // TODO maybe unify this and the concept config?
-public class VqsQuery {
+public class VQSQuery {
+    private static final Logger LOGGER = LogManager.getLogger(VQSQuery.class);
     private Variable root; // The root variable of the graph
-    private String sparqlRepresentation; // The query given in SPARQL
-
-    private Ontology ontology; // The ontology the query is over.
+    private String SPARQLQuery; // The query given in SPARQL
+    private Ontology ontology;
 
     // The directed graph defining the query. 2019 Vidar: Actually this is not
     // strong enough. This allows queries that are not tree shaped when direction is
-    // ignored.
+    // ignored
     private DirectedAcyclicGraph<Variable, LabeledEdge> graph;
+    private Map<Variable, Set<Filter>> filters; // Map from each datatype variable to a set of filters
 
-    // Map from each datatype variable to a set of filters.
-    private Map<Variable, Set<Filter>> filters;
-
-    // Constructor. 2019: Tom wrote somehting better.
-    public VqsQuery(Ontology ontology, String sparqlRepresentation, String rootVariableName) throws Exception {
-        this.sparqlRepresentation = sparqlRepresentation;
+    // 2019: Tom wrote somehting better
+    public VQSQuery(Ontology ontology, String SPARQLQuery, String rootName) {
+        this.SPARQLQuery = SPARQLQuery;
         this.ontology = ontology;
         this.graph = new DirectedAcyclicGraph<>(LabeledEdge.class);
-        this.filters = new HashMap<Variable, Set<Filter>>();
+        this.filters = new HashMap<>();
 
-        // Construct a visitor and visit.
-        SparqlQueryVisitor partialQueryVisitor = new SparqlQueryVisitor(sparqlRepresentation);
+        SparqlQueryVisitor queryVisitor;
+        try {
+            queryVisitor = new SparqlQueryVisitor(SPARQLQuery);
+        } catch (Exception e) {
+            LOGGER.error("Failed to parse the SPARQL query and visit the nodes");
+            e.printStackTrace();
+            return;
+        }
         // Collect the objects found by the visitor
         // Maps to keep an overview of all the variables we create
-        Map<String, Variable> variables = new HashMap<String, Variable>();
+        Map<String, Variable> variables = new HashMap<>();
 
-        // Prepare the statementpatterns
-        Set<StatementPattern> remainingStatementPatterns = new HashSet<StatementPattern>();
-        // Add each statementpattern from the visitor
-        for (StatementPattern i : partialQueryVisitor.statementPatterns)
-            remainingStatementPatterns.add(i);
-
-        // Find all concept variables by looking for rdf:type, store them in a map.
-        for (Iterator<StatementPattern> it = remainingStatementPatterns.iterator(); it.hasNext();) {
+        // Find all concept variables by looking for rdf:type, store them in a map
+        for (Iterator<StatementPattern> it = queryVisitor.statementPatterns.iterator(); it.hasNext();) {
             StatementPattern sp = it.next();
 
             if (sp.getPredicateVar().getValue().toString().equals("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")) {
-                String subjectLabel = sp.getSubjectVar().getName();
-                String objectLabel = sp.getObjectVar().getValue().toString();
-                variables.put(subjectLabel, new ConceptVariable(subjectLabel, objectLabel));
+                String subject = sp.getSubjectVar().getName();
+                String object = sp.getObjectVar().getValue().toString();
+                variables.put(subject, new ConceptVariable(subject, object));
                 it.remove();
             }
         }
 
         // Find all other variables. They must be datatype variables
-        for (Iterator<StatementPattern> it = remainingStatementPatterns.iterator(); it.hasNext();) {
+        for (Iterator<StatementPattern> it = queryVisitor.statementPatterns.iterator(); it.hasNext();) {
             StatementPattern sp = it.next();
 
             // If both the subject and the object are variables
             if (sp.getSubjectVar().getValue() == null && sp.getObjectVar().getValue() == null) {
-                String subjectName = sp.getSubjectVar().getName();
+                String subject = sp.getSubjectVar().getName();
                 String predicate = sp.getPredicateVar().getValue().stringValue();
-                String objectName = sp.getObjectVar().getName();
+                String object = sp.getObjectVar().getName();
 
-                // Both are object vars
-                if (variables.containsKey(subjectName) && variables.containsKey(objectName)) {
-                    System.out.println("Two concepts. Do nothing for now");
+                // Both are object variable
+                if (variables.containsKey(subject) && variables.containsKey(object)) {
+                    LOGGER.info("Both concepts are object variable (" + subject + " - " + object + ")");
                 }
 
-                if (!variables.containsKey(subjectName) && variables.containsKey(objectName)) {
-                    System.out.println(
-                            "WARNInG!!! I do not think this ever happens in a vqs-formatted query, so I have not implemenetd it..");
-                    System.in.read();
-                }
-
-                if (variables.containsKey(subjectName) && !variables.containsKey(objectName)) {
-                    String dpType = ontology.getPropertyTargetType(variables.get(subjectName).getType(), predicate);
-                    DatatypeVariable objectVariable = new DatatypeVariable(objectName, dpType);
-                    variables.put(objectName, objectVariable);
+                if (variables.containsKey(subject) && !variables.containsKey(object)) {
+                    String type = ontology.getPropertyTargetType(variables.get(subject).getType(), predicate);
+                    DatatypeVariable objectVariable = new DatatypeVariable(object, type);
+                    variables.put(object, objectVariable);
                 }
             }
         }
 
-        // Setting the root. This assumes that the root variable already exists in
-        // variables
-        Variable root = variables.get(rootVariableName);
+        Variable root = variables.get(rootName);
         graph.addVertex(root);
         this.root = root;
 
         // Doing a breath first search to populate the graph with more nodes.
         // Variable names we want and will include in the query, but which has not been
-        // searched for in the statements yet.
-        Set<String> variableNamesToSearchFor = new HashSet<String>();
-        variableNamesToSearchFor.add(rootVariableName);
+        // searched for in the statements yet
+        Set<String> variablesToSearchFor = new HashSet<>();
+        variablesToSearchFor.add(rootName);
 
-        while (!variableNamesToSearchFor.isEmpty()) {
-            HashSet<String> nextRound = new HashSet<String>();
+        while (!variablesToSearchFor.isEmpty()) {
+            HashSet<String> round = new HashSet<>();
 
-            for (Iterator<StatementPattern> spIt = remainingStatementPatterns.iterator(); spIt.hasNext();) {
-                StatementPattern sp = spIt.next();
+            for (Iterator<StatementPattern> it = queryVisitor.statementPatterns.iterator(); it.hasNext();) {
+                StatementPattern sp = it.next();
 
                 // If both the subject and the object are variables
                 if (sp.getSubjectVar().getValue() == null && sp.getObjectVar().getValue() == null) {
-                    String subjectName = sp.getSubjectVar().getName();
+                    String subject = sp.getSubjectVar().getName();
                     String predicate = sp.getPredicateVar().getValue().stringValue();
-                    String objectName = sp.getObjectVar().getName();
+                    String object = sp.getObjectVar().getName();
 
                     // Get variables for the subject and object
-                    Variable subjectVariable = variables.get(subjectName);
-                    Variable objectVariable = variables.get(objectName);
+                    Variable subjectVariable = variables.get(subject);
+                    Variable objectVariable = variables.get(object);
 
-                    if (variableNamesToSearchFor.contains(subjectName)) {
+                    if (variablesToSearchFor.contains(subject)) {
                         graph.addVertex(subjectVariable);
                         graph.addVertex(objectVariable);
                         graph.addEdge(subjectVariable, objectVariable, new LabeledEdge(predicate));
-                        nextRound.add(objectName);
-                        spIt.remove();
+                        round.add(object);
+                        it.remove();
 
                     }
 
-                    if (variableNamesToSearchFor.contains(objectName)) {
+                    if (variablesToSearchFor.contains(object)) {
                         graph.addVertex(subjectVariable);
                         graph.addVertex(objectVariable);
                         graph.addEdge(objectVariable, subjectVariable, new LabeledEdge(predicate + "_inverseProp"));
-                        nextRound.add(subjectName);
-                        spIt.remove();
+                        round.add(subject);
+                        it.remove();
                     }
                 }
             }
 
-            variableNamesToSearchFor = nextRound;
+            variablesToSearchFor = round;
         }
 
-        // Loop over to find all compare filters
-        for (ValueExpr filter : partialQueryVisitor.compareFilters) {
-            Compare f = (Compare) filter;
-            String datatypeVariableName = ((Var) f.getLeftArg()).getName();
-            Variable datatypeVariable = variables.get(datatypeVariableName);
-            Value value = ((ValueConstant) f.getRightArg()).getValue();
+        // Find all compare filters
+        for (ValueExpr filter : queryVisitor.compareFilters) {
+            Compare compare = (Compare) filter;
+            String datatype = ((Var) compare.getLeftArg()).getName();
+            Variable datatypeVariable = variables.get(datatype);
+            Value value = ((ValueConstant) compare.getRightArg()).getValue();
 
             // Associate datatypeVariable with the filter by putting it in the filter map
             if (filters.get(datatypeVariable) == null)
                 filters.put(datatypeVariable, new HashSet<Filter>());
 
-            filters.get(datatypeVariable).add(new Filter(f.getOperator(), value));
+            filters.get(datatypeVariable).add(new Filter(compare.getOperator(), value));
         }
 
-        // Loop over to find all regex filters
-        for (ValueExpr filter : partialQueryVisitor.regexFilters) {
-            Regex f = (Regex) filter;
-            String datatypeVariableName = ((Var) f.getLeftArg()).getName();
-            Variable datatypeVariable = variables.get(datatypeVariableName);
-            Value value = ((ValueConstant) f.getRightArg()).getValue();
+        // Find all regex filters
+        for (ValueExpr filter : queryVisitor.regexFilters) {
+            Regex regex = (Regex) filter;
+            String datatype = ((Var) regex.getLeftArg()).getName();
+            Variable datatypeVariable = variables.get(datatype);
+            Value value = ((ValueConstant) regex.getRightArg()).getValue();
 
             // Associate datatypeVariable with the filter by putting it in the filter map
             if (filters.get(datatypeVariable) == null)
@@ -176,7 +169,6 @@ public class VqsQuery {
 
             filters.get(datatypeVariable).add(new Filter(CompareOp.EQ, value));
         }
-
     }
 
     public Ontology getOntology() {
@@ -184,10 +176,10 @@ public class VqsQuery {
     }
 
     public String getSparqlRepresentation() {
-        return this.sparqlRepresentation;
+        return this.SPARQLQuery;
     }
 
-    // This displays the abstract query as a string. Used for output.
+    // This displays the abstract query as a string. Used for output
     public String toString() {
         return "\n    ---VQS query---\n    ROOT: " + this.root + "\n    GRAPH" + graph.toString() + "\n    FILTERS:"
                 + filters + "\n";

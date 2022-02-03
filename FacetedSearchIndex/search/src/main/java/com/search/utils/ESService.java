@@ -219,6 +219,7 @@ public class ESService {
     // index
     private TypeMapping createMapping(ArrayList<Field> fields) {
         Builder builder = new TypeMapping.Builder();
+
         for (Field field : fields) {
             ObjectBuilder<Property> property = getProperty(field.type);
 

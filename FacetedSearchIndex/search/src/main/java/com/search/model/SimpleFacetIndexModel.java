@@ -15,7 +15,7 @@ import org.eclipse.rdf4j.query.BindingSet;
 
 import com.search.core.ConceptConfiguration;
 import com.search.core.EndpointDataset;
-import com.search.core.VqsQuery;
+import com.search.core.VQSQuery;
 import uk.ac.ox.cs.JRDFox.store.DataStore;
 
 // The all values facet index model. It calculates all the possible values given in the data. 
@@ -32,7 +32,7 @@ public class SimpleFacetIndexModel extends FacetIndexModel {
 
     // Executes the a vqs query over the cache. It returns a map containing distinct
     // facet values for each local facet.
-    public Map<String, Set<String>> executeAbstractQuery(VqsQuery vqsQuery, Set<ConceptConfiguration> ccs)
+    public Map<String, Set<String>> executeAbstractQuery(VQSQuery vqsQuery, Set<ConceptConfiguration> ccs)
             throws IllegalArgumentException, Exception {
 
         String pivotConcept = vqsQuery.getRoot().getType();

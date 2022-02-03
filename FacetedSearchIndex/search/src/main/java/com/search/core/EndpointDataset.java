@@ -11,15 +11,15 @@ import org.eclipse.rdf4j.query.TupleQueryResult;
 import org.eclipse.rdf4j.repository.RepositoryConnection;
 import org.eclipse.rdf4j.repository.sparql.SPARQLRepository;
 
+// Creates and connects to a SPARQLRepository and executes queries over the dataset by giving an endpoint URL and a SPARQL query
 public class EndpointDataset {
-    String endpointURI;
+    private String endpointURI;
 
     public EndpointDataset(String endpointURI) {
         this.endpointURI = endpointURI;
     }
 
     public List<BindingSet> runQuery(String query) throws RDF4JException {
-
         ArrayList<BindingSet> results = new ArrayList<BindingSet>();
         SPARQLRepository sparqlRepository = new SPARQLRepository(endpointURI);
         sparqlRepository.init();

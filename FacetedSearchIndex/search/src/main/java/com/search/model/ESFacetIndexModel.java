@@ -25,7 +25,7 @@ import co.elastic.clients.json.JsonData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.search.core.ConceptConfiguration;
 import com.search.core.EndpointDataset;
-import com.search.core.VqsQuery;
+import com.search.core.VQSQuery;
 import com.search.graph.ConceptVariable;
 import com.search.graph.DatatypeVariable;
 import com.search.graph.LabeledEdge;
@@ -54,7 +54,7 @@ public class ESFacetIndexModel extends FacetIndexModel {
     // For each listed class, we create a new index with data from the source
     // endpoint. The properties of each concept is tagged with the type, but if the
     // type is "objectProperty", then we use the VARCHAR type, and we just use the
-    // name of the related object in the cell.
+    // name of the related object in the cell
     // TODO: Only one config
     @Override
     public void constructFacetIndex(EndpointDataset dataset, Set<ConceptConfiguration> configs,
@@ -77,7 +77,7 @@ public class ESFacetIndexModel extends FacetIndexModel {
             service.deleteIndex(indexName);
 
             // Create an index with fields that are defined in the concept configuration
-            ArrayList<Field> fields = new ArrayList<Field>();
+            ArrayList<Field> fields = new ArrayList<>();
 
             for (int i = 0; i < variables.size(); i++) {
                 Variable variable = variables.get(i);
@@ -131,11 +131,11 @@ public class ESFacetIndexModel extends FacetIndexModel {
     }
 
     // Executes the a vqs query over the cache. It returns a map containing distinct
-    // facet values for each local facet.
+    // facet values for each local facet
     // TODO: Only one config
     @Override
     @SuppressWarnings("unchecked")
-    public Map<String, Set<String>> executeAbstractQuery(VqsQuery abstractQuery, Set<ConceptConfiguration> configs)
+    public Map<String, Set<String>> executeAbstractQuery(VQSQuery abstractQuery, Set<ConceptConfiguration> configs)
             throws SQLException, IOException {
         String root = abstractQuery.getRoot().getType();
 
@@ -158,10 +158,10 @@ public class ESFacetIndexModel extends FacetIndexModel {
         LOGGER.info("Calculating the homomorphic map");
 
         // Find the largest mapping from a subset of variables in the VQSQuery to the
-        // variables of the concept configuration.
+        // variables of the concept configuration
         Map<Variable, Variable> homomorphicMap = getMapping(abstractQuery, config);
 
-        // Get a list of all the variables in the config.
+        // Get a list of all the variables in the config
         List<Variable> variables = config.getVariables();
         Map<Variable, String> localVariables = config.getDataPropertyVariables();
 
@@ -183,13 +183,13 @@ public class ESFacetIndexModel extends FacetIndexModel {
         List<Hit<Test>> result = service.search(indexName, query, sortOnField);
 
         // Turn the results into a map object, which will be returned
-        Map<String, Set<String>> properties = new HashMap<String, Set<String>>();
+        Map<String, Set<String>> properties = new HashMap<>();
         int fields = fieldsInIndex.get(indexName).size();
         int documents = 0;
 
         // Loop over the results, and record each distinct value for each of the
         // properties/attributes. I do not know how heavy it is to do this filtering,
-        // but it has to be done.
+        // but it has to be done
         for (Hit<Test> hit : result) {
             HashMap<String, String> data = new ObjectMapper().convertValue(hit.source(), HashMap.class);
             documents += 1;
@@ -250,7 +250,7 @@ public class ESFacetIndexModel extends FacetIndexModel {
     }
 
     // Recursive function which is used to construct the SPARQL query that fetches
-    // the data we want to index.
+    // the data we want to index
     private Object addWhereClauses(ConceptConfiguration config, Variable variable) {
         StringBuilder sb = new StringBuilder();
         sb.append("?C_" + variable.getLabel() + " rdf:type <" + variable.getType() + ">.\n");
@@ -283,9 +283,9 @@ public class ESFacetIndexModel extends FacetIndexModel {
         return sb.toString();
     }
 
-    // Get the mapping from the abstract query to the concept config.
-    private Map<Variable, Variable> getMapping(VqsQuery abstractQuery, ConceptConfiguration config) {
-        Map<Variable, Variable> mapping = new HashMap<Variable, Variable>(); // Map from query vars to config vars
+    // Get the mapping from the abstract query to the concept config
+    private Map<Variable, Variable> getMapping(VQSQuery abstractQuery, ConceptConfiguration config) {
+        Map<Variable, Variable> mapping = new HashMap<>(); // Map from query vars to config vars
 
         Variable queryRoot = abstractQuery.getRoot();
         ConceptVariable configRoot = config.getRoot();
@@ -298,7 +298,7 @@ public class ESFacetIndexModel extends FacetIndexModel {
 
     // Recursive helper function which creates mapping between the abstract query
     // and the concept config
-    private void createMapping(VqsQuery abstractQuery, ConceptConfiguration config, Variable queryVariable,
+    private void createMapping(VQSQuery abstractQuery, ConceptConfiguration config, Variable queryVariable,
             Variable configVariable, Map<Variable, Variable> mapping) {
         Set<LabeledEdge> queryEdges = abstractQuery.getGraph().outgoingEdgesOf(queryVariable);
         Set<LabeledEdge> configEdges = config.getGraph().outgoingEdgesOf(configVariable);
@@ -320,7 +320,8 @@ public class ESFacetIndexModel extends FacetIndexModel {
         }
     }
 
-    private BoolQuery buildQuery(VqsQuery abstractQuery, ConceptConfiguration config,
+    // Build the query to run over the index
+    private BoolQuery buildQuery(VQSQuery abstractQuery, ConceptConfiguration config,
             Map<Variable, Variable> queryToConfigMap) {
         Map<Variable, String> variables = config.getDataPropertyVariables();
         LOGGER.debug("Finding local attributes (size = " + variables.size() + "): " + variables.values());

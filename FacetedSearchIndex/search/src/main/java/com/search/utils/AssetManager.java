@@ -10,7 +10,7 @@ import java.util.Map;
 import com.search.core.ConceptConfiguration;
 import com.search.core.EndpointDataset;
 import com.search.core.Ontology;
-import com.search.core.VqsQuery;
+import com.search.core.VQSQuery;
 import com.search.graph.ConceptEdge;
 import com.search.graph.ConceptVariable;
 
@@ -133,12 +133,11 @@ public class AssetManager {
     }
 
     // Get the partial query
-    public VqsQuery getVQSQuery(String keyword) throws Exception {
-        // Ontolgies are used to queries
+    public VQSQuery getVQSQuery(String keyword) throws Exception {
         Ontology npdOntology = this.ontologies.get("ontology-npd");
 
         String fileName = "queries/" + keyword + ".rq";
         String q = new String(Files.readAllBytes(Paths.get(fileName)));
-        return new VqsQuery(npdOntology, q, "c1");
+        return new VQSQuery(npdOntology, q, "c1");
     }
 }

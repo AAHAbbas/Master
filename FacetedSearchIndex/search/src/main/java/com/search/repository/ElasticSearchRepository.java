@@ -29,6 +29,10 @@ public class ElasticSearchRepository {
         client = ElasticsearchConfig.open();
     }
 
+    public void close() throws IOException {
+        ElasticsearchConfig.close();
+    }
+
     public HealthResponse getHealth() throws ElasticsearchException, IOException {
         try {
             return client.cluster().health();
