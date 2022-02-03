@@ -173,7 +173,7 @@ public class ESFacetIndexModel extends FacetIndexModel {
         String sortOnField = "";
 
         for (Field field : fieldsInIndex.get(indexName)) {
-            if (field.type != DataType.BOOLEAN || field.type != DataType.TEXT) {
+            if (field.type != DataType.BOOLEAN && field.type != DataType.TEXT) {
                 sortOnField = field.name;
                 break;
             }
