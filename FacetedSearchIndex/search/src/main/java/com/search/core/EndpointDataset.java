@@ -22,7 +22,7 @@ public class EndpointDataset {
 
         ArrayList<BindingSet> results = new ArrayList<BindingSet>();
         SPARQLRepository sparqlRepository = new SPARQLRepository(endpointURI);
-        sparqlRepository.initialize();
+        sparqlRepository.init();
 
         RepositoryConnection sparqlConnection = sparqlRepository.getConnection();
 
