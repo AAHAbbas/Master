@@ -185,7 +185,10 @@ public class ESService {
                 SearchResponse<Test> response = repo.search(request.build(), Test.class);
                 result.addAll(response.hits().hits());
                 int size = response.hits().hits().size();
-                sortResult = response.hits().hits().get(size - 1).sort();
+
+                if (size != 0) {
+                    sortResult = response.hits().hits().get(size - 1).sort();
+                }
 
                 if (size < Constants.ES_SEARCH_REQUEST_SIZE) {
                     done = true;
