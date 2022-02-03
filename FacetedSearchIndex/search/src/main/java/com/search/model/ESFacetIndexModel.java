@@ -42,7 +42,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 // The default ES Facet Index Model where the index is stored in ES
-// This index uses full columns on all the variables.
 public class ESFacetIndexModel extends FacetIndexModel {
     private ESService service;
     private static final Logger LOGGER = LogManager.getLogger(ESFacetIndexModel.class);
@@ -52,16 +51,14 @@ public class ESFacetIndexModel extends FacetIndexModel {
         this.service = new ESService();
     }
 
-    // For each listed class, we create a new table with data from the source
+    // For each listed class, we create a new index with data from the source
     // endpoint. The properties of each concept is tagged with the type, but if the
     // type is "objectProperty", then we use the VARCHAR type, and we just use the
     // name of the related object in the cell.
+    // TODO: Only one config
     @Override
-    public int constructFacetIndex(EndpointDataset dataset, Set<ConceptConfiguration> configs,
+    public void constructFacetIndex(EndpointDataset dataset, Set<ConceptConfiguration> configs,
             DataStore store) {
-        // Just to have something to return. We need to rewrite this so that it only
-        // uses one concept config
-        int numberOfDocuments = 0;
         LOGGER.info("Start constructing the facet index");
         LOGGER.debug("Concepts to include in the index:");
 
@@ -74,8 +71,8 @@ public class ESFacetIndexModel extends FacetIndexModel {
             LOGGER.debug(config.getRoot().getType());
             LOGGER.info("Start constructing facet index for " + type);
 
-            // Get an ordered list of all the variables in the conceptConfig
-            List<Variable> variables = config.getVariableOrderingList();
+            // Get an ordered list of all the variables in the config
+            List<Variable> variables = config.getVariables();
 
             service.deleteIndex(indexName);
 
@@ -128,86 +125,21 @@ public class ESFacetIndexModel extends FacetIndexModel {
             service.addDocuments(indexName, data, variables.size());
             LOGGER.info("Added documents to the index " + type);
 
-            numberOfDocuments += data.size();
-
             LOGGER.info("Done creating index for concept: " + type + ". Index/Config id: "
                     + indexName + ". " + variables.size() + " fields and " + data.size() + " documents");
         }
-
-        return numberOfDocuments;
-    }
-
-    // Create a SPARQL query to fetch all the data for an index
-    private String buildQuery(ConceptConfiguration config, List<Variable> variables, Variable root) {
-        StringBuilder query = new StringBuilder();
-        query.append("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n");
-        query.append("PREFIX npdv: <http://sws.ifi.uio.no/vocab/npd-v2#>\n");
-        query.append("SELECT DISTINCT ");
-
-        for (int i = 0; i < variables.size(); i++) {
-            Variable variable = variables.get(i);
-
-            if (variable instanceof ConceptVariable)
-                // Use this if we want boolean values. RDFox does not support bound. Uppercase
-                // bound actually works!!
-                query.append("(BOUND(?C_" + variable.getLabel() + ") as ?o" + i + ") ");
-
-            if (variable instanceof DatatypeVariable)
-                query.append("(?A_" + variable.getLabel() + " as ?o" + i + ") ");
-        }
-
-        query.append("\n");
-        query.append("WHERE {\n");
-        query.append(addWhereClauses(config, root));
-        query.append("}");
-
-        return query.toString();
-    }
-
-    // Recursive function which is used to construct the SPARQL query that fetches
-    // the data we want to index.
-    private Object addWhereClauses(ConceptConfiguration conceptConfig, Variable currentVariable) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("?C_" + currentVariable.getLabel() + " rdf:type <" + currentVariable.getType() + ">.\n");
-
-        for (LabeledEdge edge : conceptConfig.getGraph().outgoingEdgesOf(currentVariable)) {
-            Variable targetVariable = conceptConfig.getGraph().getEdgeTarget(edge);
-
-            if (targetVariable instanceof ConceptVariable) {
-                sb.append("OPTIONAL {\n");
-
-                if (edge.getLabel().endsWith("_inverseProp")) {
-                    sb.append("?C_" + targetVariable.getLabel() + " <"
-                            + edge.getLabel().substring(0, edge.getLabel().length() - 12) + "> ?C_"
-                            + currentVariable.getLabel() + ".\n");
-                } else {
-                    sb.append("?C_" + currentVariable.getLabel() + " <" + edge.getLabel() + "> ?C_"
-                            + targetVariable.getLabel() + ".\n");
-                }
-
-                sb.append(addWhereClauses(conceptConfig, targetVariable));
-                sb.append("}\n");
-            }
-
-            if (targetVariable instanceof DatatypeVariable) {
-                sb.append("OPTIONAL { ?C_" + currentVariable.getLabel() + " <" + edge.getLabel() + "> ?A_"
-                        + targetVariable.getLabel() + ". }\n");
-            }
-        }
-
-        return sb.toString();
     }
 
     // Executes the a vqs query over the cache. It returns a map containing distinct
     // facet values for each local facet.
+    // TODO: Only one config
     @Override
     @SuppressWarnings("unchecked")
     public Map<String, Set<String>> executeAbstractQuery(VqsQuery abstractQuery, Set<ConceptConfiguration> configs)
             throws SQLException, IOException {
         String root = abstractQuery.getRoot().getType();
 
-        // Find the right concept configuration. Assuming that it exists in the ccs
-        // TODO: set executeAbstractQuery to only have one config
+        // Find the right concept configuration. Assuming that it exists in the configs
         ConceptConfiguration config = null;
 
         for (ConceptConfiguration c : configs) {
@@ -230,8 +162,8 @@ public class ESFacetIndexModel extends FacetIndexModel {
         Map<Variable, Variable> homomorphicMap = getMapping(abstractQuery, config);
 
         // Get a list of all the variables in the config.
-        List<Variable> variables = config.getVariableOrderingList();
-        Map<Variable, String> localVariables = config.getLocalVariables();
+        List<Variable> variables = config.getVariables();
+        Map<Variable, String> localVariables = config.getDataPropertyVariables();
 
         LOGGER.debug("Finding local attributes (size = " + localVariables.size() + "): " + localVariables.values());
 
@@ -241,17 +173,17 @@ public class ESFacetIndexModel extends FacetIndexModel {
         String sortOnField = "";
 
         for (Field field : fieldsInIndex.get(indexName)) {
-            if (field.type != DataType.BOOLEAN) {
+            if (field.type != DataType.BOOLEAN || field.type != DataType.TEXT) {
                 sortOnField = field.name;
                 break;
             }
         }
 
-        List<Hit<Test>> result = service.search(indexName, query, sortOnField);
         // TODO: Find another solution to large Test data model
+        List<Hit<Test>> result = service.search(indexName, query, sortOnField);
 
         // Turn the results into a map object, which will be returned
-        Map<String, Set<String>> propertyValues = new HashMap<String, Set<String>>();
+        Map<String, Set<String>> properties = new HashMap<String, Set<String>>();
         int fields = fieldsInIndex.get(indexName).size();
         int documents = 0;
 
@@ -262,23 +194,25 @@ public class ESFacetIndexModel extends FacetIndexModel {
             HashMap<String, String> data = new ObjectMapper().convertValue(hit.source(), HashMap.class);
             documents += 1;
 
-            for (int i = 0; i < fields; i++) {
+            for (int i = 1; i < fields; i++) {
                 String fieldName = fieldsInIndex.get(indexName).get(i).name;
-                int fieldIndex = Integer.parseInt(fieldName.substring(5, fieldName.length()));
+                int fieldIndex = Integer
+                        .parseInt(fieldName.substring(Constants.FIELD_PREFIX.length(), fieldName.length()));
 
                 Variable correspondingCCVar = variables.get(fieldIndex);
                 String attributeURI = localVariables.get(correspondingCCVar);
 
-                // Add empty set if it does not exist yet.
-                // TODO: Fix first attribute is always null Example:
-                // "01:45:07.857 [main] INFO com.search.App.lambda$0() - null: [true, false]"
-                if (propertyValues.get(attributeURI) == null) {
-                    propertyValues.put(attributeURI, new HashSet<String>());
-                }
+                // TODO: Current solution is to skip concept variables since, not sure if this
+                // is okay??
+                if (attributeURI != null) {
+                    if (properties.get(attributeURI) == null) {
+                        properties.put(attributeURI, new HashSet<String>());
+                    }
 
-                String value = data.get(fieldName);
-                if (value != null) {
-                    propertyValues.get(attributeURI).add(value);
+                    String value = data.get(fieldName);
+                    if (value != null) {
+                        properties.get(attributeURI).add(value);
+                    }
                 }
             }
         }
@@ -287,40 +221,98 @@ public class ESFacetIndexModel extends FacetIndexModel {
         LOGGER.info("Number of columns in the results: " + fields);
         LOGGER.info("Results contains " + documents + " documents");
 
-        return propertyValues;
+        return properties;
+    }
+
+    // Create a SPARQL query to fetch all the data for an index
+    private String buildQuery(ConceptConfiguration config, List<Variable> variables, Variable root) {
+        StringBuilder query = new StringBuilder();
+        query.append("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n");
+        query.append("PREFIX npdv: <http://sws.ifi.uio.no/vocab/npd-v2#>\n");
+        query.append("SELECT DISTINCT ");
+
+        for (int i = 0; i < variables.size(); i++) {
+            Variable variable = variables.get(i);
+
+            if (variable instanceof ConceptVariable)
+                query.append("(BOUND(?C_" + variable.getLabel() + ") as ?o" + i + ") ");
+
+            if (variable instanceof DatatypeVariable)
+                query.append("(?A_" + variable.getLabel() + " as ?o" + i + ") ");
+        }
+
+        query.append("\n");
+        query.append("WHERE {\n");
+        query.append(addWhereClauses(config, root));
+        query.append("}");
+
+        return query.toString();
+    }
+
+    // Recursive function which is used to construct the SPARQL query that fetches
+    // the data we want to index.
+    private Object addWhereClauses(ConceptConfiguration config, Variable variable) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("?C_" + variable.getLabel() + " rdf:type <" + variable.getType() + ">.\n");
+
+        for (LabeledEdge edge : config.getGraph().outgoingEdgesOf(variable)) {
+            Variable target = config.getGraph().getEdgeTarget(edge);
+
+            if (target instanceof ConceptVariable) {
+                sb.append("OPTIONAL {\n");
+
+                if (edge.getLabel().endsWith("_inverseProp")) {
+                    sb.append("?C_" + target.getLabel() + " <"
+                            + edge.getLabel().substring(0, edge.getLabel().length() - 12) + "> ?C_"
+                            + variable.getLabel() + ".\n");
+                } else {
+                    sb.append("?C_" + variable.getLabel() + " <" + edge.getLabel() + "> ?C_"
+                            + target.getLabel() + ".\n");
+                }
+
+                sb.append(addWhereClauses(config, target));
+                sb.append("}\n");
+            }
+
+            if (target instanceof DatatypeVariable) {
+                sb.append("OPTIONAL { ?C_" + variable.getLabel() + " <" + edge.getLabel() + "> ?A_"
+                        + target.getLabel() + ". }\n");
+            }
+        }
+
+        return sb.toString();
     }
 
     // Get the mapping from the abstract query to the concept config.
-    private Map<Variable, Variable> getMapping(VqsQuery abstractQuery, ConceptConfiguration cc) {
-
-        Map<Variable, Variable> map = new HashMap<Variable, Variable>(); // Map from query vars to config vars
+    private Map<Variable, Variable> getMapping(VqsQuery abstractQuery, ConceptConfiguration config) {
+        Map<Variable, Variable> mapping = new HashMap<Variable, Variable>(); // Map from query vars to config vars
 
         Variable queryRoot = abstractQuery.getRoot();
-        ConceptVariable ccRoot = cc.getRoot();
-        map.put(queryRoot, ccRoot);
+        ConceptVariable configRoot = config.getRoot();
+        mapping.put(queryRoot, configRoot);
 
-        findMapRec(abstractQuery, cc, queryRoot, map);
+        createMapping(abstractQuery, config, queryRoot, configRoot, mapping);
 
-        return map;
+        return mapping;
     }
 
-    // Recursive helper function
-    private void findMapRec(VqsQuery abstractQuery, ConceptConfiguration conceptConfiguration, Variable var,
-            Map<Variable, Variable> map) {
-        Variable ccVar = map.get(var); // Find corresponding cc var. This has to exist already if this method has been
-                                       // called
-        Set<LabeledEdge> localQueryEdges = abstractQuery.getGraph().outgoingEdgesOf(var);
-        Set<LabeledEdge> localCcEdges = conceptConfiguration.getGraph().outgoingEdgesOf(ccVar);
+    // Recursive helper function which creates mapping between the abstract query
+    // and the concept config
+    private void createMapping(VqsQuery abstractQuery, ConceptConfiguration config, Variable queryVariable,
+            Variable configVariable, Map<Variable, Variable> mapping) {
+        Set<LabeledEdge> queryEdges = abstractQuery.getGraph().outgoingEdgesOf(queryVariable);
+        Set<LabeledEdge> configEdges = config.getGraph().outgoingEdgesOf(configVariable);
 
-        for (LabeledEdge lqe : localQueryEdges) {
-            for (LabeledEdge lcce : localCcEdges) {
-                Variable targetQueryVar = abstractQuery.getGraph().getEdgeTarget(lqe);
-                Variable targetCCVar = conceptConfiguration.getGraph().getEdgeTarget(lcce);
+        for (LabeledEdge qEdge : queryEdges) {
+            for (LabeledEdge cEdge : configEdges) {
+                Variable targetQueryVariable = abstractQuery.getGraph().getEdgeTarget(qEdge);
+                Variable targetConfigVariable = config.getGraph().getEdgeTarget(cEdge);
 
-                if (lcce.getLabel().equals(lqe.getLabel()) && targetQueryVar.getType().equals(targetCCVar.getType())
-                        && !map.values().contains(targetCCVar)) {
-                    map.put(targetQueryVar, targetCCVar);
-                    findMapRec(abstractQuery, conceptConfiguration, targetQueryVar, map);
+                if (cEdge.getLabel().equals(qEdge.getLabel())
+                        && targetQueryVariable.getType().equals(targetConfigVariable.getType())
+                        && !mapping.values().contains(targetConfigVariable)) {
+                    mapping.put(targetQueryVariable, targetConfigVariable);
+                    createMapping(abstractQuery, config, targetQueryVariable, targetConfigVariable, mapping);
 
                     break;
                 }
@@ -330,7 +322,7 @@ public class ESFacetIndexModel extends FacetIndexModel {
 
     private BoolQuery buildQuery(VqsQuery abstractQuery, ConceptConfiguration config,
             Map<Variable, Variable> queryToConfigMap) {
-        Map<Variable, String> variables = config.getLocalVariables();
+        Map<Variable, String> variables = config.getDataPropertyVariables();
         LOGGER.debug("Finding local attributes (size = " + variables.size() + "): " + variables.values());
 
         // Build a query to fetch data from the facet index.
@@ -340,7 +332,7 @@ public class ESFacetIndexModel extends FacetIndexModel {
 
         for (Entry<Variable, Variable> entry : queryToConfigMap.entrySet()) {
             Variable variable = entry.getKey();
-            String fieldName = Constants.FIELD_PREFIX + config.getVariableOrdering(queryToConfigMap.get(variable));
+            String fieldName = Constants.FIELD_PREFIX + config.getVariableOrder(queryToConfigMap.get(variable));
 
             // If we have a concept variable in the approximated query, we have to add a not
             // null filter
