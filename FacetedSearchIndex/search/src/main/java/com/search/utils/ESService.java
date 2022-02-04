@@ -52,6 +52,7 @@ import co.elastic.clients.elasticsearch.indices.CreateIndexResponse;
 import co.elastic.clients.elasticsearch.indices.PutMappingRequest;
 import co.elastic.clients.elasticsearch.indices.PutMappingResponse;
 import co.elastic.clients.util.ObjectBuilder;
+
 import tech.oxfordsemantic.jrdfox.client.Cursor;
 import tech.oxfordsemantic.jrdfox.exceptions.JRDFoxException;
 

@@ -15,13 +15,15 @@ import tech.oxfordsemantic.jrdfox.exceptions.JRDFoxException;
 // Connect to RDFox
 public class RDFoxDataset {
     DataStoreConnection store;
+    ServerConnection server;
 
     public RDFoxDataset(String fileName) {
-        try (ServerConnection connection = ConnectionFactory.newServerConnection("rdfox:local", "", "")) {
-            connection.createDataStore("Abbas", "par-complex-nn", Map.of("import.invalid-literal-policy",
+        try {
+            server = ConnectionFactory.newServerConnection("rdfox:local", "", "");
+            server.createDataStore("Abbas", "par-complex-nn", Map.of("import.invalid-literal-policy",
                     "as-string-silent"));
 
-            store = connection.newDataStoreConnection("Abbas");
+            store = server.newDataStoreConnection("Abbas");
             store.importData(UpdateType.ADDITION, Prefixes.s_emptyPrefixes, new File(fileName));
         } catch (JRDFoxException e) {
             e.printStackTrace();
@@ -39,7 +41,8 @@ public class RDFoxDataset {
         return null;
     }
 
-    public void closeConnection() {
+    public void closeConnections() {
+        server.close();
         store.close();
     }
 }
