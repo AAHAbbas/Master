@@ -10,6 +10,7 @@ import java.util.Map;
 import com.search.core.ConceptConfiguration;
 import com.search.core.EndpointDataset;
 import com.search.core.Ontology;
+import com.search.core.RDFoxDataset;
 import com.search.core.VQSQuery;
 import com.search.graph.ConceptEdge;
 import com.search.graph.ConceptVariable;
@@ -19,17 +20,22 @@ public class AssetManager {
     private Map<String, Ontology> ontologies;
     private Map<String, ConceptConfiguration> configs;
     private Map<String, EndpointDataset> endpoints;
+    private Map<String, RDFoxDataset> rdfoxDataset;
 
     public AssetManager() throws Exception {
         this.ontologies = new HashMap<String, Ontology>();
         this.endpoints = new HashMap<String, EndpointDataset>();
         this.configs = new HashMap<String, ConceptConfiguration>();
+        this.rdfoxDataset = new HashMap<String, RDFoxDataset>();
 
         this.ontologies.put("ontology-npd",
                 new Ontology("file:///Users/abdul/Master/Data/npd-db.ttl.owl"));
 
         this.endpoints.put("dataset-local-npd",
                 new EndpointDataset("http://192.168.0.103:9999/blazegraph/namespace/kb/sparql"));
+
+        this.rdfoxDataset.put("rdfox-npd",
+                new RDFoxDataset("C:/Users/abdul/Master/Data/a-box.ttl"));
 
         loadConceptConfiguration();
     }
@@ -42,12 +48,16 @@ public class AssetManager {
         return this.configs;
     }
 
-    public EndpointDataset getDataset(String datasetId) {
-        return this.endpoints.get(datasetId);
+    public EndpointDataset getDataset(String id) {
+        return this.endpoints.get(id);
     }
 
-    public Ontology getOntology(String ontologyId) {
-        return this.ontologies.get(ontologyId);
+    public RDFoxDataset getRDFoxDataset(String id) {
+        return this.rdfoxDataset.get(id);
+    }
+
+    public Ontology getOntology(String id) {
+        return this.ontologies.get(id);
     }
 
     // Load the configs into the list of configs

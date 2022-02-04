@@ -1,22 +1,41 @@
 package com.search.core;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
-import uk.ac.ox.cs.JRDFox.JRDFoxException;
-import uk.ac.ox.cs.JRDFox.store.DataStore;
-import uk.ac.ox.cs.JRDFox.store.TupleIterator;
+import tech.oxfordsemantic.jrdfox.Prefixes;
+import tech.oxfordsemantic.jrdfox.client.ConnectionFactory;
+import tech.oxfordsemantic.jrdfox.client.Cursor;
+import tech.oxfordsemantic.jrdfox.client.DataStoreConnection;
+import tech.oxfordsemantic.jrdfox.client.ServerConnection;
+import tech.oxfordsemantic.jrdfox.client.UpdateType;
+import tech.oxfordsemantic.jrdfox.exceptions.JRDFoxException;
 
 // Connect to RDFox
 public class RDFoxDataset {
-    DataStore store;
+    DataStoreConnection store;
 
-    public RDFoxDataset(String fileName) throws JRDFoxException {
-        store = new DataStore(DataStore.StoreType.ParallelSimpleNN);
-        store.importFiles(new File[] { new File(fileName) });
+    public RDFoxDataset(String fileName) {
+        try (ServerConnection connection = ConnectionFactory.newServerConnection("rdfox:local", "", "")) {
+            connection.createDataStore("Abbas", "par-complex-nn", Map.of("import.invalid-literal-policy",
+                    "as-string-silent"));
+
+            store = connection.newDataStoreConnection("Abbas");
+            store.importData(UpdateType.ADDITION, Prefixes.s_emptyPrefixes, new File(fileName));
+        } catch (JRDFoxException e) {
+            e.printStackTrace();
+        }
     }
 
     // Run a query over the dataset
-    public TupleIterator runQuery(String query) throws JRDFoxException {
-        return store.compileQuery(query);
+    public Cursor runQuery(String query) {
+        try {
+            return store.createCursor(Prefixes.s_defaultPrefixes, query, new HashMap<String, String>());
+        } catch (JRDFoxException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

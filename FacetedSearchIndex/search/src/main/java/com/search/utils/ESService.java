@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +35,7 @@ import co.elastic.clients.elasticsearch._types.mapping.TypeMapping;
 import co.elastic.clients.elasticsearch._types.mapping.TypeMapping.Builder;
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
+import co.elastic.clients.elasticsearch.core.BulkResponse;
 import co.elastic.clients.elasticsearch.core.ClosePointInTimeRequest;
 import co.elastic.clients.elasticsearch.core.ClosePointInTimeResponse;
 import co.elastic.clients.elasticsearch.core.OpenPointInTimeRequest;
@@ -41,6 +43,7 @@ import co.elastic.clients.elasticsearch.core.OpenPointInTimeResponse;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.bulk.BulkOperation;
+import co.elastic.clients.elasticsearch.core.bulk.BulkResponseItem;
 import co.elastic.clients.elasticsearch.core.bulk.IndexOperation;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.core.search.PointInTimeReference;
@@ -49,6 +52,8 @@ import co.elastic.clients.elasticsearch.indices.CreateIndexResponse;
 import co.elastic.clients.elasticsearch.indices.PutMappingRequest;
 import co.elastic.clients.elasticsearch.indices.PutMappingResponse;
 import co.elastic.clients.util.ObjectBuilder;
+import tech.oxfordsemantic.jrdfox.client.Cursor;
+import tech.oxfordsemantic.jrdfox.exceptions.JRDFoxException;
 
 public class ESService {
     private static final Logger LOGGER = LogManager.getLogger(ESService.class);
@@ -143,6 +148,63 @@ public class ESService {
             LOGGER.error("Cannot add documents to index [" + indexName + "]");
             e.printStackTrace();
         }
+    }
+
+    // Same as above but works with RDFox
+    public int addDocuments(String indexName, Cursor cursor, int numOfVariables) {
+        List<BulkOperation> body = new ArrayList<>();
+        int arity;
+        int numOfDocuments = 0;
+
+        try {
+            arity = cursor.getArity();
+
+            // Iterate trough the result tuples
+            for (long i = cursor.open(); i != 0; i = cursor.advance()) {
+                Map<String, Object> documents = new HashMap<>();
+                numOfDocuments++;
+
+                // Iterate trough the terms of each tuple
+                for (int j = 0; j < arity; j++) {
+                    String value = cursor.getResourceValue(j).m_lexicalForm;
+
+                    if (value.equals("UNDEF")) {
+                        continue;
+                    }
+
+                    documents.put(Constants.FIELD_PREFIX + j, value);
+                }
+
+                body.add(new BulkOperation.Builder()
+                        .index(new IndexOperation.Builder<Map<String, Object>>()
+                                .index(indexName)
+                                .document(documents)
+                                .build())
+                        .build());
+            }
+
+            BulkRequest request = new BulkRequest.Builder()
+                    .operations(body)
+                    .build();
+
+            BulkResponse response = repo.bulkIndex(request);
+
+            if (response.errors()) {
+                LOGGER.error("Failed to add documents to index [" + indexName + "]");
+
+                for (Iterator<BulkResponseItem> it = response.items().iterator(); it.hasNext();) {
+                    BulkResponseItem item = it.next();
+                    LOGGER.debug(item.error().reason());
+                }
+            } else {
+                LOGGER.info("Successfully added documents to index [" + indexName + "]");
+            }
+        } catch (ElasticsearchException | IOException | JRDFoxException e) {
+            LOGGER.error("Cannot add documents to index [" + indexName + "]");
+            e.printStackTrace();
+        }
+
+        return numOfDocuments;
     }
 
     // Perform search operation on an index by specifying index name and a query

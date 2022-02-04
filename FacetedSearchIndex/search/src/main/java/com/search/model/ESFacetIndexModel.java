@@ -21,10 +21,12 @@ import co.elastic.clients.elasticsearch._types.query_dsl.TermQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery.Builder;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.json.JsonData;
+import tech.oxfordsemantic.jrdfox.client.Cursor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.search.core.ConceptConfiguration;
 import com.search.core.EndpointDataset;
+import com.search.core.RDFoxDataset;
 import com.search.core.VQSQuery;
 import com.search.graph.ConceptVariable;
 import com.search.graph.DatatypeVariable;
@@ -35,8 +37,6 @@ import com.search.types.DataType;
 import com.search.types.Field;
 import com.search.utils.Filter;
 import com.search.utils.ESService;
-
-import uk.ac.ox.cs.JRDFox.store.DataStore;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -58,9 +58,14 @@ public class ESFacetIndexModel extends FacetIndexModel {
     // TODO: Only one config
     @Override
     public void constructFacetIndex(EndpointDataset dataset, Set<ConceptConfiguration> configs,
-            DataStore store) {
+            RDFoxDataset rdfoxDataset) {
         LOGGER.info("Start constructing the facet index");
         LOGGER.debug("Concepts to include in the index:");
+
+        if (dataset == null && rdfoxDataset == null) {
+            LOGGER.error("No dataset provided");
+            return;
+        }
 
         // For each concept, construct an index
         for (ConceptConfiguration config : configs) {
@@ -113,20 +118,27 @@ public class ESFacetIndexModel extends FacetIndexModel {
             String query = buildQuery(config, variables, root);
 
             LOGGER.debug("SPARQL query used to fetch data for an index:\n" + query);
-
             LOGGER.info("Running SPARQL query to fetch data ...");
-            List<BindingSet> data = dataset.runQuery(query);
-            LOGGER.info("Done running query over dataset");
 
-            LOGGER.debug("Source endpoint returned " + data.size() + " documents in total");
-            LOGGER.debug("Number of fields in the index: " + variables.size());
+            int documents = 0;
+            List<BindingSet> data;
+            Cursor cursor;
 
-            LOGGER.info("Adding documents to index [" + indexName + "]");
-            service.addDocuments(indexName, data, variables.size());
-            LOGGER.info("Added documents to the index " + type);
+            if (dataset != null) {
+                data = dataset.runQuery(query);
+                documents = data.size();
+                LOGGER.info("Done running query over dataset");
+                LOGGER.info("Adding documents to index [" + indexName + "]");
+                service.addDocuments(indexName, data, variables.size());
+            } else {
+                cursor = rdfoxDataset.runQuery(query);
+                LOGGER.info("Done running query over dataset");
+                LOGGER.info("Adding documents to index [" + indexName + "]");
+                documents = service.addDocuments(indexName, cursor, variables.size());
+            }
 
             LOGGER.info("Done creating index for concept: " + type + ". Index/Config id: "
-                    + indexName + ". " + variables.size() + " fields and " + data.size() + " documents");
+                    + indexName + ". " + variables.size() + " fields and " + documents + " documents");
         }
     }
 
