@@ -214,7 +214,7 @@ public class ESService {
     }
 
     // Perform search operation on an index by specifying index name and a query
-    public List<Hit<Test>> search(String indexName, BoolQuery query, String field) {
+    public List<Hit<Test>> search(String indexName, BoolQuery query) {
         List<Hit<Test>> result = new ArrayList<>();
 
         try {
@@ -232,7 +232,10 @@ public class ESService {
             List<String> sortResult = new ArrayList<>();
 
             List<SortOptions> sort = new ArrayList<>();
-            sort.add(new SortOptions.Builder().field(new FieldSort.Builder().field(field).build())
+            sort.add(new SortOptions.Builder()
+                    .field(new FieldSort.Builder()
+                            .field(Constants.FIELD_PREFIX + 0)
+                            .build())
                     .build());
 
             while (!done) {

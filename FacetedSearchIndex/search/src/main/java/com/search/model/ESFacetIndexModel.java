@@ -84,7 +84,7 @@ public class ESFacetIndexModel extends FacetIndexModel {
 
             for (int i = 0; i < variables.size(); i++) {
                 Variable variable = variables.get(i);
-                DataType fieldType = DataType.TEXT;
+                DataType fieldType = DataType.KEYWORD;
 
                 if (variable.getType().equals("float") || variable.getType().equals("decimal"))
                     fieldType = DataType.FLOAT;
@@ -184,18 +184,8 @@ public class ESFacetIndexModel extends FacetIndexModel {
 
         BoolQuery query = buildQuery(abstractQuery, config, homomorphicMap);
 
-        // TODO: Fix case when no field to sort on is found
-        String sortOnField = "";
-
-        for (Field field : fieldsInIndex.get(indexName)) {
-            if (field.type != DataType.BOOLEAN && field.type != DataType.TEXT) {
-                sortOnField = field.name;
-                break;
-            }
-        }
-
         // TODO: Find another solution to large Test data model
-        List<Hit<Test>> result = service.search(indexName, query, sortOnField);
+        List<Hit<Test>> result = service.search(indexName, query);
 
         // Turn the results into a map object, which will be returned
         Map<String, Set<String>> properties = new HashMap<>();
