@@ -38,4 +38,8 @@ public class RDFoxDataset {
 
         return null;
     }
+
+    public void closeConnection() {
+        store.close();
+    }
 }

@@ -98,6 +98,12 @@ public class ESService {
     // Add field to an already exsisting index by specifying index name and a field
     public void addFieldToIndex(String indexName, Field field) {
         ObjectBuilder<Property> property = getProperty(field.type);
+
+        if (property == null) {
+            LOGGER.error("Invalid property, failed to add a field [" + field.name + "] to index [" + indexName + "]");
+            return;
+        }
+
         PutMappingRequest request = new PutMappingRequest.Builder()
                 .index(Arrays.asList(indexName))
                 .properties(field.name, property.build()).build();
@@ -317,6 +323,14 @@ public class ESService {
             default:
                 LOGGER.error("Invalid Elasticsearch field type [" + type.toString() + "]");
                 return null;
+        }
+    }
+
+    public void closeConnection() {
+        try {
+            repo.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.search.utils;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -15,8 +16,12 @@ import com.search.core.VQSQuery;
 import com.search.graph.ConceptEdge;
 import com.search.graph.ConceptVariable;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 // File containing all the provided assets (ontologies, configs, endpoints)
 public class AssetManager {
+    private static final Logger LOGGER = LogManager.getLogger(AssetManager.class);
     private Map<String, Ontology> ontologies;
     private Map<String, ConceptConfiguration> configs;
     private Map<String, EndpointDataset> endpoints;
@@ -37,7 +42,9 @@ public class AssetManager {
         this.rdfoxDataset.put("rdfox-npd",
                 new RDFoxDataset("C:/Users/abdul/Master/Data/a-box.ttl"));
 
+        LOGGER.info("Loading configs");
         loadConceptConfiguration();
+        LOGGER.info("Done loading configs");
     }
 
     public ConceptConfiguration getConceptConfiguration(String ccId) throws Exception {
@@ -143,11 +150,18 @@ public class AssetManager {
     }
 
     // Get the partial query
-    public VQSQuery getVQSQuery(String keyword) throws Exception {
-        Ontology npdOntology = this.ontologies.get("ontology-npd");
-
+    public VQSQuery getVQSQuery(String keyword) {
         String fileName = "queries/" + keyword + ".rq";
-        String q = new String(Files.readAllBytes(Paths.get(fileName)));
-        return new VQSQuery(npdOntology, q, "c1");
+        Ontology ontology = this.ontologies.get("ontology-npd");
+        try {
+            String query = new String(Files.readAllBytes(Paths.get(fileName)));
+
+            return new VQSQuery(ontology, query, "c1");
+        } catch (IOException e) {
+            LOGGER.error("Failed to read file: " + fileName);
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

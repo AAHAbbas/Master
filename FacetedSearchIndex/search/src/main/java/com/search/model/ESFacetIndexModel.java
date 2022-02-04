@@ -1,7 +1,5 @@
 package com.search.model;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -132,6 +130,12 @@ public class ESFacetIndexModel extends FacetIndexModel {
                 service.addDocuments(indexName, data, variables.size());
             } else {
                 cursor = rdfoxDataset.runQuery(query);
+
+                if (cursor == null) {
+                    LOGGER.error("Failed to execute a query over the datastore");
+                    return;
+                }
+
                 LOGGER.info("Done running query over dataset");
                 LOGGER.info("Adding documents to index [" + indexName + "]");
                 documents = service.addDocuments(indexName, cursor, variables.size());
@@ -147,8 +151,7 @@ public class ESFacetIndexModel extends FacetIndexModel {
     // TODO: Only one config
     @Override
     @SuppressWarnings("unchecked")
-    public Map<String, Set<String>> executeAbstractQuery(VQSQuery abstractQuery, Set<ConceptConfiguration> configs)
-            throws SQLException, IOException {
+    public Map<String, Set<String>> executeAbstractQuery(VQSQuery abstractQuery, Set<ConceptConfiguration> configs) {
         String root = abstractQuery.getRoot().getType();
 
         // Find the right concept configuration. Assuming that it exists in the configs
@@ -428,5 +431,9 @@ public class ESFacetIndexModel extends FacetIndexModel {
         }
 
         return query.build();
+    }
+
+    public void closeConnection() {
+        service.closeConnection();
     }
 }
