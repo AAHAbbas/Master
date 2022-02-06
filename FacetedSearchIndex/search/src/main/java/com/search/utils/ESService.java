@@ -175,11 +175,9 @@ public class ESService {
                 for (int j = 0; j < arity; j++) {
                     String value = cursor.getResourceValue(j).m_lexicalForm;
 
-                    if (value.equals("UNDEF")) {
-                        continue;
+                    if (!value.equals("UNDEF")) {
+                        documents.put(Constants.FIELD_PREFIX + j, value);
                     }
-
-                    documents.put(Constants.FIELD_PREFIX + j, value);
                 }
 
                 body.add(new BulkOperation.Builder()

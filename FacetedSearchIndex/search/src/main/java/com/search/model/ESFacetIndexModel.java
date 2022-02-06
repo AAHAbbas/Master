@@ -12,6 +12,7 @@ import org.eclipse.rdf4j.query.BindingSet;
 
 import co.elastic.clients.elasticsearch._types.FieldValue;
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.ExistsQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
 import co.elastic.clients.elasticsearch._types.query_dsl.RangeQuery;
@@ -199,7 +200,7 @@ public class ESFacetIndexModel extends FacetIndexModel {
             HashMap<String, String> data = new ObjectMapper().convertValue(hit.source(), HashMap.class);
             documents += 1;
 
-            for (int i = 1; i < fields; i++) {
+            for (int i = 0; i < fields; i++) {
                 String fieldName = fieldsInIndex.get(indexName).get(i).name;
                 int fieldIndex = Integer
                         .parseInt(fieldName.substring(Constants.FIELD_PREFIX.length(), fieldName.length()));
@@ -207,8 +208,8 @@ public class ESFacetIndexModel extends FacetIndexModel {
                 Variable correspondingCCVar = variables.get(fieldIndex);
                 String attributeURI = localVariables.get(correspondingCCVar);
 
-                // TODO: Current solution is to skip concept variables since, not sure if this
-                // is okay??
+                // TODO: Current solution is to skip concept variables, not sure if this
+                // is okay?? Concept variables are always set to true in the query
                 if (attributeURI != null) {
                     if (properties.get(attributeURI) == null) {
                         properties.put(attributeURI, new HashSet<String>());
@@ -349,6 +350,14 @@ public class ESFacetIndexModel extends FacetIndexModel {
                                 .value(new FieldValue.Builder()
                                         .booleanValue(true)
                                         .build())
+                                .build())
+                        .build());
+            }
+
+            if (variable instanceof DatatypeVariable) {
+                filterQueries.add(new Query.Builder()
+                        .exists(new ExistsQuery.Builder()
+                                .field(fieldName)
                                 .build())
                         .build());
             }
