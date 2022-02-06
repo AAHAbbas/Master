@@ -19,6 +19,7 @@ import co.elastic.clients.elasticsearch.indices.update_aliases.AddAction;
 
 import java.io.IOException;
 import java.net.ConnectException;
+import java.util.HashMap;
 
 import com.search.config.ElasticsearchConfig;
 
@@ -41,7 +42,8 @@ public class ElasticSearchRepository {
         }
     }
 
-    public <TDocument> SearchResponse<TDocument> search(SearchRequest request, Class<TDocument> document)
+    @SuppressWarnings("rawtypes")
+    public SearchResponse<HashMap> search(SearchRequest request, Class<HashMap> document)
             throws ElasticsearchException, IOException {
         return client.search(request, document);
     }

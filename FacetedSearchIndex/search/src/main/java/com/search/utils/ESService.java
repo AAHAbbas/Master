@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.search.model.Test;
 import com.search.repository.ElasticSearchRepository;
 import com.search.types.Constants;
 import com.search.types.DataType;
@@ -213,8 +212,9 @@ public class ESService {
     }
 
     // Perform search operation on an index by specifying index name and a query
-    public List<Hit<Test>> search(String indexName, BoolQuery query) {
-        List<Hit<Test>> result = new ArrayList<>();
+    @SuppressWarnings("rawtypes")
+    public List<Hit<HashMap>> search(String indexName, BoolQuery query) {
+        List<Hit<HashMap>> result = new ArrayList<>();
 
         try {
             OpenPointInTimeRequest openRequest = new OpenPointInTimeRequest.Builder()
@@ -252,7 +252,7 @@ public class ESService {
                     request.searchAfter(sortResult);
                 }
 
-                SearchResponse<Test> response = repo.search(request.build(), Test.class);
+                SearchResponse<HashMap> response = repo.search(request.build(), HashMap.class);
                 result.addAll(response.hits().hits());
                 int size = response.hits().hits().size();
 

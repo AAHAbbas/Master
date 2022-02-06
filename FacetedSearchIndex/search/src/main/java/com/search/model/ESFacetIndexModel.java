@@ -22,7 +22,6 @@ import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.json.JsonData;
 import tech.oxfordsemantic.jrdfox.client.Cursor;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.search.core.ConceptConfiguration;
 import com.search.core.EndpointDataset;
 import com.search.core.RDFoxDataset;
@@ -151,7 +150,7 @@ public class ESFacetIndexModel extends FacetIndexModel {
     // facet values for each local facet
     // TODO: Only one config
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public Map<String, Set<String>> executeAbstractQuery(VQSQuery abstractQuery, Set<ConceptConfiguration> configs) {
         String root = abstractQuery.getRoot().getType();
 
@@ -185,8 +184,8 @@ public class ESFacetIndexModel extends FacetIndexModel {
 
         BoolQuery query = buildQuery(abstractQuery, config, homomorphicMap);
 
-        // TODO: Find another solution to large Test data model
-        List<Hit<Test>> result = service.search(indexName, query);
+        // TODO: Better solution than raw HashMap and unchecked cast of types
+        List<Hit<HashMap>> result = service.search(indexName, query);
 
         // Turn the results into a map object, which will be returned
         Map<String, Set<String>> properties = new HashMap<>();
@@ -196,8 +195,8 @@ public class ESFacetIndexModel extends FacetIndexModel {
         // Loop over the results, and record each distinct value for each of the
         // properties/attributes. I do not know how heavy it is to do this filtering,
         // but it has to be done
-        for (Hit<Test> hit : result) {
-            HashMap<String, String> data = new ObjectMapper().convertValue(hit.source(), HashMap.class);
+        for (Hit<HashMap> hit : result) {
+            HashMap<String, String> data = hit.source();
             documents += 1;
 
             for (int i = 0; i < fields; i++) {

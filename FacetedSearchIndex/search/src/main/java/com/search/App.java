@@ -6,65 +6,88 @@ import java.util.Set;
 
 import com.search.core.ConceptConfiguration;
 import com.search.core.EndpointDataset;
+import com.search.core.RDFoxDataset;
+import com.search.core.VQSQuery;
 import com.search.model.ESFacetIndexModel;
-import com.search.model.FacetIndexModel;
 import com.search.utils.AssetManager;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /* TODOS:
-1. Use RDFox datastore and not dataset endpoint
-2. Add settings when creating an index
-3. WARNING: request [GET http://localhost:9200/_cluster/health] returned 1 warnings: [299 Elasticsearch-7.16.2-2b937c44140b6559905130a8650c64dbd0879cfb "Elasticsearch built-in security features are not enabled. Without authentication, your cluster could be accessible to anyone. See https://www.elastic.co/guide/en/elasticsearch/reference/7.16/security-minimal-setup.html to enable security."]
-4. Close ES client
-5. Other TODOS
+1. Handle regex filters: 
+    What kind of regex filters do we need? 
+    Full-text search or keyword (exact) search? 
+    case sensitivity?
+    other more advanced features? more advanced searching or just simple exact filtering
 
+    Can use a text field with keyword tokenizer and special case sensitivity filter
+    https://www.elastic.co/guide/en/elasticsearch/reference/6.8/analysis-keyword-analyzer.html
+    
+2. More support for different value types:
+    Probably not needed since coerce is enabled which allows quoted numbers into numeric fields (same for other types, such as boolean and date).
+    So ES remembers the original form of string vs numeric, and returns values in their original form, but if coerce=false, then 
+    strings would be rejected as invalid
 
-7. Change rdf4j to jena
-8. Use newer RDFox version, from 1.2776.2017 and ontology-services-toolkit 1.0.0-SNAPSHOT to 4.1.0 and ontology-services-toolkit 1.0.0-OST
-*/
-
-/*
-useFacetIndex( link til Indeksen, spørringa[vqsquery], config )
-	- køyre ei spørring over indeks
-	- returnere filterverdiar
+3. Should I skip concept variables???
+4. Only one config, for both? why?
+5. Investigate why some field are UNDEF, probably just bad dataset
 */
 
 public class App {
     private static final Logger LOGGER = LogManager.getLogger(App.class);
+    private static AssetManager assetManager;
+    private static ESFacetIndexModel indexModel;
+    private static Set<ConceptConfiguration> configs;
 
     // File used to construct the facet index
     // To construct such an index, one needs a source endpoint, a model and a
     // configuration
     public static void main(String[] args) throws Exception {
-        constructFacetIndex();
-        System.exit(0);
+        ESFacetIndexModel model = constructFacetIndex();
+        Thread.sleep(5000);
+        search();
+        closeConnection(model);
     }
 
-    private static void constructFacetIndex() throws Exception {
-        AssetManager assetManager = new AssetManager();
-        FacetIndexModel indexModel = new ESFacetIndexModel();
+    private static ESFacetIndexModel constructFacetIndex() throws Exception {
+        assetManager = new AssetManager();
+        indexModel = new ESFacetIndexModel();
         EndpointDataset dataset = assetManager.getDataset("dataset-local-npd");
-        // Set<ConceptConfiguration> configs = new HashSet<ConceptConfiguration>(
+        // RDFoxDataset rdfox = assetManager.getRDFoxDataset("rdfox-npd");
+        // configs = new HashSet<ConceptConfiguration>(
         // assetManager.getConceptConfiguration().values());
-        Set<ConceptConfiguration> configs = new HashSet<ConceptConfiguration>();
-        configs.add(assetManager.getConceptConfiguration("config-npd-expwellbore-1-1"));
+        configs = new HashSet<ConceptConfiguration>();
+        configs.add(assetManager.getConceptConfiguration("npd-expwellbore-1"));
 
         indexModel.constructFacetIndex(dataset, configs, null);
+        // indexModel.constructFacetIndex(null, configs, rdfox);
+        // rdfox.closeConnections();
 
-        // need to wait a bit for the construction to fully complete before querying
-        // over the index
-        Thread.sleep(3000);
+        return indexModel;
+    }
 
-        Map<String, Set<String>> updatedFacetValues = indexModel
-                .executeAbstractQuery(assetManager.getVQSQuery("npd-explorationwellbore-1-2"),
-                        configs);
+    private static void search() {
+        VQSQuery query = assetManager.getVQSQuery("npd-explorationwellbore-1-1");
 
-        LOGGER.info("Updated facet values:");
+        if (query == null) {
+            LOGGER.error("Failed to create an instance of VQSQuery");
+        }
 
-        updatedFacetValues.entrySet().forEach(entry -> {
-            LOGGER.info(entry.getKey() + ": " + entry.getValue());
-        });
+        Map<String, Set<String>> updatedFacetValues = indexModel.executeAbstractQuery(query, configs);
+
+        if (query == null) {
+            LOGGER.error("executeAbstractQuery failed");
+        } else {
+            LOGGER.info("Updated facet values:");
+
+            updatedFacetValues.entrySet().forEach(entry -> {
+                LOGGER.info(entry.getKey() + ": " + entry.getValue());
+            });
+        }
+    }
+
+    private static void closeConnection(ESFacetIndexModel model) {
+        model.closeConnection();
     }
 }
