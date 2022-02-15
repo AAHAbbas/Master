@@ -75,6 +75,7 @@ public class AssetManager {
         createWellbore4();
         createWellbore5();
         createExpWellbore1();
+        createExpWellbore2();
     }
 
     private void createWellbore1() {
@@ -206,6 +207,36 @@ public class AssetManager {
         edges.add(new ConceptEdge(c5, "http://sws.ifi.uio.no/vocab/npd-v2#includedInField", c2));
 
         ConceptConfiguration cc = new ConceptConfiguration(ontology, "npd-expwellbore-1", c1, variables, edges, true,
+                false, null, null);
+
+        configs.put(cc.getId(), cc);
+    }
+
+    private void createExpWellbore2() {
+        Ontology ontology = this.ontologies.get("ontology-npd");
+        List<ConceptVariable> variables = new ArrayList<>();
+        List<ConceptEdge> edges = new ArrayList<>();
+
+        ConceptVariable c1 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#ExplorationWellbore");
+        ConceptVariable c2 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Discovery");
+        ConceptVariable c3 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#ProductionLicence");
+        ConceptVariable c4 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Field");
+        ConceptVariable c5 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Company");
+        ConceptVariable c6 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#FieldStatus");
+
+        variables.add(c1);
+        variables.add(c2);
+        variables.add(c3);
+        variables.add(c4);
+        variables.add(c5);
+
+        edges.add(new ConceptEdge(c1, "http://sws.ifi.uio.no/vocab/npd-v2#wellboreForDiscovery", c2));
+        edges.add(new ConceptEdge(c1, "http://sws.ifi.uio.no/vocab/npd-v2#explorationWellboreForField", c4));
+        edges.add(new ConceptEdge(c1, "http://sws.ifi.uio.no/vocab/npd-v2#drillingOperatorCompany", c5));
+        edges.add(new ConceptEdge(c1, "http://sws.ifi.uio.no/vocab/npd-v2#explorationWellboreForLicence", c3));
+        edges.add(new ConceptEdge(c6, "http://sws.ifi.uio.no/vocab/npd-v2#statusForField", c4));
+
+        ConceptConfiguration cc = new ConceptConfiguration(ontology, "npd-expwellbore-2", c1, variables, edges, true,
                 false, null, null);
 
         configs.put(cc.getId(), cc);

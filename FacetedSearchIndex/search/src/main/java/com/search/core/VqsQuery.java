@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.search.graph.Variable;
+import com.search.types.FilterOperator;
 import com.search.utils.Filter;
 import com.search.utils.SparqlQueryVisitor;
 import com.search.graph.ConceptVariable;
@@ -15,7 +16,6 @@ import com.search.graph.LabeledEdge;
 
 import org.eclipse.rdf4j.model.Value;
 import org.eclipse.rdf4j.query.algebra.Compare;
-import org.eclipse.rdf4j.query.algebra.Compare.CompareOp;
 import org.eclipse.rdf4j.query.algebra.Regex;
 import org.eclipse.rdf4j.query.algebra.StatementPattern;
 import org.eclipse.rdf4j.query.algebra.ValueConstant;
@@ -153,7 +153,7 @@ public class VQSQuery {
             if (filters.get(datatypeVariable) == null)
                 filters.put(datatypeVariable, new HashSet<Filter>());
 
-            filters.get(datatypeVariable).add(new Filter(compare.getOperator(), value));
+            filters.get(datatypeVariable).add(new Filter(FilterOperator.valueOf(compare.getOperator().name()), value));
         }
 
         // Find all regex filters
@@ -167,7 +167,7 @@ public class VQSQuery {
             if (filters.get(datatypeVariable) == null)
                 filters.put(datatypeVariable, new HashSet<Filter>());
 
-            filters.get(datatypeVariable).add(new Filter(CompareOp.EQ, value));
+            filters.get(datatypeVariable).add(new Filter(FilterOperator.REG, value));
         }
     }
 

@@ -17,6 +17,7 @@ import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
 import co.elastic.clients.elasticsearch._types.query_dsl.RangeQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.TermQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.WildcardQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery.Builder;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.json.JsonData;
@@ -361,7 +362,6 @@ public class ESFacetIndexModel extends FacetIndexModel {
                         .build());
             }
 
-            // TODO: Handle regex filters
             for (Filter filter : abstractQuery.getFiltersForVariable(variable)) {
                 JsonData value = JsonData.of(filter.getValue().stringValue());
                 co.elastic.clients.elasticsearch._types.query_dsl.RangeQuery.Builder rangeQuery = new RangeQuery.Builder()
@@ -392,7 +392,7 @@ public class ESFacetIndexModel extends FacetIndexModel {
                                         .build())
                                 .build());
                         break;
-                    case EQ: // TODO: add support for different value types
+                    case EQ:
                         filterQueries.add(new Query.Builder()
                                 .term(new TermQuery.Builder()
                                         .field(fieldName)
@@ -413,7 +413,15 @@ public class ESFacetIndexModel extends FacetIndexModel {
                                                 .build())
                                         .build())
                                 .build());
-
+                        break;
+                    case REG:
+                        filterQueries.add(new Query.Builder()
+                                .wildcard(new WildcardQuery.Builder()
+                                        .field(fieldName)
+                                        .value("*" + value + "*")
+                                        .build())
+                                .build());
+                        break;
                     default:
                         LOGGER.error("Invalid filter type '" + filter.getOperator().getSymbol() + "'");
                 }

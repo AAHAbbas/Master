@@ -1,18 +1,19 @@
 package com.search.utils;
 
+import com.search.types.FilterOperator;
+
 import org.eclipse.rdf4j.model.Value;
-import org.eclipse.rdf4j.query.algebra.Compare.CompareOp;
 
 public class Filter {
-    private CompareOp operator; // The operator between the variable and the value
+    private FilterOperator operator; // The operator between the variable and the value
     private Value value; // The value to compare to
 
-    public Filter(CompareOp operator, Value value) {
+    public Filter(FilterOperator operator, Value value) {
         this.operator = operator;
         this.value = value;
     }
 
-    public CompareOp getOperator() {
+    public FilterOperator getOperator() {
         return operator;
     }
 

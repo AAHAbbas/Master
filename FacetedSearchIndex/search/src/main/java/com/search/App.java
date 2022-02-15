@@ -53,22 +53,22 @@ public class App {
     private static ESFacetIndexModel constructFacetIndex() throws Exception {
         assetManager = new AssetManager();
         indexModel = new ESFacetIndexModel();
-        EndpointDataset dataset = assetManager.getDataset("dataset-local-npd");
-        // RDFoxDataset rdfox = assetManager.getRDFoxDataset("rdfox-npd");
+        // EndpointDataset dataset = assetManager.getDataset("dataset-local-npd");
+        RDFoxDataset rdfox = assetManager.getRDFoxDataset("rdfox-npd");
         // configs = new HashSet<ConceptConfiguration>(
         // assetManager.getConceptConfiguration().values());
         configs = new HashSet<ConceptConfiguration>();
-        configs.add(assetManager.getConceptConfiguration("npd-expwellbore-1"));
+        configs.add(assetManager.getConceptConfiguration("npd-expwellbore-2"));
 
-        indexModel.constructFacetIndex(dataset, configs, null);
-        // indexModel.constructFacetIndex(null, configs, rdfox);
+        // indexModel.constructFacetIndex(dataset, configs, null);
+        indexModel.constructFacetIndex(null, configs, rdfox);
         // rdfox.closeConnections();
 
         return indexModel;
     }
 
     private static void search() {
-        VQSQuery query = assetManager.getVQSQuery("npd-explorationwellbore-1-1");
+        VQSQuery query = assetManager.getVQSQuery("npd-explorationwellbore-1-4");
 
         if (query == null) {
             LOGGER.error("Failed to create an instance of VQSQuery");
