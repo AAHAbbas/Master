@@ -1,11 +1,11 @@
 package com.search;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import com.search.core.ConceptConfiguration;
-import com.search.core.EndpointDataset;
 import com.search.core.RDFoxDataset;
 import com.search.core.VQSQuery;
 import com.search.model.ESFacetIndexModel;
@@ -23,15 +23,8 @@ import org.apache.logging.log4j.Logger;
 
     Can use a text field with keyword tokenizer and special case sensitivity filter
     https://www.elastic.co/guide/en/elasticsearch/reference/6.8/analysis-keyword-analyzer.html
-    
-2. More support for different value types:
-    Probably not needed since coerce is enabled which allows quoted numbers into numeric fields (same for other types, such as boolean and date).
-    So ES remembers the original form of string vs numeric, and returns values in their original form, but if coerce=false, then 
-    strings would be rejected as invalid
 
 3. Should I skip concept variables???
-4. Only one config, for both? why?
-5. Investigate why some field are UNDEF, probably just bad dataset
 */
 
 public class App {
@@ -51,40 +44,29 @@ public class App {
     }
 
     private static ESFacetIndexModel constructFacetIndex() throws Exception {
-        assetManager = new AssetManager();
+        assetManager = new AssetManager("src/main/resources/config.json");
         indexModel = new ESFacetIndexModel();
-        // EndpointDataset dataset = assetManager.getDataset("dataset-local-npd");
-        RDFoxDataset rdfox = assetManager.getRDFoxDataset("rdfox-npd");
-        // configs = new HashSet<ConceptConfiguration>(
-        // assetManager.getConceptConfiguration().values());
-        configs = new HashSet<ConceptConfiguration>();
-        configs.add(assetManager.getConceptConfiguration("npd-expwellbore-2"));
+        configs = new HashSet<ConceptConfiguration>(Arrays.asList(
+                assetManager.getConceptConfiguration("npd-wellbore-3")));
 
+        // EndpointDataset dataset = assetManager.getDataset("dataset-local-npd");
         // indexModel.constructFacetIndex(dataset, configs, null);
+        RDFoxDataset rdfox = assetManager.getRDFoxDataset("rdfox-npd");
         indexModel.constructFacetIndex(null, configs, rdfox);
-        // rdfox.closeConnections();
+        rdfox.closeConnections();
 
         return indexModel;
     }
 
-    private static void search() {
-        VQSQuery query = assetManager.getVQSQuery("npd-explorationwellbore-1-4");
+    private static void search() throws Exception {
+        VQSQuery query = assetManager.getVQSQuery("npd-wellbore-1-1", "ontology-npd");
+        Map<String, Set<String>> updatedFacetValues = indexModel.executeAbstractQuery(query,
+                assetManager.getConceptConfiguration("npd-wellbore-3"));
 
-        if (query == null) {
-            LOGGER.error("Failed to create an instance of VQSQuery");
-        }
-
-        Map<String, Set<String>> updatedFacetValues = indexModel.executeAbstractQuery(query, configs);
-
-        if (query == null) {
-            LOGGER.error("executeAbstractQuery failed");
-        } else {
-            LOGGER.info("Updated facet values:");
-
-            updatedFacetValues.entrySet().forEach(entry -> {
-                LOGGER.info(entry.getKey() + ": " + entry.getValue());
-            });
-        }
+        LOGGER.info("Updated facet values:");
+        updatedFacetValues.entrySet().forEach(entry -> {
+            LOGGER.info(entry.getKey() + ": " + entry.getValue());
+        });
     }
 
     private static void closeConnection(ESFacetIndexModel model) {

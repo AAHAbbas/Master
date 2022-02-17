@@ -1,0 +1,40 @@
+{
+    "variables": [
+        "http://sws.ifi.uio.no/vocab/npd-v2#ExplorationWellbore",
+        "http://sws.ifi.uio.no/vocab/npd-v2#Discovery",
+        "http://sws.ifi.uio.no/vocab/npd-v2#ProductionLicence",
+        "http://sws.ifi.uio.no/vocab/npd-v2#Field",
+        "http://sws.ifi.uio.no/vocab/npd-v2#Company",
+        "http://sws.ifi.uio.no/vocab/npd-v2#FieldStatus"
+    ],
+    "edges": [
+        {
+            "source": "http://sws.ifi.uio.no/vocab/npd-v2#ExplorationWellbore",
+            "property": "http://sws.ifi.uio.no/vocab/npd-v2#wellboreForDiscovery",
+            "target": "http://sws.ifi.uio.no/vocab/npd-v2#Discovery"
+        },
+        {
+            "source": "http://sws.ifi.uio.no/vocab/npd-v2#ExplorationWellbore",
+            "property": "http://sws.ifi.uio.no/vocab/npd-v2#explorationWellboreForField",
+            "target": "http://sws.ifi.uio.no/vocab/npd-v2#Field"
+        },
+        {
+            "source": "http://sws.ifi.uio.no/vocab/npd-v2#ExplorationWellbore",
+            "property": "http://sws.ifi.uio.no/vocab/npd-v2#drillingOperatorCompany",
+            "target": "http://sws.ifi.uio.no/vocab/npd-v2#Company"
+        },
+        {
+            "source": "http://sws.ifi.uio.no/vocab/npd-v2#ExplorationWellbore",
+            "property": "http://sws.ifi.uio.no/vocab/npd-v2#explorationWellboreForLicence",
+            "target": "http://sws.ifi.uio.no/vocab/npd-v2#ProductionLicence"
+        },
+        {
+            "source": "http://sws.ifi.uio.no/vocab/npd-v2#FieldStatus",
+            "property": "http://sws.ifi.uio.no/vocab/npd-v2#statusForField",
+            "target": "http://sws.ifi.uio.no/vocab/npd-v2#Field"
+        }
+    ],
+    "root": "http://sws.ifi.uio.no/vocab/npd-v2#ExplorationWellbore",
+    "addAllMissingDatatypePropertiesToAllVariables": true,
+    "addAllMissingObjectPropertiesToAllVariables": false
+}

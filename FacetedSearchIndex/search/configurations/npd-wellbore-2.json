@@ -1,0 +1,16 @@
+{
+    "variables": [
+        "http://sws.ifi.uio.no/vocab/npd-v2#Wellbore",
+        "http://sws.ifi.uio.no/vocab/npd-v2#Field"
+    ],
+    "edges": [
+        {
+            "source": "http://sws.ifi.uio.no/vocab/npd-v2#Wellbore",
+            "property": "http://sws.ifi.uio.no/vocab/npd-v2#discoveryWellbore_inverseProp",
+            "target": "http://sws.ifi.uio.no/vocab/npd-v2#Field"
+        }
+    ],
+    "root": "http://sws.ifi.uio.no/vocab/npd-v2#Wellbore",
+    "addAllMissingDatatypePropertiesToAllVariables": true,
+    "addAllMissingObjectPropertiesToAllVariables": false
+}

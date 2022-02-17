@@ -1,0 +1,28 @@
+{
+    "variables": [
+        "http://sws.ifi.uio.no/vocab/npd-v2#Wellbore",
+        "http://sws.ifi.uio.no/vocab/npd-v2#Field",
+        "http://sws.ifi.uio.no/vocab/npd-v2#Company",
+        "http://sws.ifi.uio.no/vocab/npd-v2#Pipeline"
+    ],
+    "edges": [
+        {
+            "source": "http://sws.ifi.uio.no/vocab/npd-v2#Wellbore",
+            "property": "http://sws.ifi.uio.no/vocab/npd-v2#discoveryWellbore_inverseProp",
+            "target": "http://sws.ifi.uio.no/vocab/npd-v2#Field"
+        },
+        {
+            "source": "http://sws.ifi.uio.no/vocab/npd-v2#Field",
+            "property": "http://sws.ifi.uio.no/vocab/npd-v2#currentFieldOperator",
+            "target": "http://sws.ifi.uio.no/vocab/npd-v2#Company"
+        },
+        {
+            "source": "http://sws.ifi.uio.no/vocab/npd-v2#Company",
+            "property": "http://sws.ifi.uio.no/vocab/npd-v2#pipelineOperator_inverseProp",
+            "target": "http://sws.ifi.uio.no/vocab/npd-v2#Pipeline"
+        }
+    ],
+    "root": "http://sws.ifi.uio.no/vocab/npd-v2#Wellbore",
+    "addAllMissingDatatypePropertiesToAllVariables": true,
+    "addAllMissingObjectPropertiesToAllVariables": false
+}

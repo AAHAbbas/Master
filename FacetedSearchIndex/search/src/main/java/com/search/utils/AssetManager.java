@@ -1,5 +1,6 @@
 package com.search.utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -8,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.search.core.ConceptConfiguration;
 import com.search.core.EndpointDataset;
 import com.search.core.Ontology;
@@ -15,6 +17,13 @@ import com.search.core.RDFoxDataset;
 import com.search.core.VQSQuery;
 import com.search.graph.ConceptEdge;
 import com.search.graph.ConceptVariable;
+import com.search.types.Concept;
+import com.search.types.Config;
+import com.search.types.Dataset;
+import com.search.types.DatasetType;
+import com.search.types.Edge;
+import com.search.types.Index;
+import com.search.types.Package;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,25 +35,76 @@ public class AssetManager {
     private Map<String, ConceptConfiguration> configs;
     private Map<String, EndpointDataset> endpoints;
     private Map<String, RDFoxDataset> rdfoxDataset;
+    private ObjectMapper objectMapper;
 
-    public AssetManager() throws Exception {
-        this.ontologies = new HashMap<String, Ontology>();
-        this.endpoints = new HashMap<String, EndpointDataset>();
-        this.configs = new HashMap<String, ConceptConfiguration>();
-        this.rdfoxDataset = new HashMap<String, RDFoxDataset>();
+    public AssetManager(String configFileName) throws Exception {
+        ontologies = new HashMap<String, Ontology>();
+        endpoints = new HashMap<String, EndpointDataset>();
+        configs = new HashMap<String, ConceptConfiguration>();
+        rdfoxDataset = new HashMap<String, RDFoxDataset>();
+        objectMapper = new ObjectMapper();
 
-        this.ontologies.put("ontology-npd",
-                new Ontology("file:///Users/abdul/Master/Data/npd-db.ttl.owl"));
+        loadIndexConfigurations(objectMapper.readValue(new File(configFileName), Config.class));
+    }
 
-        this.endpoints.put("dataset-local-npd",
-                new EndpointDataset("http://192.168.0.103:9999/blazegraph/namespace/kb/sparql"));
+    public void loadIndexConfigurations(Config config) {
+        LOGGER.info("Loading ontologies and datasets");
+        for (Package pack : config.getPackages()) {
+            com.search.types.Ontology ontology = pack.getOntology();
+            Dataset dataset = pack.getDataset();
 
-        this.rdfoxDataset.put("rdfox-npd",
-                new RDFoxDataset("C:/Users/abdul/Master/Data/a-box.ttl"));
+            ontologies.put(ontology.getName(), new Ontology(ontology.getEndpoint()));
 
-        LOGGER.info("Loading configs");
-        loadConceptConfiguration();
-        LOGGER.info("Done loading configs");
+            if (dataset.getType() == DatasetType.RDFOX) {
+                rdfoxDataset.put(dataset.getName(), new RDFoxDataset(dataset.getEndpoint()));
+            } else {
+                endpoints.put(dataset.getName(), new EndpointDataset(dataset.getEndpoint()));
+            }
+
+            loadConceptConfiguration(pack.getIndicies(), ontology.getName());
+        }
+        LOGGER.info("Done loading ontologies and datasets");
+    }
+
+    public void loadConceptConfiguration(List<Index> indices, String ontologyName) {
+        for (Index index : indices) {
+            LOGGER.info("Creating conceptConfiguration: " + index.getName());
+
+            Map<String, ConceptVariable> variables = new HashMap<>();
+            List<ConceptEdge> edges = new ArrayList<>();
+            Concept concept = null;
+
+            try {
+                concept = objectMapper.readValue(new File(index.getPath()), Concept.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+                continue;
+            }
+
+            for (String variable : concept.getVariables()) {
+                variables.put(variable, new ConceptVariable(variable));
+            }
+
+            for (Edge edge : concept.getEdges()) {
+                edges.add(new ConceptEdge(variables.get(edge.getSource()), edge.getProperty(),
+                        variables.get(edge.getTarget())));
+            }
+
+            ConceptConfiguration cc = new ConceptConfiguration(
+                    this.ontologies.get(ontologyName),
+                    index.getName(),
+                    variables.get(concept.getRoot()),
+                    new ArrayList<ConceptVariable>(variables.values()),
+                    edges,
+                    concept.getAddAllMissingDatatypePropertiesToAllVariables(),
+                    concept.getAddAllMissingObjectPropertiesToAllVariables(),
+                    variables.get(concept.getAddAllMissingDatatypePropertiesToVariable()),
+                    variables.get(concept.getAddAllMissingObjectPropertiesToVariable()));
+
+            configs.put(cc.getId(), cc);
+
+            LOGGER.info("Finished creating conceptConfiguration: " + index.getName());
+        }
     }
 
     public ConceptConfiguration getConceptConfiguration(String ccId) throws Exception {
@@ -67,185 +127,10 @@ public class AssetManager {
         return this.ontologies.get(id);
     }
 
-    // Load the configs into the list of configs
-    public void loadConceptConfiguration() throws Exception {
-        createWellbore1();
-        createWellbore2();
-        createWellbore3();
-        createWellbore4();
-        createWellbore5();
-        createExpWellbore1();
-        createExpWellbore2();
-    }
-
-    private void createWellbore1() {
-        Ontology ontology = this.ontologies.get("ontology-npd");
-        List<ConceptVariable> variables = new ArrayList<>();
-        List<ConceptEdge> edges = new ArrayList<>();
-
-        ConceptVariable c1 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Wellbore");
-
-        variables.add(c1);
-
-        ConceptConfiguration cc = new ConceptConfiguration(ontology, "npd-wellbore-1-1", c1, variables, edges, true,
-                false, null, null);
-
-        configs.put(cc.getId(), cc);
-    }
-
-    private void createWellbore2() {
-        Ontology ontology = this.ontologies.get("ontology-npd");
-        List<ConceptVariable> variables = new ArrayList<>();
-        List<ConceptEdge> edges = new ArrayList<>();
-
-        ConceptVariable c1 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Wellbore");
-        ConceptVariable c2 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Field");
-
-        variables.add(c1);
-        variables.add(c2);
-        edges.add(new ConceptEdge(c1, "http://sws.ifi.uio.no/vocab/npd-v2#discoveryWellbore_inverseProp", c2));
-
-        ConceptConfiguration cc = new ConceptConfiguration(ontology, "npd-wellbore-1-2", c1, variables, edges, true,
-                false, null, null);
-
-        configs.put(cc.getId(), cc);
-    }
-
-    private void createWellbore3() {
-        Ontology ontology = this.ontologies.get("ontology-npd");
-        List<ConceptVariable> variables = new ArrayList<>();
-        List<ConceptEdge> edges = new ArrayList<>();
-
-        ConceptVariable c1 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Wellbore");
-        ConceptVariable c2 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Field");
-        ConceptVariable c3 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Company");
-
-        variables.add(c1);
-        variables.add(c2);
-        variables.add(c3);
-        edges.add(new ConceptEdge(c1, "http://sws.ifi.uio.no/vocab/npd-v2#discoveryWellbore_inverseProp", c2));
-        edges.add(new ConceptEdge(c2, "http://sws.ifi.uio.no/vocab/npd-v2#currentFieldOperator", c3));
-
-        ConceptConfiguration cc = new ConceptConfiguration(ontology, "npd-wellbore-1-3", c1, variables, edges, true,
-                false, null, null);
-
-        configs.put(cc.getId(), cc);
-    }
-
-    private void createWellbore4() {
-        Ontology ontology = this.ontologies.get("ontology-npd");
-        List<ConceptVariable> variables = new ArrayList<>();
-        List<ConceptEdge> edges = new ArrayList<>();
-
-        ConceptVariable c1 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Wellbore");
-        ConceptVariable c2 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Field");
-        ConceptVariable c3 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Company");
-        ConceptVariable c4 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Pipeline");
-
-        variables.add(c1);
-        variables.add(c2);
-        variables.add(c3);
-        variables.add(c4);
-        edges.add(new ConceptEdge(c1, "http://sws.ifi.uio.no/vocab/npd-v2#discoveryWellbore_inverseProp", c2));
-        edges.add(new ConceptEdge(c2, "http://sws.ifi.uio.no/vocab/npd-v2#currentFieldOperator", c3));
-        edges.add(new ConceptEdge(c3, "http://sws.ifi.uio.no/vocab/npd-v2#pipelineOperator_inverseProp", c4));
-
-        ConceptConfiguration cc = new ConceptConfiguration(ontology, "npd-wellbore-1-4", c1, variables, edges, true,
-                false, null, null);
-
-        configs.put(cc.getId(), cc);
-    }
-
-    private void createWellbore5() {
-        Ontology ontology = this.ontologies.get("ontology-npd");
-        List<ConceptVariable> variables = new ArrayList<>();
-        List<ConceptEdge> edges = new ArrayList<>();
-
-        ConceptVariable c1 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Wellbore");
-        ConceptVariable c2 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Field");
-        ConceptVariable c3 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Company");
-        ConceptVariable c4 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Pipeline");
-        ConceptVariable c5 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#WellboreDocument");
-
-        variables.add(c1);
-        variables.add(c2);
-        variables.add(c3);
-        variables.add(c4);
-        variables.add(c5);
-        edges.add(new ConceptEdge(c1, "http://sws.ifi.uio.no/vocab/npd-v2#discoveryWellbore_inverseProp", c2));
-        edges.add(new ConceptEdge(c2, "http://sws.ifi.uio.no/vocab/npd-v2#currentFieldOperator", c3));
-        edges.add(new ConceptEdge(c3, "http://sws.ifi.uio.no/vocab/npd-v2#pipelineOperator_inverseProp", c4));
-        edges.add(new ConceptEdge(c1, "http://sws.ifi.uio.no/vocab/npd-v2#documentForWellbore_inverseProp", c5));
-
-        ConceptConfiguration cc = new ConceptConfiguration(ontology, "npd-wellbore-1-5", c1, variables, edges, true,
-                false, null, null);
-
-        configs.put(cc.getId(), cc);
-    }
-
-    private void createExpWellbore1() {
-        Ontology ontology = this.ontologies.get("ontology-npd");
-        List<ConceptVariable> variables = new ArrayList<>();
-        List<ConceptEdge> edges = new ArrayList<>();
-
-        ConceptVariable c1 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#ExplorationWellbore");
-        ConceptVariable c2 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Field");
-        ConceptVariable c3 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#ProductionLicence");
-        ConceptVariable c4 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Company");
-        ConceptVariable c5 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Discovery");
-
-        variables.add(c1);
-        variables.add(c2);
-        variables.add(c3);
-        variables.add(c4);
-        variables.add(c5);
-
-        edges.add(new ConceptEdge(c1, "http://sws.ifi.uio.no/vocab/npd-v2#explorationWellboreForField", c2));
-        edges.add(new ConceptEdge(c1, "http://sws.ifi.uio.no/vocab/npd-v2#wellboreForDiscovery", c5));
-        edges.add(new ConceptEdge(c1, "http://sws.ifi.uio.no/vocab/npd-v2#explorationWellboreForLicence", c3));
-        edges.add(new ConceptEdge(c2, "http://sws.ifi.uio.no/vocab/npd-v2#currentFieldOperator", c4));
-        edges.add(new ConceptEdge(c5, "http://sws.ifi.uio.no/vocab/npd-v2#includedInField", c2));
-
-        ConceptConfiguration cc = new ConceptConfiguration(ontology, "npd-expwellbore-1", c1, variables, edges, true,
-                false, null, null);
-
-        configs.put(cc.getId(), cc);
-    }
-
-    private void createExpWellbore2() {
-        Ontology ontology = this.ontologies.get("ontology-npd");
-        List<ConceptVariable> variables = new ArrayList<>();
-        List<ConceptEdge> edges = new ArrayList<>();
-
-        ConceptVariable c1 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#ExplorationWellbore");
-        ConceptVariable c2 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Discovery");
-        ConceptVariable c3 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#ProductionLicence");
-        ConceptVariable c4 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Field");
-        ConceptVariable c5 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#Company");
-        ConceptVariable c6 = new ConceptVariable("http://sws.ifi.uio.no/vocab/npd-v2#FieldStatus");
-
-        variables.add(c1);
-        variables.add(c2);
-        variables.add(c3);
-        variables.add(c4);
-        variables.add(c5);
-
-        edges.add(new ConceptEdge(c1, "http://sws.ifi.uio.no/vocab/npd-v2#wellboreForDiscovery", c2));
-        edges.add(new ConceptEdge(c1, "http://sws.ifi.uio.no/vocab/npd-v2#explorationWellboreForField", c4));
-        edges.add(new ConceptEdge(c1, "http://sws.ifi.uio.no/vocab/npd-v2#drillingOperatorCompany", c5));
-        edges.add(new ConceptEdge(c1, "http://sws.ifi.uio.no/vocab/npd-v2#explorationWellboreForLicence", c3));
-        edges.add(new ConceptEdge(c6, "http://sws.ifi.uio.no/vocab/npd-v2#statusForField", c4));
-
-        ConceptConfiguration cc = new ConceptConfiguration(ontology, "npd-expwellbore-2", c1, variables, edges, true,
-                false, null, null);
-
-        configs.put(cc.getId(), cc);
-    }
-
     // Get the partial query
-    public VQSQuery getVQSQuery(String keyword) {
+    public VQSQuery getVQSQuery(String keyword, String ontologyName) {
         String fileName = "queries/" + keyword + ".rq";
-        Ontology ontology = this.ontologies.get("ontology-npd");
+        Ontology ontology = this.ontologies.get(ontologyName);
         try {
             String query = new String(Files.readAllBytes(Paths.get(fileName)));
 

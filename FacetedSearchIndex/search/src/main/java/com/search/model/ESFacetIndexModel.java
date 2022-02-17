@@ -54,7 +54,6 @@ public class ESFacetIndexModel extends FacetIndexModel {
     // endpoint. The properties of each concept is tagged with the type, but if the
     // type is "objectProperty", then we use the VARCHAR type, and we just use the
     // name of the related object in the cell
-    // TODO: Only one config
     @Override
     public void constructFacetIndex(EndpointDataset dataset, Set<ConceptConfiguration> configs,
             RDFoxDataset rdfoxDataset) {
@@ -149,23 +148,10 @@ public class ESFacetIndexModel extends FacetIndexModel {
 
     // Executes the a vqs query over the cache. It returns a map containing distinct
     // facet values for each local facet
-    // TODO: Only one config
     @Override
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public Map<String, Set<String>> executeAbstractQuery(VQSQuery abstractQuery, Set<ConceptConfiguration> configs) {
-        String root = abstractQuery.getRoot().getType();
-
-        // Find the right concept configuration. Assuming that it exists in the configs
-        ConceptConfiguration config = null;
-
-        for (ConceptConfiguration c : configs) {
-            if (c.getRoot().getType().equals(root)) {
-                config = c;
-                continue;
-            }
-        }
-
-        if (config == null) {
+    public Map<String, Set<String>> executeAbstractQuery(VQSQuery abstractQuery, ConceptConfiguration config) {
+        if (!config.getRoot().getType().equals(abstractQuery.getRoot().getType())) {
             LOGGER.error("Couldn't find common root in both the abstract query and concept configuration");
             return null;
         }
@@ -185,7 +171,6 @@ public class ESFacetIndexModel extends FacetIndexModel {
 
         BoolQuery query = buildQuery(abstractQuery, config, homomorphicMap);
 
-        // TODO: Better solution than raw HashMap and unchecked cast of types
         List<Hit<HashMap>> result = service.search(indexName, query);
 
         // Turn the results into a map object, which will be returned

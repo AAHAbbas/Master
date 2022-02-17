@@ -19,5 +19,5 @@ public abstract class FacetIndexModel {
         // Executes an abstract query over the index. The list of updateAttributes are
         // the ones we want to find in the output data, the ones we want to get updated.
         public abstract Map<String, Set<String>> executeAbstractQuery(VQSQuery vqsQuery,
-                        Set<ConceptConfiguration> conceptConfiguration);
+                        ConceptConfiguration conceptConfiguration);
 }

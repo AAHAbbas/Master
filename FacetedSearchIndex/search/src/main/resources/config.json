@@ -1,0 +1,25 @@
+{
+    "packages": [
+        {
+            "ontology": {
+                "name": "ontology-npd",
+                "endpoint": "file:///Users/abdul/Master/Data/npd-db.ttl.owl"
+            },
+            "dataset": {
+                "name": "rdfox-npd",
+                "type": "RDFOX",
+                "endpoint": "C:/Users/abdul/Master/Data/a-box.ttl"
+            },
+            "indicies": [
+                {
+                    "name": "npd-wellbore-3",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/npd-wellbore-3.json",
+                    "inUse": false
+                }
+            ]
+        }
+    ],
+    "indiciesToCreateAtStartup": [
+        "npd-wellbore-3"
+    ]
+}
