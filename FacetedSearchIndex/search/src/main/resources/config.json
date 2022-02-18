@@ -10,10 +10,30 @@
                 "type": "RDFOX",
                 "endpoint": "C:/Users/abdul/Master/Data/a-box.ttl"
             },
-            "indicies": [
+            "indices": [
+                {
+                    "name": "npd-wellbore-1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/npd-wellbore-1.json",
+                    "inUse": false
+                },
+                {
+                    "name": "npd-wellbore-2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/npd-wellbore-2.json",
+                    "inUse": false
+                },
                 {
                     "name": "npd-wellbore-3",
                     "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/npd-wellbore-3.json",
+                    "inUse": false
+                },
+                {
+                    "name": "npd-wellbore-4",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/npd-wellbore-4.json",
+                    "inUse": false
+                },
+                {
+                    "name": "npd-wellbore-5",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/npd-wellbore-5.json",
                     "inUse": false
                 }
             ]

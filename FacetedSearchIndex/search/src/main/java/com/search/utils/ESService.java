@@ -65,7 +65,7 @@ public class ESService {
 
     // Create an index by specifying index name and fields
     // TODO: Add settings later
-    public void createIndex(String indexName, ArrayList<Field> fields) throws ElasticsearchException {
+    public void createIndex(String indexName, ArrayList<Field> fields) {
         TypeMapping mapping = createMapping(fields);
         CreateIndexRequest request = new CreateIndexRequest.Builder()
                 .index(indexName)
@@ -332,6 +332,7 @@ public class ESService {
         try {
             repo.close();
         } catch (IOException e) {
+            LOGGER.error("Failed to close Elasticsearch rest client connection");
             e.printStackTrace();
         }
     }

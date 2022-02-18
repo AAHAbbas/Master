@@ -96,5 +96,4 @@ public class ElasticSearchRepository {
             throws ElasticsearchException, IOException {
         return client.closePointInTime(closeRequest);
     }
-
 }

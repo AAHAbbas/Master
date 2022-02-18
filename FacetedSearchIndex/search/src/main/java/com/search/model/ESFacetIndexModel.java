@@ -105,7 +105,7 @@ public class ESFacetIndexModel extends FacetIndexModel {
                     fieldType = DataType.DATETIME;
 
                 if (variable instanceof ConceptVariable)
-                    fieldType = DataType.BOOLEAN;
+                    fieldType = DataType.KEYWORD;
 
                 fields.add(new Field(i, fieldType));
             }
@@ -333,7 +333,7 @@ public class ESFacetIndexModel extends FacetIndexModel {
                         .term(new TermQuery.Builder()
                                 .field(fieldName)
                                 .value(new FieldValue.Builder()
-                                        .booleanValue(true)
+                                        .stringValue("true")
                                         .build())
                                 .build())
                         .build());

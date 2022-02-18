@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -33,22 +34,31 @@ public class AssetManager {
     private static final Logger LOGGER = LogManager.getLogger(AssetManager.class);
     private Map<String, Ontology> ontologies;
     private Map<String, ConceptConfiguration> configs;
+    private Map<String, ConceptConfiguration> configsToUseAtStartup;
     private Map<String, EndpointDataset> endpoints;
     private Map<String, RDFoxDataset> rdfoxDataset;
     private ObjectMapper objectMapper;
 
-    public AssetManager(String configFileName) throws Exception {
+    public AssetManager(String configFileName) {
         ontologies = new HashMap<String, Ontology>();
         endpoints = new HashMap<String, EndpointDataset>();
         configs = new HashMap<String, ConceptConfiguration>();
+        configsToUseAtStartup = new HashMap<String, ConceptConfiguration>();
         rdfoxDataset = new HashMap<String, RDFoxDataset>();
         objectMapper = new ObjectMapper();
 
-        loadIndexConfigurations(objectMapper.readValue(new File(configFileName), Config.class));
+        try {
+            loadIndexConfigurations(objectMapper.readValue(new File(configFileName),
+                    Config.class));
+        } catch (IOException e) {
+            LOGGER.error("Failed to parse config: " + configFileName);
+            e.printStackTrace();
+        }
     }
 
     public void loadIndexConfigurations(Config config) {
         LOGGER.info("Loading ontologies and datasets");
+
         for (Package pack : config.getPackages()) {
             com.search.types.Ontology ontology = pack.getOntology();
             Dataset dataset = pack.getDataset();
@@ -61,12 +71,14 @@ public class AssetManager {
                 endpoints.put(dataset.getName(), new EndpointDataset(dataset.getEndpoint()));
             }
 
-            loadConceptConfiguration(pack.getIndicies(), ontology.getName());
+            loadConceptConfiguration(pack.getIndices(), ontology.getName(), config.getIndiciesToCreateAtStartup());
         }
+
         LOGGER.info("Done loading ontologies and datasets");
     }
 
-    public void loadConceptConfiguration(List<Index> indices, String ontologyName) {
+    public void loadConceptConfiguration(List<Index> indices, String ontologyName,
+            HashSet<String> indiciesToCreateAtStartup) {
         for (Index index : indices) {
             LOGGER.info("Creating conceptConfiguration: " + index.getName());
 
@@ -77,6 +89,7 @@ public class AssetManager {
             try {
                 concept = objectMapper.readValue(new File(index.getPath()), Concept.class);
             } catch (IOException e) {
+                LOGGER.error("Failed to parse concept: " + index.getPath());
                 e.printStackTrace();
                 continue;
             }
@@ -103,16 +116,24 @@ public class AssetManager {
 
             configs.put(cc.getId(), cc);
 
+            if (indiciesToCreateAtStartup.contains(cc.getId())) {
+                configsToUseAtStartup.put(cc.getId(), cc);
+            }
+
             LOGGER.info("Finished creating conceptConfiguration: " + index.getName());
         }
     }
 
-    public ConceptConfiguration getConceptConfiguration(String ccId) throws Exception {
+    public ConceptConfiguration getConfig(String ccId) {
         return this.configs.get(ccId);
     }
 
-    public Map<String, ConceptConfiguration> getConceptConfiguration() throws Exception {
+    public Map<String, ConceptConfiguration> getConfigs() {
         return this.configs;
+    }
+
+    public Map<String, ConceptConfiguration> getConfigsToUseAtStartup() {
+        return this.configsToUseAtStartup;
     }
 
     public EndpointDataset getDataset(String id) {

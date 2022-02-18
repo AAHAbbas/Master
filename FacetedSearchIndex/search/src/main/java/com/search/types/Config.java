@@ -1,6 +1,9 @@
 package com.search.types;
 
+import java.util.HashSet;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -8,29 +11,29 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({ "packages", "indiciesToCreateAtStartup" })
 public class Config {
-    @JsonProperty("packages")
-    private List<Package> packages = null;
+    private List<Package> packages;
+    private HashSet<String> indiciesToCreateAtStartup;
 
-    @JsonProperty("indiciesToCreateAtStartup")
-    private List<String> indiciesToCreateAtStartup = null;
+    @JsonCreator
+    public Config(@JsonProperty(value = "packages", required = true) List<Package> packages,
+            @JsonProperty(value = "indiciesToCreateAtStartup", required = true) HashSet<String> indiciesToCreateAtStartup) {
+        this.packages = packages;
+        this.indiciesToCreateAtStartup = indiciesToCreateAtStartup;
+    }
 
-    @JsonProperty("packages")
     public List<Package> getPackages() {
         return packages;
     }
 
-    @JsonProperty("packages")
     public void setPackages(List<Package> packages) {
         this.packages = packages;
     }
 
-    @JsonProperty("indiciesToCreateAtStartup")
-    public List<String> getIndiciesToCreateAtStartup() {
+    public HashSet<String> getIndiciesToCreateAtStartup() {
         return indiciesToCreateAtStartup;
     }
 
-    @JsonProperty("indiciesToCreateAtStartup")
-    public void setIndiciesToCreateAtStartup(List<String> indiciesToCreateAtStartup) {
+    public void setIndiciesToCreateAtStartup(HashSet<String> indiciesToCreateAtStartup) {
         this.indiciesToCreateAtStartup = indiciesToCreateAtStartup;
     }
 }
