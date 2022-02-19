@@ -2,6 +2,8 @@ package com.search.repository;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.ElasticsearchException;
+import co.elastic.clients.elasticsearch._types.analysis.LowercaseNormalizer;
+import co.elastic.clients.elasticsearch._types.analysis.Normalizer;
 import co.elastic.clients.elasticsearch.cluster.HealthResponse;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.BulkResponse;
@@ -95,5 +97,14 @@ public class ElasticSearchRepository {
     public ClosePointInTimeResponse closePoint(ClosePointInTimeRequest closeRequest)
             throws ElasticsearchException, IOException {
         return client.closePointInTime(closeRequest);
+    }
+
+    public IndexSettingsAnalysis getKeywordNormalizer() {
+        return new IndexSettingsAnalysis.Builder()
+                .normalizer("rebuilt_keyword", new Normalizer.Builder()
+                        .lowercase(new LowercaseNormalizer.Builder()
+                                .build())
+                        .build())
+                .build();
     }
 }

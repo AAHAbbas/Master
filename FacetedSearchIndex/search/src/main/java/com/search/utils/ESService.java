@@ -48,6 +48,7 @@ import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.core.search.PointInTimeReference;
 import co.elastic.clients.elasticsearch.indices.CreateIndexRequest;
 import co.elastic.clients.elasticsearch.indices.CreateIndexResponse;
+import co.elastic.clients.elasticsearch.indices.IndexSettings;
 import co.elastic.clients.elasticsearch.indices.PutMappingRequest;
 import co.elastic.clients.elasticsearch.indices.PutMappingResponse;
 import co.elastic.clients.util.ObjectBuilder;
@@ -64,11 +65,13 @@ public class ESService {
     }
 
     // Create an index by specifying index name and fields
-    // TODO: Add settings later
     public void createIndex(String indexName, ArrayList<Field> fields) {
         TypeMapping mapping = createMapping(fields);
         CreateIndexRequest request = new CreateIndexRequest.Builder()
                 .index(indexName)
+                .settings(new IndexSettings.Builder()
+                        .analysis(repo.getKeywordNormalizer())
+                        .build())
                 .mappings(mapping)
                 .build();
 
@@ -309,7 +312,7 @@ public class ESService {
             case TEXT:
                 return property.text(new TextProperty.Builder().analyzer("standard").build());
             case KEYWORD:
-                return property.keyword(new KeywordProperty.Builder().build());
+                return property.keyword(new KeywordProperty.Builder().normalizer("rebuilt_keyword").build());
             case INTEGER:
                 return property.integer(new IntegerNumberProperty.Builder().build());
             case LONG:
