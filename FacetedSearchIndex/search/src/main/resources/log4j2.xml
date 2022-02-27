@@ -8,9 +8,15 @@
         <File name="FileAppender" fileName="log/${date:dd.MM.yyyy}.log" immediateFlush="false" append="true">
             <PatternLayout pattern="%highlight{%d{HH:mm:ss.SSS} [%t] %-5level %logger{36}.%M() - %msg%n}{FATAL=bright red, ERROR=red, WARN=yellow, INFO=magenta, DEBUG=green bold, TRACE=blue}"/>
         </File>
+        <File name="FileTestAppender" fileName="log/test.log" immediateFlush="false" append="true">
+            <PatternLayout pattern="%highlight{%msg%n}{FATAL=bright red, ERROR=red, WARN=yellow, INFO=magenta, DEBUG=green bold, TRACE=blue}"/>
+        </File>
     </Appenders>
     <Loggers>
-        <Root level="debug">
+        <Logger name="stats" level="fatal" additivity="false">
+          <AppenderRef ref="FileTestAppender"/>
+        </Logger>
+        <Root level="debug" additivity="false">
             <AppenderRef ref="ConsoleAppender" />
             <AppenderRef ref="FileAppender"/>
         </Root>

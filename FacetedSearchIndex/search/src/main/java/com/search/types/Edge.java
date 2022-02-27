@@ -8,24 +8,24 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({ "source", "property", "target" })
 public class Edge {
-    private String source;
+    private int source;
     private String property;
-    private String target;
+    private int target;
 
     @JsonCreator
-    public Edge(@JsonProperty(value = "source", required = true) String source,
+    public Edge(@JsonProperty(value = "source", required = true) int source,
             @JsonProperty(value = "property", required = true) String property,
-            @JsonProperty(value = "target", required = true) String target) {
+            @JsonProperty(value = "target", required = true) int target) {
         this.source = source;
         this.property = property;
         this.target = target;
     }
 
-    public String getSource() {
+    public int getSource() {
         return source;
     }
 
-    public void setSource(String source) {
+    public void setSource(int source) {
         this.source = source;
     }
 
@@ -37,11 +37,11 @@ public class Edge {
         this.property = property;
     }
 
-    public String getTarget() {
+    public int getTarget() {
         return target;
     }
 
-    public void setTarget(String target) {
+    public void setTarget(int target) {
         this.target = target;
     }
 }

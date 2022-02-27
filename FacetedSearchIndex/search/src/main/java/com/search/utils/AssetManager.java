@@ -82,7 +82,7 @@ public class AssetManager {
         for (Index index : indices) {
             LOGGER.info("Creating conceptConfiguration: " + index.getName());
 
-            Map<String, ConceptVariable> variables = new HashMap<>();
+            List<ConceptVariable> variables = new ArrayList<>();
             List<ConceptEdge> edges = new ArrayList<>();
             Concept concept = null;
 
@@ -95,7 +95,7 @@ public class AssetManager {
             }
 
             for (String variable : concept.getVariables()) {
-                variables.put(variable, new ConceptVariable(variable));
+                variables.add(new ConceptVariable(variable));
             }
 
             for (Edge edge : concept.getEdges()) {
@@ -103,16 +103,19 @@ public class AssetManager {
                         variables.get(edge.getTarget())));
             }
 
+            int datatypeMissingVariable = concept.getAddAllMissingDatatypePropertiesToVariable();
+            int objectPropMissingVariable = concept.getAddAllMissingObjectPropertiesToVariable();
+
             ConceptConfiguration cc = new ConceptConfiguration(
                     this.ontologies.get(ontologyName),
                     index.getName(),
                     variables.get(concept.getRoot()),
-                    new ArrayList<ConceptVariable>(variables.values()),
+                    new ArrayList<ConceptVariable>(variables),
                     edges,
                     concept.getAddAllMissingDatatypePropertiesToAllVariables(),
                     concept.getAddAllMissingObjectPropertiesToAllVariables(),
-                    variables.get(concept.getAddAllMissingDatatypePropertiesToVariable()),
-                    variables.get(concept.getAddAllMissingObjectPropertiesToVariable()));
+                    datatypeMissingVariable == -1 ? null : variables.get(datatypeMissingVariable),
+                    objectPropMissingVariable == -1 ? null : variables.get(objectPropMissingVariable));
 
             configs.put(cc.getId(), cc);
 

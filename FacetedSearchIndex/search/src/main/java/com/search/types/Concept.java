@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.Nulls;
 @JsonPropertyOrder({
         "variables",
         "edges",
+        "root",
         "addAllMissingDatatypePropertiesToAllVariables",
         "addAllMissingDatatypePropertiesToVariable",
         "addAllMissingObjectPropertiesToAllVariables",
@@ -26,7 +27,7 @@ public class Concept {
     @JsonSetter(nulls = Nulls.SKIP)
     private List<Edge> edges; // not required field, defaults to an empty list
 
-    private String root; // required field
+    private int root; // required field
 
     @JsonProperty("addAllMissingDatatypePropertiesToAllVariables")
     @JsonSetter(nulls = Nulls.SKIP)
@@ -34,7 +35,7 @@ public class Concept {
 
     @JsonProperty("addAllMissingDatatypePropertiesToVariable")
     @JsonSetter(nulls = Nulls.SKIP)
-    private String addAllMissingDatatypePropertiesToVariable; // not required field, defaults to null
+    private int addAllMissingDatatypePropertiesToVariable; // not required field, defaults to null
 
     @JsonProperty("addAllMissingObjectPropertiesToAllVariables")
     @JsonSetter(nulls = Nulls.SKIP)
@@ -42,18 +43,18 @@ public class Concept {
 
     @JsonProperty("addAllMissingObjectPropertiesToVariable")
     @JsonSetter(nulls = Nulls.SKIP)
-    private String addAllMissingObjectPropertiesToVariable; // not required field, defaults to null
+    private int addAllMissingObjectPropertiesToVariable; // not required field, defaults to null
 
     @JsonCreator
     public Concept(@JsonProperty(value = "variables", required = true) List<String> variables,
-            @JsonProperty(value = "root", required = true) String root) {
+            @JsonProperty(value = "root", required = true) int root) {
         this.variables = variables;
         this.edges = new ArrayList<>();
         this.root = root;
         this.addAllMissingDatatypePropertiesToAllVariables = true;
-        this.addAllMissingDatatypePropertiesToVariable = null;
+        this.addAllMissingDatatypePropertiesToVariable = -1;
         this.addAllMissingObjectPropertiesToAllVariables = false;
-        this.addAllMissingObjectPropertiesToVariable = null;
+        this.addAllMissingObjectPropertiesToVariable = -1;
     }
 
     public List<String> getVariables() {
@@ -72,11 +73,11 @@ public class Concept {
         this.edges = edges;
     }
 
-    public String getRoot() {
+    public int getRoot() {
         return root;
     }
 
-    public void setRoot(String root) {
+    public void setRoot(int root) {
         this.root = root;
     }
 
@@ -89,11 +90,11 @@ public class Concept {
         this.addAllMissingDatatypePropertiesToAllVariables = addAllMissingDatatypePropertiesToAllVariables;
     }
 
-    public String getAddAllMissingDatatypePropertiesToVariable() {
+    public int getAddAllMissingDatatypePropertiesToVariable() {
         return addAllMissingDatatypePropertiesToVariable;
     }
 
-    public void setAddAllMissingDatatypePropertiesToVariable(String addAllMissingDatatypePropertiesToVariable) {
+    public void setAddAllMissingDatatypePropertiesToVariable(int addAllMissingDatatypePropertiesToVariable) {
         this.addAllMissingDatatypePropertiesToVariable = addAllMissingDatatypePropertiesToVariable;
     }
 
@@ -105,11 +106,11 @@ public class Concept {
         this.addAllMissingObjectPropertiesToAllVariables = addAllMissingObjectPropertiesToAllVariables;
     }
 
-    public String getAddAllMissingObjectPropertiesToVariable() {
+    public int getAddAllMissingObjectPropertiesToVariable() {
         return addAllMissingObjectPropertiesToVariable;
     }
 
-    public void setAddAllMissingObjectPropertiesToVariable(String addAllMissingObjectPropertiesToVariable) {
+    public void setAddAllMissingObjectPropertiesToVariable(int addAllMissingObjectPropertiesToVariable) {
         this.addAllMissingObjectPropertiesToVariable = addAllMissingObjectPropertiesToVariable;
     }
 }
