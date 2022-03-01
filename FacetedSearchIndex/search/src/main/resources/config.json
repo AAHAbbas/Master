@@ -70,6 +70,11 @@
         }
     ],
     "indiciesToCreateAtStartup": [
+        "wellbore-1-1",
+        "wellbore-1-2",
+        "wellbore-1-3",
+        "wellbore-1-4",
+        "wellbore-1-5",
         "wellbore-1-6"
     ]
 }

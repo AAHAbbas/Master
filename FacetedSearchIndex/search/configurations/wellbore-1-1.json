@@ -2,8 +2,7 @@
     "variables": [
         "http://sws.ifi.uio.no/vocab/npd-v2#Wellbore"
     ],
-    "edges": [],
-    "root": "http://sws.ifi.uio.no/vocab/npd-v2#Wellbore",
+    "root": 0,
     "addAllMissingDatatypePropertiesToAllVariables": true,
     "addAllMissingObjectPropertiesToAllVariables": false
 }

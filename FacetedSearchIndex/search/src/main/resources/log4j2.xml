@@ -8,13 +8,25 @@
         <File name="FileAppender" fileName="log/${date:dd.MM.yyyy}.log" immediateFlush="false" append="true">
             <PatternLayout pattern="%highlight{%d{HH:mm:ss.SSS} [%t] %-5level %logger{36}.%M() - %msg%n}{FATAL=bright red, ERROR=red, WARN=yellow, INFO=magenta, DEBUG=green bold, TRACE=blue}"/>
         </File>
-        <File name="FileTestAppender" fileName="log/test.log" immediateFlush="false" append="true">
+        <File name="FileIndexSizeAppender" fileName="log/index_size.log" immediateFlush="false" append="true">
+            <PatternLayout pattern="%highlight{%msg%n}{FATAL=bright red, ERROR=red, WARN=yellow, INFO=magenta, DEBUG=green bold, TRACE=blue}"/>
+        </File>
+        <File name="FileIndexTimeAppender" fileName="log/index_time.log" immediateFlush="false" append="true">
+            <PatternLayout pattern="%highlight{%msg%n}{FATAL=bright red, ERROR=red, WARN=yellow, INFO=magenta, DEBUG=green bold, TRACE=blue}"/>
+        </File>
+        <File name="FileIndexQueryAppender" fileName="log/index_query.log" immediateFlush="false" append="true">
             <PatternLayout pattern="%highlight{%msg%n}{FATAL=bright red, ERROR=red, WARN=yellow, INFO=magenta, DEBUG=green bold, TRACE=blue}"/>
         </File>
     </Appenders>
     <Loggers>
-        <Logger name="stats" level="fatal" additivity="false">
-          <AppenderRef ref="FileTestAppender"/>
+        <Logger name="index-size" level="info" additivity="false">
+          <AppenderRef ref="FileIndexSizeAppender"/>
+        </Logger>
+        <Logger name="index-time" level="info" additivity="false">
+          <AppenderRef ref="FileIndexTimeAppender"/>
+        </Logger>
+        <Logger name="index-query" level="info" additivity="false">
+          <AppenderRef ref="FileIndexQueryAppender"/>
         </Logger>
         <Root level="debug" additivity="false">
             <AppenderRef ref="ConsoleAppender" />

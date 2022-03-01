@@ -4,7 +4,10 @@
         "http://sws.ifi.uio.no/vocab/npd-v2#Field",
         "http://sws.ifi.uio.no/vocab/npd-v2#ProductionLicence",
         "http://sws.ifi.uio.no/vocab/npd-v2#Company",
-        "http://sws.ifi.uio.no/vocab/npd-v2#Discovery"
+        "http://sws.ifi.uio.no/vocab/npd-v2#FieldStatus",
+        "http://sws.ifi.uio.no/vocab/npd-v2#Discovery",
+        "http://sws.ifi.uio.no/vocab/npd-v2#ProductionlicenceStatus",
+        "http://sws.ifi.uio.no/vocab/npd-v2#ProductionLicenceArea"
     ],
     "edges": [
         {
@@ -14,23 +17,33 @@
         },
         {
             "source": "http://sws.ifi.uio.no/vocab/npd-v2#ExplorationWellbore",
-            "property": "http://sws.ifi.uio.no/vocab/npd-v2#wellboreForDiscovery",
-            "target": "http://sws.ifi.uio.no/vocab/npd-v2#Discovery"
-        },
-        {
-            "source": "http://sws.ifi.uio.no/vocab/npd-v2#ExplorationWellbore",
             "property": "http://sws.ifi.uio.no/vocab/npd-v2#explorationWellboreForLicence",
-            "target": "http://sws.ifi.uio.no/vocab/npd-v2#ProductionLicence"
+            "target": "http://sws.ifi.uio.no/vocab/npd-v2#FieldStatus"
         },
         {
             "source": "http://sws.ifi.uio.no/vocab/npd-v2#Field",
             "property": "http://sws.ifi.uio.no/vocab/npd-v2#currentFieldOperator",
-            "target": "http://sws.ifi.uio.no/vocab/npd-v2#Company"
+            "target": "http://sws.ifi.uio.no/vocab/npd-v2#ProductionLicence"
+        },
+        {
+            "source": "http://sws.ifi.uio.no/vocab/npd-v2#Company",
+            "property": "http://sws.ifi.uio.no/vocab/npd-v2#statusForField",
+            "target": "http://sws.ifi.uio.no/vocab/npd-v2#Field"
+        },
+        {
+            "source": "http://sws.ifi.uio.no/vocab/npd-v2#ProductionLicenceArea",
+            "property": "http://sws.ifi.uio.no/vocab/npd-v2#includedInField",
+            "target": "http://sws.ifi.uio.no/vocab/npd-v2#Field"
         },
         {
             "source": "http://sws.ifi.uio.no/vocab/npd-v2#Discovery",
-            "property": "http://sws.ifi.uio.no/vocab/npd-v2#includedInField",
-            "target": "http://sws.ifi.uio.no/vocab/npd-v2#Field"
+            "property": "http://sws.ifi.uio.no/vocab/npd-v2#statusForLicence",
+            "target": "http://sws.ifi.uio.no/vocab/npd-v2#FieldStatus"
+        },
+        {
+            "source": "http://sws.ifi.uio.no/vocab/npd-v2#ProductionlicenceStatus",
+            "property": "http://sws.ifi.uio.no/vocab/npd-v2#isGeometryOfFeature",
+            "target": "http://sws.ifi.uio.no/vocab/npd-v2#FieldStatus"
         }
     ],
     "root": "http://sws.ifi.uio.no/vocab/npd-v2#ExplorationWellbore",

@@ -150,10 +150,10 @@ public class ESFacetIndexModel extends FacetIndexModel {
     // facet values for each local facet
     @Override
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public Map<String, Set<String>> executeAbstractQuery(VQSQuery abstractQuery, ConceptConfiguration config) {
+    public int executeAbstractQuery(VQSQuery abstractQuery, ConceptConfiguration config) {
         if (!config.getRoot().getType().equals(abstractQuery.getRoot().getType())) {
             LOGGER.error("Couldn't find common root in both the abstract query and concept configuration");
-            return null;
+            return 0;
         }
 
         String indexName = config.getId();
@@ -212,7 +212,7 @@ public class ESFacetIndexModel extends FacetIndexModel {
         LOGGER.info("Number of columns in the results: " + fields);
         LOGGER.info("Results contains " + documents + " documents");
 
-        return properties;
+        return documents;
     }
 
     // Create a SPARQL query to fetch all the data for an index

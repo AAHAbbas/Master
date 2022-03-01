@@ -1,0 +1,7 @@
+PREFIX ns1: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX ns2: <http://sws.ifi.uio.no/vocab/npd-v2#>
+
+SELECT * 
+WHERE {
+    ?c1 ns1:type ns2:Wellbore .
+}

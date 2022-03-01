@@ -218,6 +218,7 @@ public class ESService {
     @SuppressWarnings("rawtypes")
     public List<Hit<HashMap>> search(String indexName, BoolQuery query) {
         List<Hit<HashMap>> result = new ArrayList<>();
+        int time = 0;
 
         try {
             OpenPointInTimeRequest openRequest = new OpenPointInTimeRequest.Builder()
@@ -258,6 +259,7 @@ public class ESService {
                 SearchResponse<HashMap> response = repo.search(request.build(), HashMap.class);
                 result.addAll(response.hits().hits());
                 int size = response.hits().hits().size();
+                time += response.took();
 
                 if (size != 0) {
                     sortResult = response.hits().hits().get(size - 1).sort();
@@ -284,6 +286,8 @@ public class ESService {
             LOGGER.error("Couldn't execute a query on index " + indexName + "");
             e.printStackTrace();
         }
+
+        Constants.ES_TIME_TOOK = time;
 
         return result;
     }

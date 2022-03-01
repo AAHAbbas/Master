@@ -39,7 +39,7 @@ public class PerfectFacetIndexModel extends FacetIndexModel {
     // Executes the a vqs query over the cache. It returns a map containing distinct
     // facet values for each local facet.
     @Override
-    public Map<String, Set<String>> executeAbstractQuery(VQSQuery vqsQuery, ConceptConfiguration config) {
+    public int executeAbstractQuery(VQSQuery vqsQuery, ConceptConfiguration config) {
         String root = vqsQuery.getRoot().getType();
         List<String> dataProperties = new ArrayList<String>(vqsQuery.getOntology().getDataProperties(root));
         Collections.sort(dataProperties);
@@ -54,10 +54,13 @@ public class PerfectFacetIndexModel extends FacetIndexModel {
 
     // Calculate distinct values for each property using the results and a map from
     // the results
-    public Map<String, Set<String>> calculateDistinctValues(List<BindingSet> rows, List<String> dataProperties) {
+    public int calculateDistinctValues(List<BindingSet> rows, List<String> dataProperties) {
         Map<String, Set<String>> values = new HashMap<String, Set<String>>();
+        int count = 0;
 
         for (BindingSet row : rows) {
+            count += 1;
+
             for (int i = 0; i < dataProperties.size(); i++) {
                 String dataProperty = dataProperties.get(i);
                 Binding binding = row.getBinding("v" + Integer.toString(i));
@@ -78,14 +81,17 @@ public class PerfectFacetIndexModel extends FacetIndexModel {
             }
         }
 
-        return values;
+        return count;
     }
 
-    public Map<String, Set<String>> calculateDistinctValues(Cursor cursor, List<String> dataProperties) {
+    public int calculateDistinctValues(Cursor cursor, List<String> dataProperties) {
         Map<String, Set<String>> values = new HashMap<String, Set<String>>();
+        int count = 0;
 
         try {
             for (long row = cursor.open(); row != 0; row = cursor.advance()) {
+                count += 1;
+
                 for (int i = 0; i < dataProperties.size(); i++) {
                     String dataProperty = dataProperties.get(i);
                     String value = cursor.getResourceValue(i).m_lexicalForm;
@@ -104,7 +110,7 @@ public class PerfectFacetIndexModel extends FacetIndexModel {
             e.printStackTrace();
         }
 
-        return values;
+        return count;
     }
 
     public String constructQuery(VQSQuery vqsQuery, List<String> orderedLocalDataProperties) {

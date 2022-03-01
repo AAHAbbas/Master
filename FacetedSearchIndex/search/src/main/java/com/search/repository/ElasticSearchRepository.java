@@ -63,8 +63,16 @@ public class ElasticSearchRepository {
         return client.indices().putMapping(request);
     }
 
+    public GetMappingResponse getMapping() throws ElasticsearchException, IOException {
+        return client.indices().getMapping();
+    }
+
     public IndexResponse createDocument(IndexRequest<Object> request) throws ElasticsearchException, IOException {
         return client.index(request);
+    }
+
+    public IndicesStatsResponse getIndexStats() throws ElasticsearchException, IOException {
+        return client.indices().stats();
     }
 
     public GetAliasResponse getAllAlias() throws ElasticsearchException, IOException {

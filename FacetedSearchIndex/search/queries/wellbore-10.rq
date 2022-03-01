@@ -1,0 +1,27 @@
+PREFIX ns1: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX ns2: <http://sws.ifi.uio.no/vocab/npd-v2#>
+PREFIX ns3: <http://www.w3.org/2002/07/owl#>
+
+SELECT * 
+WHERE {
+    ?c1 ns1:type ns2:Wellbore .
+    ?c2 ns1:type ns2:Block .
+    ?c3 ns1:type ns2:Discovery .
+    ?c4 ns1:type ns2:Field .
+    ?c7 ns1:type ns2:Block .
+    ?c8 ns1:type ns2:InitialWellbore .
+    ?c5 ns1:type ns2:ProductionLicence .
+    ?c10 ns1:type ns2:PAWellbore .
+    ?c9 ns1:type ns2:WellboreCasingAndLeakoffTest .
+    ?c6 ns1:type ns2:ProductionLicenceStatus .
+
+    ?c1 ns2:containsWellbore ?c2 .
+    ?c1 ns2:discoveryWellbore ?c3 .
+    ?c1 ns2:discoveryWellbore ?c4 .
+    ?c2 ns3:sameAs ?c7 .
+    ?c3 ns2:discoveryWellbore ?c8 .
+    ?c4 ns2:currentFieldOwner ?c5 .
+    ?c4 ns2:discoveryWellbore ?c10 .
+    ?c8 ns2:LOTForWellbore ?c9 .
+    ?c5 ns2:statusForLicence ?c6 .
+}

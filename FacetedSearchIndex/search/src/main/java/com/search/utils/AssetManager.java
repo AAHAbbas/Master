@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.search.core.ConceptConfiguration;
@@ -151,9 +152,13 @@ public class AssetManager {
         return this.ontologies.get(id);
     }
 
+    public Set<String> getConfigNames() {
+        return configsToUseAtStartup.keySet();
+    }
+
     // Get the partial query
     public VQSQuery getVQSQuery(String keyword, String ontologyName) {
-        String fileName = "queries/" + keyword + ".rq";
+        String fileName = "queries/" + keyword;
         Ontology ontology = this.ontologies.get(ontologyName);
         try {
             String query = new String(Files.readAllBytes(Paths.get(fileName)));

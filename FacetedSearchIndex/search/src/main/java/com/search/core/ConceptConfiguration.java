@@ -21,7 +21,7 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 // Contains the graph which consists of variables of certain types
 // The variable index data structures are used to keep track of the ids (indicies) of the variables
-public class ConceptConfiguration {
+public class ConceptConfiguration implements Comparable<ConceptConfiguration> {
     private static final Logger LOGGER = LogManager.getLogger(ConceptConfiguration.class);
     private String id; // The id of the concept configuration
     private Ontology ontology; // The ontology the config
@@ -299,5 +299,10 @@ public class ConceptConfiguration {
         }
 
         return "\n---Concept config---\n  ROOT: " + this.root + "\n  GRAPH: " + graph.toString() + "\n";
+    }
+
+    @Override
+    public int compareTo(ConceptConfiguration o) {
+        return this.id.compareTo(o.id);
     }
 }
