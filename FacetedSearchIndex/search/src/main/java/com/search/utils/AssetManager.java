@@ -153,7 +153,7 @@ public class AssetManager {
 
     // Get the partial query
     public VQSQuery getVQSQuery(String keyword, String ontologyName) {
-        String fileName = "queries/" + keyword + ".rq";
+        String fileName = "queries/" + keyword;
         Ontology ontology = this.ontologies.get(ontologyName);
         try {
             String query = new String(Files.readAllBytes(Paths.get(fileName)));
