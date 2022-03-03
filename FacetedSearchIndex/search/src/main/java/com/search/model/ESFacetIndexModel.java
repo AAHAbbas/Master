@@ -151,6 +151,11 @@ public class ESFacetIndexModel extends FacetIndexModel {
     @Override
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public int executeAbstractQuery(VQSQuery abstractQuery, ConceptConfiguration config) {
+        if (config == null) {
+            LOGGER.error("Config is null");
+            return 0;
+        }
+
         if (!config.getRoot().getType().equals(abstractQuery.getRoot().getType())) {
             LOGGER.error("Couldn't find common root in both the abstract query and concept configuration");
             return 0;
@@ -193,8 +198,6 @@ public class ESFacetIndexModel extends FacetIndexModel {
                 Variable correspondingCCVar = variables.get(fieldIndex);
                 String attributeURI = localVariables.get(correspondingCCVar);
 
-                // TODO: Current solution is to skip concept variables, not sure if this
-                // is okay?? Concept variables are always set to true in the query
                 if (attributeURI != null) {
                     if (properties.get(attributeURI) == null) {
                         properties.put(attributeURI, new HashSet<String>());
