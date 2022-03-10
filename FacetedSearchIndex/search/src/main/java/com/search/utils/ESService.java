@@ -91,7 +91,7 @@ public class ESService {
             LOGGER.info("Successfully deleted index [" + indexName + "]");
         } catch (ElasticsearchException | IOException e) {
             if (e.getMessage().contains("index_not_found_exception")) {
-                LOGGER.error("Cannot delete index [" + indexName + "] because it doesn't exists");
+                LOGGER.warn("Cannot delete index [" + indexName + "] because it doesn't exists");
             } else {
                 e.printStackTrace();
             }
