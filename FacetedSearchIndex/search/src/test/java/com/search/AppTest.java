@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.TreeSet;
 
 import com.search.core.ConceptConfiguration;
+import com.search.core.EndpointDataset;
 import com.search.core.RDFoxDataset;
 import com.search.core.VQSQuery;
 import com.search.model.ESFacetIndexModel;
@@ -33,7 +34,8 @@ public class AppTest {
     public void benchmarkIndexSizeAndTime() throws ElasticsearchException, IOException, InterruptedException {
         AssetManager assetManager = new AssetManager("src/main/resources/config.json");
         ESFacetIndexModel indexModel = new ESFacetIndexModel();
-        RDFoxDataset rdfox = assetManager.getRDFoxDataset("rdfox-npd");
+        EndpointDataset dataset = assetManager.getDataset("blazegraph-npd");
+        // RDFoxDataset rdfox = assetManager.getRDFoxDataset("rdfox-npd");
         TreeSet<ConceptConfiguration> configs = new TreeSet<ConceptConfiguration>(
                 assetManager.getConfigsToUseAtStartup().values());
 
@@ -42,7 +44,7 @@ public class AppTest {
             configSet.add(config);
 
             long startTime = System.nanoTime();
-            indexModel.constructFacetIndex(null, configSet, rdfox);
+            indexModel.constructFacetIndex(dataset, configSet, null);
             long endTime = System.nanoTime();
 
             LOGGER_TIME.info(config.getId() + ": " + (endTime - startTime) / 1000000 + " ms");
@@ -58,14 +60,17 @@ public class AppTest {
 
         for (String file : new TreeSet<String>(assetManager.getConfigNames())) {
             IndicesStats stats = statsResponse.indices().get(file);
-            LOGGER_SIZE.info(file + ": " + stats.primaries().docs().count() + " docs, "
-                    + stats.primaries().store().sizeInBytes() / 1000000.0 + " mb and " +
-                    mappingResponse.result().get(file).mappings().properties().size() + " fields");
+            long docs = stats.primaries().docs().count();
+            long fields = mappingResponse.result().get(file).mappings().properties().size();
+            double mb = stats.primaries().store().sizeInBytes() / 1000000.0;
+
+            LOGGER_SIZE.info(file + ": " + docs + " docs, " + mb + " mb, " + fields + " fields and " + (docs * fields)
+                    + " cells");
         }
 
         LOGGER_SIZE.info("");
 
-        rdfox.closeConnections();
+        // rdfox.closeConnections();
         indexModel.closeConnection();
     }
 
@@ -121,7 +126,7 @@ public class AppTest {
     @Test
     public void cleanUp() throws ElasticsearchException, IOException {
         ElasticSearchRepository repo = new ElasticSearchRepository();
-        repo.deleteIndex("*");
+        repo.deleteIndex("_all");
         repo.close();
     }
 }

@@ -3,78 +3,94 @@
         {
             "ontology": {
                 "name": "ontology-npd",
-                "endpoint": "file:///Users/abdul/Master/Data/npd-db.ttl.owl"
+                "endpoint": "file:///Users/abdul/Master/Data/wikidata-2.owl"
             },
             "dataset": {
-                "name": "rdfox-npd",
-                "type": "RDFOX",
-                "endpoint": "C:/Users/abdul/Master/Data/a-box.ttl"
+                "name": "blazegraph-npd",
+                "type": "TRIPLESTORE",
+                "endpoint": "http://192.168.8.118:9999/blazegraph/namespace/kb/sparql"
             },
             "indices": [
                 {
-                    "name": "wellbore-1-1",
-                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/wellbore-1-1.json",
+                    "name": "Wl_objdat_Award",
+                    "path": "C:/Users/abdul/Downloads/optiquevqs-extension-index/configurations/Wl_objdat_Award.json",
                     "inUse": false
                 },
                 {
-                    "name": "wellbore-1-2",
-                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/wellbore-1-2.json",
+                    "name": "Wl_objdat_Capital",
+                    "path": "C:/Users/abdul/Downloads/optiquevqs-extension-index/configurations/Wl_objdat_Capital.json",
                     "inUse": false
                 },
                 {
-                    "name": "wellbore-1-3",
-                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/wellbore-1-3.json",
+                    "name": "Wl_objdat_City_USA",
+                    "path": "C:/Users/abdul/Downloads/optiquevqs-extension-index/configurations/Wl_objdat_City USA.json",
                     "inUse": false
                 },
                 {
-                    "name": "wellbore-1-4",
-                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/wellbore-1-4.json",
+                    "name": "Wl_objdat_City",
+                    "path": "C:/Users/abdul/Downloads/optiquevqs-extension-index/configurations/Wl_objdat_City.json",
                     "inUse": false
                 },
                 {
-                    "name": "wellbore-1-5",
-                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/wellbore-1-5.json",
+                    "name": "Wl_objdat_Continent",
+                    "path": "C:/Users/abdul/Downloads/optiquevqs-extension-index/configurations/Wl_objdat_Continent.json",
                     "inUse": false
                 },
                 {
-                    "name": "wellbore-1-6",
-                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/wellbore-1-6.json",
+                    "name": "Wl_objdat_Country",
+                    "path": "C:/Users/abdul/Downloads/optiquevqs-extension-index/configurations/Wl_objdat_Country.json",
                     "inUse": false
                 },
                 {
-                    "name": "wellbore-2-20",
-                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/wellbore-2-20.json",
+                    "name": "Wl_objdat_Eye_Color",
+                    "path": "C:/Users/abdul/Downloads/optiquevqs-extension-index/configurations/Wl_objdat_Eye Color.json",
                     "inUse": false
                 },
                 {
-                    "name": "wellbore-2-40",
-                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/wellbore-2-40.json",
+                    "name": "Wl_objdat_Film_Genre",
+                    "path": "C:/Users/abdul/Downloads/optiquevqs-extension-index/configurations/Wl_objdat_Film Genre.json",
                     "inUse": false
                 },
                 {
-                    "name": "wellbore-2-60",
-                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/wellbore-2-60.json",
+                    "name": "Wl_objdat_Film",
+                    "path": "C:/Users/abdul/Downloads/optiquevqs-extension-index/configurations/Wl_objdat_Film.json",
                     "inUse": false
                 },
                 {
-                    "name": "wellbore-2-80",
-                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/wellbore-2-80.json",
+                    "name": "Wl_objdat_Filmography",
+                    "path": "C:/Users/abdul/Downloads/optiquevqs-extension-index/configurations/Wl_objdat_Filmography.json",
                     "inUse": false
                 },
                 {
-                    "name": "wellbore-2-100",
-                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/wellbore-2-100.json",
+                    "name": "Wl_objdat_Gender",
+                    "path": "C:/Users/abdul/Downloads/optiquevqs-extension-index/configurations/Wl_objdat_Gender.json",
+                    "inUse": false
+                },
+                {
+                    "name": "Wl_objdat_Hair_Color",
+                    "path": "C:/Users/abdul/Downloads/optiquevqs-extension-index/configurations/Wl_objdat_Hair Color.json",
+                    "inUse": false
+                },
+                {
+                    "name": "Wl_objdat_Person",
+                    "path": "C:/Users/abdul/Downloads/optiquevqs-extension-index/configurations/Wl_objdat_Person.json",
+                    "inUse": false
+                },
+                {
+                    "name": "Wl_objdat_Profession",
+                    "path": "C:/Users/abdul/Downloads/optiquevqs-extension-index/configurations/Wl_objdat_Profession.json",
+                    "inUse": false
+                },
+                {
+                    "name": "Wl_objdat_Television_Series",
+                    "path": "C:/Users/abdul/Downloads/optiquevqs-extension-index/configurations/Wl_objdat_Television Series.json",
                     "inUse": false
                 }
             ]
         }
     ],
     "indiciesToCreateAtStartup": [
-        "wellbore-1-1",
-        "wellbore-1-2",
-        "wellbore-1-3",
-        "wellbore-1-4",
-        "wellbore-1-5",
-        "wellbore-1-6"
+        "Wl_objdat_Eye_Color",
+        "Wl_objdat_Hair_Color"
     ]
 }

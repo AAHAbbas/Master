@@ -67,11 +67,10 @@ public class ESFacetIndexModel extends FacetIndexModel {
 
         // For each concept, construct an index
         for (ConceptConfiguration config : configs) {
-            String indexName = config.getId();
+            String indexName = config.getId().toLowerCase();
             Variable root = config.getRoot();
             String type = root.getType();
 
-            LOGGER.debug(config.getRoot().getType());
             LOGGER.info("Start constructing facet index for " + type);
 
             // Get an ordered list of all the variables in the config
@@ -126,8 +125,13 @@ public class ESFacetIndexModel extends FacetIndexModel {
                 data = dataset.runQuery(query);
                 documents = data.size();
                 LOGGER.info("Done running query over dataset");
-                LOGGER.info("Adding documents to index [" + indexName + "]");
-                service.addDocuments(indexName, data, variables.size());
+
+                if (documents == 0) {
+                    LOGGER.info("Zero documents to add to index [" + indexName + "]");
+                } else {
+                    LOGGER.info("Adding documents to index [" + indexName + "]");
+                    service.addDocuments(indexName, data, variables.size());
+                }
             } else {
                 cursor = rdfoxDataset.runQuery(query);
 
@@ -135,6 +139,8 @@ public class ESFacetIndexModel extends FacetIndexModel {
                     LOGGER.error("Failed to execute a query over the datastore");
                     return;
                 }
+
+                // TODO: Handle zero documents for RDFox also
 
                 LOGGER.info("Done running query over dataset");
                 LOGGER.info("Adding documents to index [" + indexName + "]");
@@ -222,7 +228,7 @@ public class ESFacetIndexModel extends FacetIndexModel {
     private String buildQuery(ConceptConfiguration config, List<Variable> variables, Variable root) {
         StringBuilder query = new StringBuilder();
         query.append("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n");
-        query.append("PREFIX npdv: <http://sws.ifi.uio.no/vocab/npd-v2#>\n");
+        query.append("PREFIX npdv: <http://sws.ifi.uio.no/vocab/npd-v2#>\n"); // TODO: Not needed right?
         query.append("SELECT DISTINCT ");
 
         for (int i = 0; i < variables.size(); i++) {

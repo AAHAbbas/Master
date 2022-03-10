@@ -3,6 +3,7 @@ package com.search;
 import java.util.HashSet;
 
 import com.search.core.ConceptConfiguration;
+import com.search.core.EndpointDataset;
 import com.search.core.RDFoxDataset;
 import com.search.core.VQSQuery;
 import com.search.model.ESFacetIndexModel;
@@ -24,18 +25,19 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         constructFacetIndex();
-        Thread.sleep(5000);
-        search();
+        // Thread.sleep(5000);
+        // search();
         indexModel.closeConnection();
     }
 
     private static void constructFacetIndex() {
         assetManager = new AssetManager("src/main/resources/config.json");
         indexModel = new ESFacetIndexModel();
-        RDFoxDataset rdfox = assetManager.getRDFoxDataset("rdfox-npd");
+        EndpointDataset dataset = assetManager.getDataset("blazegraph-npd");
+        // RDFoxDataset rdfox = assetManager.getRDFoxDataset("rdfox-npd");
 
-        indexModel.constructFacetIndex(null, new HashSet<>(assetManager.getConfigsToUseAtStartup().values()), rdfox);
-        rdfox.closeConnections();
+        indexModel.constructFacetIndex(dataset, new HashSet<>(assetManager.getConfigsToUseAtStartup().values()), null);
+        // rdfox.closeConnections();
     }
 
     private static void search() {
