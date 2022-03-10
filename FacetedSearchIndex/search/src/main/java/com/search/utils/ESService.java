@@ -190,6 +190,11 @@ public class ESService {
                         .build());
             }
 
+            if (body.isEmpty()) {
+                LOGGER.info("Zero documents added to index [" + indexName + "]");
+                return 0;
+            }
+
             BulkRequest request = new BulkRequest.Builder()
                     .operations(body)
                     .build();
