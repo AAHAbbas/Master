@@ -70,11 +70,7 @@ public class ESFacetIndexModel extends FacetIndexModel {
             String indexName = config.getId().toLowerCase();
             Variable root = config.getRoot();
 
-<<<<<<< HEAD
-            LOGGER.info("Start constructing facet index for " + type);
-=======
             LOGGER.info("Start constructing facet index for " + root.getType());
->>>>>>> origin/main
 
             // Get an ordered list of all the variables in the config
             List<Variable> variables = config.getVariables();
@@ -230,10 +226,6 @@ public class ESFacetIndexModel extends FacetIndexModel {
     private String buildQuery(ConceptConfiguration config, List<Variable> variables, Variable root) {
         StringBuilder query = new StringBuilder();
         query.append("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n");
-<<<<<<< HEAD
-        query.append("PREFIX npdv: <http://sws.ifi.uio.no/vocab/npd-v2#>\n"); // TODO: Not needed right?
-=======
->>>>>>> origin/main
         query.append("SELECT DISTINCT ");
 
         for (int i = 0; i < variables.size(); i++) {
