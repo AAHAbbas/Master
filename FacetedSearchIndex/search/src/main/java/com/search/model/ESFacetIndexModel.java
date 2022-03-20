@@ -136,10 +136,8 @@ public class ESFacetIndexModel extends FacetIndexModel {
 
                 if (cursor == null) {
                     LOGGER.error("Failed to execute a query over the datastore");
-                    return;
+                    break;
                 }
-
-                // TODO: Handle zero documents for RDFox also
 
                 LOGGER.info("Done running query over dataset");
                 documents = service.addDocuments(indexName, cursor, variables.size());

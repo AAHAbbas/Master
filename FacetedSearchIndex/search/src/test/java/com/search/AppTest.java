@@ -3,7 +3,9 @@ package com.search;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.TreeSet;
 
 import com.search.core.ConceptConfiguration;
@@ -14,6 +16,7 @@ import com.search.model.ESFacetIndexModel;
 import com.search.repository.ElasticSearchRepository;
 import com.search.types.Constants;
 import com.search.utils.AssetManager;
+import com.search.utils.ESService;
 
 import org.junit.Test;
 
@@ -21,6 +24,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import co.elastic.clients.elasticsearch._types.ElasticsearchException;
+import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
+import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.indices.GetMappingResponse;
 import co.elastic.clients.elasticsearch.indices.IndicesStatsResponse;
 import co.elastic.clients.elasticsearch.indices.stats.IndicesStats;
@@ -32,10 +37,10 @@ public class AppTest {
 
     @Test
     public void benchmarkIndexSizeAndTime() throws ElasticsearchException, IOException, InterruptedException {
-        AssetManager assetManager = new AssetManager("src/main/resources/config.json");
+        AssetManager assetManager = new AssetManager("src/main/resources/config1.json");
         ESFacetIndexModel indexModel = new ESFacetIndexModel();
-        EndpointDataset dataset = assetManager.getDataset("blazegraph-npd");
-        // RDFoxDataset rdfox = assetManager.getRDFoxDataset("rdfox-npd");
+        // EndpointDataset dataset = assetManager.getDataset("blazegraph-npd");
+        RDFoxDataset rdfox = assetManager.getRDFoxDataset("rdfox-npd");
         TreeSet<ConceptConfiguration> configs = new TreeSet<ConceptConfiguration>(
                 assetManager.getConfigsToUseAtStartup().values());
 
@@ -44,7 +49,7 @@ public class AppTest {
             configSet.add(config);
 
             long startTime = System.nanoTime();
-            indexModel.constructFacetIndex(dataset, configSet, null);
+            indexModel.constructFacetIndex(null, configSet, rdfox);
             long endTime = System.nanoTime();
 
             LOGGER_TIME.info(config.getId() + ": " + (endTime - startTime) / 1000000 + " ms");
@@ -58,19 +63,31 @@ public class AppTest {
         IndicesStatsResponse statsResponse = repo.getIndexStats();
         GetMappingResponse mappingResponse = repo.getMapping();
 
+        ESService service = new ESService();
+
         for (String file : new TreeSet<String>(assetManager.getConfigNames())) {
             IndicesStats stats = statsResponse.indices().get(file);
             long docs = stats.primaries().docs().count();
             long fields = mappingResponse.result().get(file).mappings().properties().size();
             double mb = stats.primaries().store().sizeInBytes() / 1000000.0;
 
-            LOGGER_SIZE.info(file + ": " + docs + " docs, " + mb + " mb, " + fields + " fields and " + (docs * fields)
-                    + " cells");
+            int actual_cells = 0;
+            List<Hit<HashMap>> hits = service.search(file, QueryBuilders.bool().build());
+
+            for (Hit<HashMap> hit : hits) {
+                actual_cells += hit.source().values().size();
+            }
+
+            int cells = (int) (docs * fields);
+            int filled = (int) (((double) actual_cells / (double) cells) * 100);
+
+            LOGGER_SIZE.info(file + ": " + docs + " docs, " + mb + " mb, " + fields + " fields, " + cells
+                    + " cells, " + actual_cells + " actual cells and " + filled + "% filled");
         }
 
         LOGGER_SIZE.info("");
 
-        // rdfox.closeConnections();
+        rdfox.closeConnections();
         indexModel.closeConnection();
     }
 
@@ -126,7 +143,7 @@ public class AppTest {
     @Test
     public void cleanUp() throws ElasticsearchException, IOException {
         ElasticSearchRepository repo = new ElasticSearchRepository();
-        repo.deleteIndex("_all");
+        repo.deleteIndex("*");
         repo.close();
     }
 }
