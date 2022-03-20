@@ -91,7 +91,7 @@ public class ESService {
             LOGGER.info("Successfully deleted index [" + indexName + "]");
         } catch (ElasticsearchException | IOException e) {
             if (e.getMessage().contains("index_not_found_exception")) {
-                LOGGER.error("Cannot delete index [" + indexName + "] because it doesn't exists");
+                LOGGER.warn("Cannot delete index [" + indexName + "] because it doesn't exists");
             } else {
                 e.printStackTrace();
             }
@@ -188,6 +188,11 @@ public class ESService {
                                 .document(documents)
                                 .build())
                         .build());
+            }
+
+            if (body.isEmpty()) {
+                LOGGER.info("Zero documents added to index [" + indexName + "]");
+                return 0;
             }
 
             BulkRequest request = new BulkRequest.Builder()

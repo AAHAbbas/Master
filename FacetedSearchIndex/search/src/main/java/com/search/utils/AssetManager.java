@@ -80,6 +80,8 @@ public class AssetManager {
 
     public void loadConceptConfiguration(List<Index> indices, String ontologyName,
             HashSet<String> indiciesToCreateAtStartup) {
+        Boolean addAll = false;
+
         for (Index index : indices) {
             LOGGER.info("Creating conceptConfiguration: " + index.getName());
 
@@ -120,7 +122,12 @@ public class AssetManager {
 
             configs.put(cc.getId(), cc);
 
-            if (indiciesToCreateAtStartup.contains(cc.getId())) {
+            if (!addAll && indiciesToCreateAtStartup.size() == 1 && indiciesToCreateAtStartup.contains("*")) {
+                configsToUseAtStartup = configs;
+                addAll = true;
+            }
+
+            if (!addAll && indiciesToCreateAtStartup.contains(cc.getId())) {
                 configsToUseAtStartup.put(cc.getId(), cc);
             }
 
