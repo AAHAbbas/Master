@@ -1,0 +1,1 @@
+{"addAllMissingObjectPropertiesToAllVariables":"false","variables":["http://www.wikidata.org/entity/Q5","http://www.wikidata.org/entity/Q1093829"],"root":0,"edges":[{"property":"http://www.wikidata.org/prop/direct/P19","source":0,"target":1}],"addAllMissingDatatypePropertiesToAllVariables":"false"}

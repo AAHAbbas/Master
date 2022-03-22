@@ -1,0 +1,1 @@
+{"addAllMissingObjectPropertiesToAllVariables":"false","variables":["http://www.wikidata.org/entity/Q201658","http://www.wikidata.org/entity/Q11424"],"root":0,"edges":[{"property":"http://www.wikidata.org/prop/direct/P136_inverseProp","source":0,"target":1}],"addAllMissingDatatypePropertiesToAllVariables":"false"}

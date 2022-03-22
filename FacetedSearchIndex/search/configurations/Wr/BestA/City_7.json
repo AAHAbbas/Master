@@ -1,0 +1,1 @@
+{"addAllMissingObjectPropertiesToAllVariables":"false","variables":["http://www.wikidata.org/entity/Q515","http://www.wikidata.org/entity/Q5"],"root":0,"edges":[{"property":"http://www.wikidata.org/prop/direct/P937_inverseProp","source":0,"target":1}],"addAllMissingDatatypePropertiesToAllVariables":"false"}

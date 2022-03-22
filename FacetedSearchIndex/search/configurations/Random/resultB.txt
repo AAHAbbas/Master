@@ -1,0 +1,184 @@
+
+Gender:
+	Cost: 250.186060425076
+	Precision: 0.0
+Gender:
+	Cost: 211.5884567676856
+	Precision: 0.0
+Award:
+	Cost: 36.0
+	Precision: 0.0
+Profession:
+	Cost: 3.1661114227567818E7
+	Precision: 0.0
+Profession:
+	Cost: 0.0
+	Precision: 0.0
+Profession:
+	Cost: 6.0
+	Precision: 0.0
+Profession:
+	Cost: 7.11599160162807E7
+	Precision: 0.0
+Eye Color:
+	Cost: 2.0
+	Precision: 0.0
+Eye Color:
+	Cost: 0.0
+	Precision: 0.0
+Eye Color:
+	Cost: 6.0
+	Precision: 0.0
+Eye Color:
+	Cost: 0.0
+	Precision: 0.0
+Hair Color:
+	Cost: 69.99564457926317
+	Precision: 0.0
+Hair Color:
+	Cost: 0.0
+	Precision: 0.0
+Hair Color:
+	Cost: 0.0
+	Precision: 0.0
+Hair Color:
+	Cost: 24.913938684332212
+	Precision: 0.0
+Hair Color:
+	Cost: 59.996266782225575
+	Precision: 0.0
+Hair Color:
+	Cost: 39.980096569073794
+	Precision: 0.0
+Hair Color:
+	Cost: 60.0
+	Precision: 0.0
+Film Genre:
+	Cost: 0.0
+	Precision: 0.0
+Film Genre:
+	Cost: 0.0
+	Precision: 0.0
+Film Genre:
+	Cost: 0.0
+	Precision: 0.0
+Film Genre:
+	Cost: 0.0
+	Precision: 0.0
+Film Genre:
+	Cost: 0.0
+	Precision: 0.0
+City USA:
+	Cost: 2003.2272099031834
+	Precision: 0.0
+City USA:
+	Cost: 546693.122262776
+	Precision: 0.030969870600526698
+City USA:
+	Cost: 4771.564173741436
+	Precision: 0.02814839852987384
+City USA:
+	Cost: 607805.1675337774
+	Precision: 0.10082189240867179
+Television Series:
+	Cost: 115870.42902088165
+	Precision: 2.3844815905443343E-4
+Television Series:
+	Cost: 92695.5251858398
+	Precision: 1.6254343783344706E-4
+Television Series:
+	Cost: 77240.19839334488
+	Precision: 0.0
+City:
+	Cost: 1212059.5484760036
+	Precision: 0.026863311460385137
+City:
+	Cost: 2.743187381105108E7
+	Precision: 0.05469615533626349
+City:
+	Cost: 1210172.1522687834
+	Precision: 0.026964284305401848
+City:
+	Cost: 1.9460956241596445E7
+	Precision: 0.09993818333808593
+City:
+	Cost: 4.472246317625167E7
+	Precision: 0.09919639906940662
+Person:
+	Cost: 1.356500144666742E8
+	Precision: 0.3336921207073194
+Person:
+	Cost: 8.136136698621838E7
+	Precision: 0.11772444117925644
+Person:
+	Cost: 1.6668955465218014E8
+	Precision: 0.4188604121101558
+Person:
+	Cost: 1.4064260221755928E8
+	Precision: 0.02565151638653504
+Filmography:
+	Cost: 0.0
+	Precision: 0.0
+Filmography:
+	Cost: 0.0
+	Precision: 0.0
+Filmography:
+	Cost: 0.0
+	Precision: 0.0
+Filmography:
+	Cost: 0.0
+	Precision: 0.0
+Filmography:
+	Cost: 0.0
+	Precision: 0.0
+Filmography:
+	Cost: 0.0
+	Precision: 0.0
+Filmography:
+	Cost: 0.0
+	Precision: 0.0
+Filmography:
+	Cost: 0.0
+	Precision: 0.0
+Filmography:
+	Cost: 0.0
+	Precision: 0.0
+Country:
+	Cost: 1.2965478826421474E8
+	Precision: 6.173877038583518E-4
+Capital:
+	Cost: 0.0
+	Precision: 0.0
+Capital:
+	Cost: 0.0
+	Precision: 0.0
+Capital:
+	Cost: 0.0
+	Precision: 0.0
+Capital:
+	Cost: 0.0
+	Precision: 0.0
+Continent:
+	Cost: 0.0
+	Precision: 0.0
+Continent:
+	Cost: 141246.38511227677
+	Precision: 0.0
+Film:
+	Cost: 0.0
+	Precision: 0.0
+Film:
+	Cost: 0.0
+	Precision: 0.0
+Film:
+	Cost: 0.0
+	Precision: 0.0
+Film:
+	Cost: 0.0
+	Precision: 0.0
+Film:
+	Cost: 0.0
+	Precision: 0.0
+Overall:
+	Cost: 8.524459740396957E8
+	Precision: 1.3645453647326282
