@@ -1,0 +1,320 @@
+{
+    "packages": [
+        {
+            "ontology": {
+                "name": "ontology",
+                "endpoint": "C:/Users/abdul/Master/Data/wikidata-2.owl"
+            },
+            "dataset": {
+                "name": "blazegraph",
+                "type": "TRIPLESTORE",
+                "endpoint": "http://192.168.8.118:9999/bigdata/sparql"
+            },
+            "indices": [
+                {
+                    "name": "Award_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Award_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Capital_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Capital_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Capital_2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Capital_2.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Capital_3",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Capital_3.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Capital_4",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Capital_4.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_USA_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/City USA_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_USA_2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/City USA_2.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_USA_3",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/City USA_3.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_USA_4",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/City USA_4.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/City_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/City_2.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_3",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/City_3.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_4",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/City_4.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_5",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/City_5.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Continent_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Continent_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Continent_2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Continent_2.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Country_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Country_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Eye_Color_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Eye Color_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Eye_Color_2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Eye Color_2.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Eye_Color_3",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Eye Color_3.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Eye_Color_4",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Eye Color_4.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Film_Genre_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Film Genre_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Film_Genre_2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Film Genre_2.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Film_Genre_3",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Film Genre_3.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Film_Genre_4",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Film Genre_4.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Film_Genre_5",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Film Genre_5.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Filmography_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Filmography_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Filmography_2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Filmography_2.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Filmography_3",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Filmography_3.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Filmography_4",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Filmography_4.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Filmography_5",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Filmography_5.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Filmography_6",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Filmography_6.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Filmography_7",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Filmography_7.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Filmography_8",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Filmography_8.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Filmography_9",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Filmography_9.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Film_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Film_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Film_2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Film_2.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Film_3",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Film_3.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Film_4",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Film_4.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Film_5",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Film_5.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Gender_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Gender_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Gender_2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Gender_2.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Hair_Color_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Hair Color_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Hair_Color_2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Hair Color_2.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Hair_Color_3",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Hair Color_3.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Hair_Color_4",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Hair Color_4.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Hair_Color_5",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Hair Color_5.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Hair_Color_6",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Hair Color_6.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Hair_Color_7",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Hair Color_7.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Person_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Person_2.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_3",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Person_3.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_4",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Person_4.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Profession_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Profession_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Profession_2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Profession_2.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Profession_3",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Profession_3.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Profession_4",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Profession_4.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Television_Series_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Television Series_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Television_Series_2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Television Series_2.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Television_Series_3",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Random/BestB/Television Series_3.json",
+                    "inUse": true
+                }
+            ]
+        }
+    ],
+    "indiciesToCreateAtStartup": [
+        "*"
+    ]
+}
