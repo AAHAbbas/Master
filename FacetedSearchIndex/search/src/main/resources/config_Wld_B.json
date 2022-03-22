@@ -1,0 +1,95 @@
+{
+    "packages": [
+        {
+            "ontology": {
+                "name": "ontology",
+                "endpoint": "C:/Users/abdul/Master/Data/wikidata-2.owl"
+            },
+            "dataset": {
+                "name": "blazegraph",
+                "type": "TRIPLESTORE",
+                "endpoint": "http://192.168.8.118:9999/bigdata/sparql"
+            },
+            "indices": [
+                {
+                    "name": "Award",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wld/BestB/Award.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Capital",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wld/BestB/Capital.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_USA",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wld/BestB/City USA.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wld/BestB/City.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Continent",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wld/BestB/Continent.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Country",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wld/BestB/Country.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Eye_Color",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wld/BestB/Eye Color.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Film_Genre",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wld/BestB/Film Genre.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Film",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wld/BestB/Film.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Filmography",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wld/BestB/Filmography.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Gender",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wld/BestB/Gender.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Hair_Color",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wld/BestB/Hair Color.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wld/BestB/Person.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Profession",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wld/BestB/Profession.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Television_Series",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wld/BestB/Television Series.json",
+                    "inUse": true
+                }
+            ]
+        }
+    ],
+    "indiciesToCreateAtStartup": [
+        "*"
+    ]
+}

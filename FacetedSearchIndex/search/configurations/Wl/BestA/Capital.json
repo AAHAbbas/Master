@@ -1,0 +1,9 @@
+{
+    "addAllMissingObjectPropertiesToAllVariables": "false",
+    "variables": [
+        "http://www.wikidata.org/entity/Q5119"
+    ],
+    "root": 0,
+    "edges": [],
+    "addAllMissingDatatypePropertiesToAllVariables": "false"
+}

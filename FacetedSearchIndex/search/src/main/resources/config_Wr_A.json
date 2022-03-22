@@ -1,0 +1,555 @@
+{
+    "packages": [
+        {
+            "ontology": {
+                "name": "ontology",
+                "endpoint": "C:/Users/abdul/Master/Data/wikidata-2.owl"
+            },
+            "dataset": {
+                "name": "blazegraph",
+                "type": "TRIPLESTORE",
+                "endpoint": "http://192.168.8.118:9999/bigdata/sparql"
+            },
+            "indices": [
+                {
+                    "name": "Award_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Award_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Award_2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Award_2.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Award_3",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Award_3.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Award_4",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Award_4.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Award_5",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Award_5.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_USA_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/City USA_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_USA_10",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/City USA_10.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_USA_2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/City USA_2.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_USA_3",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/City USA_3.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_USA_4",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/City USA_4.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_USA_5",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/City USA_5.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_USA_6",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/City USA_6.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_USA_7",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/City USA_7.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_USA_8",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/City USA_8.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_USA_9",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/City USA_9.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/City_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_10",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/City_10.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_11",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/City_11.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/City_2.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_3",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/City_3.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_4",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/City_4.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_5",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/City_5.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_6",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/City_6.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_7",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/City_7.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_8",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/City_8.json",
+                    "inUse": true
+                },
+                {
+                    "name": "City_9",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/City_9.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Continent_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Continent_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Continent_2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Continent_2.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Continent_3",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Continent_3.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Continent_4",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Continent_4.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Continent_5",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Continent_5.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Country_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Country_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Country_10",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Country_10.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Country_11",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Country_11.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Country_12",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Country_12.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Country_13",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Country_13.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Country_14",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Country_14.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Country_15",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Country_15.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Country_16",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Country_16.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Country_2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Country_2.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Country_3",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Country_3.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Country_4",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Country_4.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Country_5",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Country_5.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Country_6",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Country_6.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Country_7",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Country_7.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Country_8",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Country_8.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Country_9",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Country_9.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Eye_Color_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Eye Color_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Film_Genre_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Film Genre_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Filmography_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Filmography_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Film_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Film_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Film_2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Film_2.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Film_3",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Film_3.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Film_4",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Film_4.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Film_5",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Film_5.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Film_6",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Film_6.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Film_7",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Film_7.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Film_8",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Film_8.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Gender_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Gender_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Hair_Color_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Hair Color_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_10",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_10.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_11",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_11.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_12",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_12.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_13",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_13.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_14",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_14.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_15",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_15.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_16",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_16.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_17",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_17.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_18",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_18.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_19",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_19.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_2.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_20",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_20.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_21",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_21.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_22",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_22.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_23",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_23.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_24",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_24.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_25",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_25.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_26",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_26.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_27",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_27.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_28",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_28.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_29",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_29.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_3",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_3.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_30",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_30.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_31",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_31.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_32",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_32.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_33",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_33.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_34",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_34.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_35",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_35.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_36",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_36.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_37",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_37.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_4",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_4.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_5",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_5.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_6",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_6.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_7",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_7.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_8",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_8.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Person_9",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Person_9.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Profession_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Profession_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Television_Series_1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Television Series_1.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Television_Series_2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Television Series_2.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Television_Series_3",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Television Series_3.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Television_Series_4",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Television Series_4.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Television_Series_5",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Television Series_5.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Television_Series_6",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Television Series_6.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Television_Series_7",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Television Series_7.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Television_Series_8",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Television Series_8.json",
+                    "inUse": true
+                },
+                {
+                    "name": "Television_Series_9",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/Wr/BestA/Television Series_9.json",
+                    "inUse": true
+                }
+            ]
+        }
+    ],
+    "indiciesToCreateAtStartup": [
+        "*"
+    ]
+}
