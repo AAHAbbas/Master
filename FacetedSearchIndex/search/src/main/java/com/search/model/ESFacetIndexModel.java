@@ -46,7 +46,7 @@ public class ESFacetIndexModel extends FacetIndexModel {
     private static final Logger LOGGER = LogManager.getLogger(ESFacetIndexModel.class);
     private Map<String, ArrayList<Field>> fieldsInIndex = new HashMap<>();
 
-    public ESFacetIndexModel() {
+    public ESFacetIndexModel() throws Exception {
         this.service = new ESService();
     }
 

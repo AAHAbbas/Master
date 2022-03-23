@@ -28,7 +28,7 @@ import com.search.config.ElasticsearchConfig;
 public class ElasticSearchRepository {
     private ElasticsearchClient client;
 
-    public ElasticSearchRepository() {
+    public ElasticSearchRepository() throws Exception {
         client = ElasticsearchConfig.open();
     }
 

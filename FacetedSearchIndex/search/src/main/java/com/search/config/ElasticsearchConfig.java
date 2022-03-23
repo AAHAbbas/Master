@@ -40,7 +40,7 @@ public class ElasticsearchConfig {
     private static ElasticsearchClient client;
     private static final Logger LOGGER = LogManager.getLogger(ElasticsearchConfig.class);
 
-    public static ElasticsearchClient open() {
+    public static ElasticsearchClient open() throws Exception {
         if (client == null) {
             try {
                 // Basic authentication
@@ -80,8 +80,8 @@ public class ElasticsearchConfig {
                 client = new ElasticsearchClient(transport);
             } catch (KeyManagementException | KeyStoreException | NoSuchAlgorithmException | CertificateException
                     | IOException e) {
-                e.printStackTrace();
                 LOGGER.error("Failed to establish a connection with Elasticsearch");
+                throw e;
             }
         }
 

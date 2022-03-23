@@ -40,12 +40,12 @@ public class App {
     // configuration
     public static void main(String[] args) throws Exception {
         ESFacetIndexModel model = constructFacetIndex();
-        Thread.sleep(5000);
-        search();
+        // Thread.sleep(5000);
+        // search();
         closeConnection(model);
     }
 
-    private static ESFacetIndexModel constructFacetIndex() {
+    private static ESFacetIndexModel constructFacetIndex() throws Exception {
         assetManager = new AssetManager("src/main/resources/config.json");
         indexModel = new ESFacetIndexModel();
         configs = new HashSet<ConceptConfiguration>(assetManager.getConfigsToUseAtStartup().values());

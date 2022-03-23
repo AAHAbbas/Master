@@ -60,7 +60,7 @@ public class ESService {
     private static final Logger LOGGER = LogManager.getLogger(ESService.class);
     private ElasticSearchRepository repo;
 
-    public ESService() {
+    public ESService() throws Exception {
         repo = new ElasticSearchRepository();
     }
 
