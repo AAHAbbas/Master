@@ -12,64 +12,34 @@
             },
             "indices": [
                 {
-                    "name": "wellbore-1-1",
-                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/wellbore-1-1.json",
+                    "name": "wellbore-1",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/NPD/wellbore-1.json",
                     "inUse": false
                 },
                 {
-                    "name": "wellbore-1-2",
-                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/wellbore-1-2.json",
+                    "name": "wellbore-2",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/NPD/wellbore-2.json",
                     "inUse": false
                 },
                 {
-                    "name": "wellbore-1-3",
-                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/wellbore-1-3.json",
+                    "name": "wellbore-3",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/NPD/wellbore-3.json",
                     "inUse": false
                 },
                 {
-                    "name": "wellbore-1-4",
-                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/wellbore-1-4.json",
+                    "name": "wellbore-4",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/NPD/wellbore-4.json",
                     "inUse": false
                 },
                 {
-                    "name": "wellbore-1-5",
-                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/wellbore-1-5.json",
-                    "inUse": false
-                },
-                {
-                    "name": "wellbore-1-6",
-                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/wellbore-1-6.json",
-                    "inUse": false
-                },
-                {
-                    "name": "wellbore-2-20",
-                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/wellbore-2-20.json",
-                    "inUse": false
-                },
-                {
-                    "name": "wellbore-2-40",
-                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/wellbore-2-40.json",
-                    "inUse": false
-                },
-                {
-                    "name": "wellbore-2-60",
-                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/wellbore-2-60.json",
-                    "inUse": false
-                },
-                {
-                    "name": "wellbore-2-80",
-                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/wellbore-2-80.json",
-                    "inUse": false
-                },
-                {
-                    "name": "wellbore-2-100",
-                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/wellbore-2-100.json",
+                    "name": "wellbore-5",
+                    "path": "C:/Users/abdul/Master/FacetedSearchIndex/search/configurations/NPD/wellbore-5.json",
                     "inUse": false
                 }
             ]
         }
     ],
     "indiciesToCreateAtStartup": [
-        "wellbore-1-6"
+        "wellbore-5"
     ]
 }
