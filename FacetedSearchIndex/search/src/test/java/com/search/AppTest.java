@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.TreeSet;
 
 import com.search.core.ConceptConfiguration;
-import com.search.core.EndpointDataset;
 import com.search.core.RDFoxDataset;
 import com.search.core.VQSQuery;
 import com.search.model.ESFacetIndexModel;
@@ -35,9 +34,10 @@ public class AppTest {
     private static final Logger LOGGER_TIME = LogManager.getLogger("index-time");
     private static final Logger LOGGER_QUERY = LogManager.getLogger("index-query");
 
+    @SuppressWarnings("rawtypes")
     @Test
     public void benchmarkIndexSizeAndTime() throws ElasticsearchException, IOException, InterruptedException {
-        AssetManager assetManager = new AssetManager("src/main/resources/config1.json");
+        AssetManager assetManager = new AssetManager("src/main/resources/config.json");
         ESFacetIndexModel indexModel = new ESFacetIndexModel();
         // EndpointDataset dataset = assetManager.getDataset("blazegraph-npd");
         RDFoxDataset rdfox = assetManager.getRDFoxDataset("rdfox-npd");

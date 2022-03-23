@@ -3,7 +3,7 @@
         {
             "ontology": {
                 "name": "ontology",
-                "endpoint": "C:/Users/abdul/Master/Data/wikidata-2.owl"
+                "endpoint": "file:///Users/abdul/Master/Data/wikidata-2.owl"
             },
             "dataset": {
                 "name": "blazegraph",
