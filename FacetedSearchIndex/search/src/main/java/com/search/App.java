@@ -33,10 +33,10 @@ public class App {
     private static void constructFacetIndex() {
         assetManager = new AssetManager("src/main/resources/config.json");
         indexModel = new ESFacetIndexModel();
-        EndpointDataset dataset = assetManager.getDataset("blazegraph-npd");
-        // RDFoxDataset rdfox = assetManager.getRDFoxDataset("rdfox-npd");
+        // EndpointDataset dataset = assetManager.getDataset("blazegraph-npd");
+        RDFoxDataset rdfox = assetManager.getRDFoxDataset("rdfox-npd");
 
-        indexModel.constructFacetIndex(dataset, new HashSet<>(assetManager.getConfigsToUseAtStartup().values()), null);
+        indexModel.constructFacetIndex(null, new HashSet<>(assetManager.getConfigsToUseAtStartup().values()), rdfox);
         // rdfox.closeConnections();
     }
 

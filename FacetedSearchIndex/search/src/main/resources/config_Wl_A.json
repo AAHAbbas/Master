@@ -3,7 +3,7 @@
         {
             "ontology": {
                 "name": "ontology",
-                "endpoint": "C:/Users/abdul/Master/Data/wikidata-2.owl"
+                "endpoint": "file:///Users/abdul/Master/Data/wikidata-2.owl"
             },
             "dataset": {
                 "name": "blazegraph",
@@ -90,6 +90,18 @@
         }
     ],
     "indiciesToCreateAtStartup": [
-        "*"
+        "Award",
+        "Capital",
+        "City_USA",
+        "City",
+        "Continent",
+        "Eye_Color",
+        "Film_Genre",
+        "Film",
+        "Filmography",
+        "Gender",
+        "Hair_Color",
+        "Profession",
+        "Television_Series"
     ]
 }
