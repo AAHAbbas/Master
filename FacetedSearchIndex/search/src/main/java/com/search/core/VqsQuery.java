@@ -40,7 +40,6 @@ public class VQSQuery {
     private DirectedAcyclicGraph<Variable, LabeledEdge> graph;
     private Map<Variable, Set<Filter>> filters; // Map from each datatype variable to a set of filters
 
-    // 2019: Tom wrote somehting better
     public VQSQuery(Ontology ontology, String SPARQLQuery, String rootName) {
         this.SPARQLQuery = SPARQLQuery;
         this.ontology = ontology;
@@ -98,7 +97,7 @@ public class VQSQuery {
         graph.addVertex(root);
         this.root = root;
 
-        // Doing a breath first search to populate the graph with more nodes.
+        // Doing a breath first search to populate the graph with nodes.
         // Variable names we want and will include in the query, but which has not been
         // searched for in the statements yet
         Set<String> variablesToSearchFor = new HashSet<>();
@@ -179,7 +178,6 @@ public class VQSQuery {
         return this.SPARQLQuery;
     }
 
-    // This displays the abstract query as a string. Used for output
     public String toString() {
         return "\n    ---VQS query---\n    ROOT: " + this.root + "\n    GRAPH" + graph.toString() + "\n    FILTERS:"
                 + filters + "\n";

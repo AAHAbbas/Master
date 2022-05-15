@@ -18,6 +18,8 @@ import com.search.core.RDFoxDataset;
 import com.search.core.VQSQuery;
 import com.search.graph.ConceptEdge;
 import com.search.graph.ConceptVariable;
+import com.search.graph.DatatypeVariable;
+import com.search.graph.Variable;
 import com.search.types.Concept;
 import com.search.types.Config;
 import com.search.types.Dataset;
@@ -84,7 +86,7 @@ public class AssetManager {
         for (Index index : indices) {
             LOGGER.info("Creating conceptConfiguration: " + index.getName());
 
-            List<ConceptVariable> variables = new ArrayList<>();
+            List<Variable> variables = new ArrayList<>();
             List<ConceptEdge> edges = new ArrayList<>();
             Concept concept = null;
 
@@ -97,7 +99,13 @@ public class AssetManager {
             }
 
             for (String variable : concept.getVariables()) {
-                variables.add(new ConceptVariable(variable));
+                if (variable.equals("String") || variable.equals("Integer") || variable.equals("Double") || variable
+                        .equals("Location") || variable.equals("Datetime")) {
+                    variables.add(new DatatypeVariable(variable));
+                } else {
+                    variables.add(new ConceptVariable(variable));
+
+                }
             }
 
             for (Edge edge : concept.getEdges()) {
@@ -111,13 +119,14 @@ public class AssetManager {
             ConceptConfiguration cc = new ConceptConfiguration(
                     this.ontologies.get(ontologyName),
                     index.getName(),
-                    variables.get(concept.getRoot()),
-                    new ArrayList<ConceptVariable>(variables),
+                    (ConceptVariable) variables.get(concept.getRoot()),
+                    new ArrayList<Variable>(variables),
                     edges,
                     concept.getAddAllMissingDatatypePropertiesToAllVariables(),
                     concept.getAddAllMissingObjectPropertiesToAllVariables(),
-                    datatypeMissingVariable == -1 ? null : variables.get(datatypeMissingVariable),
-                    objectPropMissingVariable == -1 ? null : variables.get(objectPropMissingVariable));
+                    datatypeMissingVariable == -1 ? null : (ConceptVariable) variables.get(datatypeMissingVariable),
+                    objectPropMissingVariable == -1 ? null
+                            : (ConceptVariable) variables.get(objectPropMissingVariable));
 
             configs.put(cc.getId(), cc);
 

@@ -15,8 +15,7 @@ import uio.ifi.ontology.toolkit.projection.view.OptiqueVQSAPI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-// Class representing an ontology
-// This has later been replaced by what we call a navigation graph
+// Class representing an ontology/navigation graph
 public class Ontology {
     private static final Logger LOGGER = LogManager.getLogger(Ontology.class);
     private Set<String> concepts;

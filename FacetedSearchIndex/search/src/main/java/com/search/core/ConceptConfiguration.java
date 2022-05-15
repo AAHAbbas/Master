@@ -35,7 +35,7 @@ public class ConceptConfiguration {
     private ConceptVariable root; // The root of the graph
     private DirectedAcyclicGraph<Variable, LabeledEdge> graph; // The directed graph defining the configuration
 
-    public ConceptConfiguration(Ontology ontology, String id, ConceptVariable root, List<ConceptVariable> vars,
+    public ConceptConfiguration(Ontology ontology, String id, ConceptVariable root, List<Variable> vars,
             List<ConceptEdge> edges, Boolean addAllDataType, Boolean addAllObject,
             ConceptVariable dataTypePropertySource, ConceptVariable objectPropertySource) {
         this.graph = new DirectedAcyclicGraph<>(LabeledEdge.class);
@@ -62,7 +62,7 @@ public class ConceptConfiguration {
         calculateVariableOrdering();
     }
 
-    // Extend graph with triples
+    // Extends a graph with triples
     // TODO: Maybe do something smart with labels of variables?
     private void addEdges(List<ConceptEdge> edges) {
         for (ConceptEdge edge : edges) {
@@ -202,8 +202,8 @@ public class ConceptConfiguration {
         return false;
     }
 
-    private void setVariableIds(List<ConceptVariable> vars) {
-        for (ConceptVariable variable : vars) {
+    private void setVariableIds(List<Variable> vars) {
+        for (Variable variable : vars) {
             variable.setLabel(generateVariableId());
         }
     }

@@ -124,6 +124,7 @@ public class ESService {
     // and number of fields in the index
     public void addDocuments(String indexName, List<BindingSet> data, int numOfVariables) {
         List<BulkOperation> body = new ArrayList<>();
+        int count = 0;
 
         for (int i = 0; i < data.size(); i++) {
             Map<String, Object> documents = new HashMap<>();
@@ -132,7 +133,9 @@ public class ESService {
             for (int j = 0; j < numOfVariables; j++) {
                 String bindingName = "o" + Integer.toString(j);
 
-                if (document.getBinding(bindingName) != null) {
+                if (document.getBinding(bindingName) != null && document.getBinding(bindingName).getValue()
+                        .stringValue().equals("true")) {
+                    count += 1;
                     documents.put(Constants.FIELD_PREFIX + j,
                             document.getBinding(bindingName).getValue().stringValue());
                 }
@@ -152,7 +155,7 @@ public class ESService {
 
         try {
             repo.bulkIndex(request);
-            LOGGER.info("Successfully added documents to index [" + indexName + "]");
+            LOGGER.info("Successfully added " + count + " documents to index [" + indexName + "]");
         } catch (ElasticsearchException | IOException e) {
             LOGGER.error("Cannot add documents to index [" + indexName + "]");
             e.printStackTrace();

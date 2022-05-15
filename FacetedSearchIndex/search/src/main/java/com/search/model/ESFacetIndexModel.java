@@ -229,11 +229,11 @@ public class ESFacetIndexModel extends FacetIndexModel {
         for (int i = 0; i < variables.size(); i++) {
             Variable variable = variables.get(i);
 
-            if (variable instanceof ConceptVariable)
+            if (variable instanceof ConceptVariable) {
                 query.append("(BOUND(?C_" + variable.getLabel() + ") as ?o" + i + ") ");
-
-            if (variable instanceof DatatypeVariable)
+            } else {
                 query.append("(?A_" + variable.getLabel() + " as ?o" + i + ") ");
+            }
         }
 
         query.append("\n");
@@ -248,6 +248,11 @@ public class ESFacetIndexModel extends FacetIndexModel {
     // the data we want to index
     private Object addWhereClauses(ConceptConfiguration config, Variable variable) {
         StringBuilder sb = new StringBuilder();
+        if (variable.getType().equals("String") || variable.getType().equals("Integer") || variable.getType()
+                .equals("Double") || variable.getType().equals("Datetime") || variable.getType().equals("Location")) {
+            return sb.toString();
+        }
+
         sb.append("?C_" + variable.getLabel() + " rdf:type <" + variable.getType() + ">.\n");
 
         for (LabeledEdge edge : config.getGraph().outgoingEdgesOf(variable)) {
