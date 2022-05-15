@@ -1,0 +1,36 @@
+award:             1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+capital:           1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+city:              1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+city_usa:          1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+continent:         1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+country:           1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+eye_color:         1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+film:              1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+film_genre:        1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+filmography:       1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+gender:            1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+hair_color:        1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+person:            1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+profession:        107746 docs, 1.608769 mb, 3 fields, 323238 cells, 215491 actual cells and 66% filled
+television_series: 1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+
+ES: 215505
+DB: 323252
+
+award:             497 ms
+capital:           92 ms
+city:              107 ms
+city_usa:          86 ms
+continent:         90 ms
+country:           85 ms
+eye_color:         82 ms
+film:              251 ms
+film_genre:        91 ms
+filmography:       85 ms
+gender:            79 ms
+hair_color:        81 ms
+person:            3168 ms
+profession:        16615 ms
+television_series: 114 ms
+
+Total: 21 sec

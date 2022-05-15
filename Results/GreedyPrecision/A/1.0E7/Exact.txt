@@ -1,0 +1,49 @@
+
+Gender:
+	Cost: 1.0
+	Precision: 0.0
+Award:
+	Cost: 1.0
+	Precision: 0.0
+Profession:
+	Cost: 1.0
+	Precision: 0.0
+Eye Color:
+	Cost: 1.0
+	Precision: 0.0
+Hair Color:
+	Cost: 1.0
+	Precision: 0.0
+Film Genre:
+	Cost: 1.0
+	Precision: 0.0
+City USA:
+	Cost: 328738.0
+	Precision: 0.14526573571383736
+Television Series:
+	Cost: 9975.0
+	Precision: 0.007604558037720464
+City:
+	Cost: 724496.0
+	Precision: 0.3895017140618286
+Person:
+	Cost: 12125.0
+	Precision: 0.08583381340596928
+Filmography:
+	Cost: 1.0
+	Precision: 0.0
+Country:
+	Cost: 2768.0
+	Precision: 0.14899272243134437
+Capital:
+	Cost: 1.0
+	Precision: 0.0
+Film:
+	Cost: 5340.0
+	Precision: 0.0021285166359748847
+Continent:
+	Cost: 100.0
+	Precision: 0.14195275385099124
+Overall:
+	Cost: 1083550.0
+	Precision: 0.9212798141376662

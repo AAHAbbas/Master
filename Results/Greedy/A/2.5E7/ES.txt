@@ -1,0 +1,37 @@
+award:             1 docs,      0.003471 mb, 1 fields, 1 cells,       1 actual cells and       100% filled
+capital:           1 docs,      0.003471 mb, 1 fields, 1 cells,       1 actual cells and       100% filled
+city:              19491 docs,  0.366311 mb, 2 fields, 38982 cells,   19491 actual cells and   50% filled
+city_usa:          134 docs,    0.006911 mb, 2 fields, 268 cells,     134 actual cells and     50% filled
+continent:         9 docs,      0.003863 mb, 2 fields, 18 cells,      9 actual cells and       50% filled
+country:           657319 docs, 9.528028 mb, 5 fields, 3286595 cells, 1775439 actual cells and 54% filled
+eye_color:         1 docs,      0.003471 mb, 1 fields, 1 cells,       1 actual cells and       100% filled
+film:              1 docs,      0.003471 mb, 1 fields, 1 cells,       1 actual cells and       100% filled
+film_genre:        1 docs,      0.003471 mb, 1 fields, 1 cells,       1 actual cells and       100% filled
+filmography:       1 docs,      0.003471 mb, 1 fields, 1 cells,       1 actual cells and       100% filled
+gender:            2 docs,      0.00397 mb,  2 fields, 4 cells,       3 actual cells and       75% filled
+hair_color:        1 docs,      0.003471 mb, 1 fields, 1 cells,       1 actual cells and       100% filled
+person:            327782 docs, 4.76452 mb,  6 fields, 1966692 cells, 668479 actual cells and  33% filled
+profession:        171728 docs, 2.504015 mb, 4 fields, 686912 cells,  441155 actual cells and  64% filled
+television_series: 1 docs,      0.003471 mb, 1 fields, 1 cells,       1 actual cells and       100% filled
+
+ES: 2904718
+DB: 5979479
+
+
+award:             465 ms
+capital:           87 ms
+city:              932 ms
+city_usa:          131 ms
+continent:         91 ms
+country:           33710 ms
+eye_color:         127 ms
+film:              236 ms
+film_genre:        88 ms
+filmography:       82 ms
+gender:            80 ms
+hair_color:        84 ms
+person:            83648 ms
+profession:        27991 ms
+television_series: 118 ms
+
+Total: 147 sec

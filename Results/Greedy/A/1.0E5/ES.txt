@@ -1,0 +1,37 @@
+award:             1 docs,     0.003471 mb, 1 fields, 1 cells,     1 actual cells and     100% filled
+capital:           1 docs,     0.003471 mb, 1 fields, 1 cells,     1 actual cells and     100% filled
+city:              19491 docs, 0.284551 mb, 2 fields, 38982 cells, 19491 actual cells and 50% filled
+city_usa:          134 docs,   0.007071 mb, 2 fields, 268 cells,   134 actual cells and   50% filled
+continent:         9 docs,     0.003863 mb, 2 fields, 18 cells,    9 actual cells and     50% filled
+country:           130 docs,   0.006783 mb, 2 fields, 260 cells,   130 actual cells and   50% filled
+eye_color:         1 docs,     0.003471 mb, 1 fields, 1 cells,     1 actual cells and     100% filled
+film:              1 docs,     0.003471 mb, 1 fields, 1 cells,     1 actual cells and     100% filled
+film_genre:        1 docs,     0.003471 mb, 1 fields, 1 cells,     1 actual cells and     100% filled
+filmography:       1 docs,     0.003471 mb, 1 fields, 1 cells,     1 actual cells and     100% filled
+gender:            1 docs,     0.003471 mb, 1 fields, 1 cells,     1 actual cells and     100% filled
+hair_color:        1 docs,     0.003471 mb, 1 fields, 1 cells,     1 actual cells and     100% filled
+person:            13 docs,    0.004458 mb, 3 fields, 39 cells,    23 actual cells and    58% filled
+profession:        2 docs,     0.00397 mb,  2 fields, 4 cells,     3 actual cells and     75% filled
+television_series: 1 docs,     0.003471 mb, 1 fields, 1 cells,     1 actual cells and     100% filled
+
+ES: 19799
+DB: 39580
+
+
+award:             1083 ms
+capital:           151 ms
+city:              41518 ms
+city_usa:          199 ms
+continent:         135 ms
+country:           415 ms
+eye_color:         138 ms
+film:              404 ms
+film_genre:        129 ms
+filmography:       119 ms
+gender:            120 ms
+hair_color:        116 ms
+person:            31837 ms
+profession:        10458 ms
+television_series: 156 ms
+
+Total: 86

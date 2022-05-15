@@ -1,0 +1,1 @@
+{"addAllMissingObjectPropertiesToAllVariables":"false","variables":["http://www.wikidata.org/entity/Q5","Datetime","String"],"root":0,"edges":[{"property":"http://www.wikidata.org/prop/direct/P569","source":0,"target":1},{"property":"http://www.wikidata.org/prop/direct/P1559","source":0,"target":2}],"addAllMissingDatatypePropertiesToAllVariables":"false"}

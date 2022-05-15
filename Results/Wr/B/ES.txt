@@ -1,0 +1,221 @@
+award_1:             1 docs,      0.003575 mb, 2 fields, 2 cells,      1 actual cells and      50% filled
+award_2:             2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+award_3:             2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+award_4:             2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+award_5:             2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+city_1:              2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+city_10:             536 docs,    0.017955 mb, 2 fields, 1072 cells,   536 actual cells and    50% filled
+city_11:             2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+city_2:              3 docs,      0.003687 mb, 2 fields, 6 cells,      3 actual cells and      50% filled
+city_3:              2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+city_4:              2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+city_5:              19491 docs,  0.346615 mb, 2 fields, 38982 cells,  19491 actual cells and  50% filled
+city_6:              2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+city_7:              2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+city_8:              1155 docs,   0.034573 mb, 2 fields, 2310 cells,   1155 actual cells and   50% filled
+city_9:              2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+city_usa_1:          9 docs,      0.003967 mb, 2 fields, 18 cells,     9 actual cells and      50% filled
+city_usa_10:         1 docs,      0.003575 mb, 2 fields, 2 cells,      1 actual cells and      50% filled
+city_usa_2:          2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+city_usa_3:          1 docs,      0.003575 mb, 2 fields, 2 cells,      1 actual cells and      50% filled
+city_usa_4:          2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+city_usa_5:          134 docs,    0.007203 mb, 2 fields, 268 cells,    134 actual cells and    50% filled
+city_usa_6:          26 docs,     0.004305 mb, 2 fields, 52 cells,     26 actual cells and     50% filled
+city_usa_7:          2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+city_usa_8:          2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+city_usa_9:          2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+continent_1:         2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+continent_2:         2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+continent_3:         2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+continent_4:         9 docs,      0.003967 mb, 2 fields, 18 cells,     9 actual cells and      50% filled
+continent_5:         4 docs,      0.003743 mb, 2 fields, 8 cells,      4 actual cells and      50% filled
+country_1:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+country_10:          2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+country_11:          2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+country_12:          53 docs,     0.005001 mb, 2 fields, 106 cells,    53 actual cells and     50% filled
+country_13:          2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+country_14:          2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+country_15:          7 docs,      0.003887 mb, 2 fields, 14 cells,     7 actual cells and      50% filled
+country_16:          2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+country_2:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+country_3:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+country_4:           53 docs,     0.005129 mb, 2 fields, 106 cells,    53 actual cells and     50% filled
+country_5:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+country_6:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+country_7:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+country_8:           1 docs,      0.003575 mb, 2 fields, 2 cells,      1 actual cells and      50% filled
+country_9:           130 docs,    0.006899 mb, 2 fields, 260 cells,    130 actual cells and    50% filled
+eye_color_1:         2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+film_1:              2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+film_2:              2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+film_3:              2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+film_4:              2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+film_5:              2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+film_6:              213 docs,    0.009299 mb, 2 fields, 426 cells,    213 actual cells and    50% filled
+film_7:              2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+film_8:              2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+film_genre_1:        2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+filmography_1:       2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+gender_1:            2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+hair_color_1:        1 docs,      0.003575 mb, 2 fields, 2 cells,      1 actual cells and      50% filled
+person_1:            1 docs,      0.003575 mb, 2 fields, 2 cells,      1 actual cells and      50% filled
+person_10:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_11:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_12:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_13:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_14:           1 docs,      0.003575 mb, 2 fields, 2 cells,      1 actual cells and      50% filled
+person_15:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_16:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_17:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_18:           12 docs,     0.004049 mb, 2 fields, 24 cells,     12 actual cells and     50% filled
+person_19:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_2:            2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_20:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_21:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_22:           128080 docs, 1.841242 mb, 2 fields, 256160 cells, 128080 actual cells and 50% filled
+person_23:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_24:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_25:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_26:           1 docs,      0.003575 mb, 2 fields, 2 cells,      1 actual cells and      50% filled
+person_27:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_28:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_29:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_3:            4520 docs,   0.126181 mb, 2 fields, 9040 cells,   4520 actual cells and   50% filled
+person_30:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_31:           11916 docs,  0.174087 mb, 2 fields, 23832 cells,  11916 actual cells and  50% filled
+person_32:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_33:           1 docs,      0.003575 mb, 2 fields, 2 cells,      1 actual cells and      50% filled
+person_34:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_35:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_36:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_37:           2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_4:            2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_5:            2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_6:            2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+person_7:            376 docs,    0.013627 mb, 2 fields, 752 cells,    376 actual cells and    50% filled
+person_8:            1 docs,      0.003575 mb, 2 fields, 2 cells,      1 actual cells and      50% filled
+person_9:            2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+profession_1:        2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+television_series_1: 2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+television_series_2: 187 docs,    0.008627 mb, 2 fields, 374 cells,    187 actual cells and    50% filled
+television_series_3: 2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+television_series_4: 2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+television_series_5: 475 docs,    0.016291 mb, 2 fields, 950 cells,    475 actual cells and    50% filled
+television_series_6: 380 docs,    0.013731 mb, 2 fields, 760 cells,    380 actual cells and    50% filled
+television_series_7: 13 docs,     0.004153 mb, 2 fields, 26 cells,     13 actual cells and     50% filled
+television_series_8: 2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+television_series_9: 2 docs,      0.004074 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+
+ES: 168014 cells
+DB: 335880 cells
+
+
+award_1:             1084 ms
+award_2:             512 ms
+award_3:             520 ms
+award_4:             626 ms
+award_5:             514 ms
+city_1:              211 ms
+city_10:             235 ms
+city_11:             200 ms
+city_2:              133 ms
+city_3:              204 ms
+city_4:              153 ms
+city_5:              800 ms
+city_6:              2758 ms
+city_7:              228 ms
+city_8:              181 ms
+city_9:              288 ms
+city_usa_1:          79 ms
+city_usa_10:         75 ms
+city_usa_2:          72 ms
+city_usa_3:          74 ms
+city_usa_4:          80 ms
+city_usa_5:          80 ms
+city_usa_6:          71 ms
+city_usa_7:          122 ms
+city_usa_8:          78 ms
+city_usa_9:          75 ms
+continent_1:         85 ms
+continent_2:         74 ms
+continent_3:         70 ms
+continent_4:         72 ms
+continent_5:         74 ms
+country_1:           78 ms
+country_10:          75 ms
+country_11:          72 ms
+country_12:          74 ms
+country_13:          6761 ms
+country_14:          543 ms
+country_15:          94 ms
+country_16:          80 ms
+country_2:           80 ms
+country_3:           79 ms
+country_4:           81 ms
+country_5:           465 ms
+country_6:           91 ms
+country_7:           89 ms
+country_8:           84 ms
+country_9:           93 ms
+eye_color_1:         91 ms
+film_1:              1039 ms
+film_2:              943 ms
+film_3:              927 ms
+film_4:              972 ms
+film_5:              964 ms
+film_6:              607 ms
+film_7:              1027 ms
+film_8:              2974 ms
+film_genre_1:        450 ms
+filmography_1:       95 ms
+gender_1:            83 ms
+hair_color_1:        82 ms
+person_1:            17380 ms
+person_10:           17719 ms
+person_11:           17570 ms
+person_12:           19951 ms
+person_13:           17075 ms
+person_14:           10288 ms
+person_15:           17847 ms
+person_16:           16598 ms
+person_17:           17910 ms
+person_18:           9902 ms
+person_19:           18074 ms
+person_2:            17785 ms
+person_20:           19701 ms
+person_21:           18475 ms
+person_22:           15386 ms
+person_23:           19613 ms
+person_24:           17138 ms
+person_25:           17794 ms
+person_26:           12272 ms
+person_27:           18945 ms
+person_28:           18409 ms
+person_29:           17394 ms
+person_3:            10483 ms
+person_30:           20444 ms
+person_31:           13625 ms
+person_32:           18552 ms
+person_33:           10588 ms
+person_34:           19113 ms
+person_35:           17816 ms
+person_36:           18340 ms
+person_37:           13973 ms
+person_4:            15112 ms
+person_5:            19473 ms
+person_6:            18882 ms
+person_7:            10344 ms
+person_8:            17312 ms
+person_9:            16744 ms
+profession_1:        11109 ms
+television_series_1: 265 ms
+television_series_2: 212 ms
+television_series_3: 191 ms
+television_series_4: 190 ms
+television_series_5: 156 ms
+television_series_6: 147 ms
+television_series_7: 136 ms
+television_series_8: 187 ms
+television_series_9: 190 ms
+
+Total: 655 sec

@@ -1,0 +1,37 @@
+award:             1 docs,     0.003576 mb, 1 fields,  1 cells,      1 actual cells and      100% filled
+capital:           1 docs,     0.003576 mb, 1 fields,  1 cells,      1 actual cells and      100% filled
+city:              45281 docs, 0.728047 mb, 16 fields, 724496 cells, 163211 actual cells and 22% filled
+city_usa:          17302 docs, 0.490129 mb, 19 fields, 328738 cells, 120471 actual cells and 36% filled
+continent:         10 docs,    0.00586 mb,  10 fields, 100 cells,    28 actual cells and     28% filled
+country:           173 docs,   0.015243 mb, 16 fields, 2768 cells,   1120 actual cells and   40% filled
+eye_color:         1 docs,     0.003576 mb, 1 fields,  1 cells,      1 actual cells and      100% filled
+film:              445 docs,   0.028083 mb, 11 fields, 4895 cells,   2772 actual cells and   56% filled
+film_genre:        1 docs,     0.003471 mb, 1 fields,  1 cells,      1 actual cells and      100% filled
+filmography:       1 docs,     0.003471 mb, 1 fields,  1 cells,      1 actual cells and      100% filled
+gender:            1 docs,     0.003471 mb, 1 fields,  1 cells,      1 actual cells and      100% filled
+hair_color:        1 docs,     0.003471 mb, 1 fields,  1 cells,      1 actual cells and      100% filled
+person:            150 docs,   0.015065 mb, 18 fields, 2700 cells,   723 actual cells and    26% filled
+profession:        1 docs,     0.003471 mb, 1 fields,  1 cells,      1 actual cells and      100% filled
+television_series: 665 docs,   0.030934 mb, 15 fields, 9975 cells,   2393 actual cells and   23% filled
+
+ES: 290726
+DB: 1073680
+
+
+award:             523 ms
+capital:           99 ms
+city:              104511 ms
+city_usa:          23342 ms
+continent:         124 ms
+country:           123891 ms
+eye_color:         102 ms
+film:              48360 ms
+film_genre:        100 ms
+filmography:       103 ms
+gender:            100 ms
+hair_color:        102 ms
+person:            229631 ms
+profession:        119 ms
+television_series: 1934 ms
+
+Total: 533

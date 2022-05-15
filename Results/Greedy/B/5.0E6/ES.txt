@@ -1,0 +1,37 @@
+award:             1 docs,      0.003471 mb, 1 fields, 1 cells,      1 actual cells and      100% filled
+capital:           1 docs,      0.003471 mb, 1 fields, 1 cells,      1 actual cells and      100% filled
+city:              1 docs,      0.003471 mb, 1 fields, 1 cells,      1 actual cells and      100% filled
+city_usa:          1 docs,      0.003471 mb, 1 fields, 1 cells,      1 actual cells and      100% filled
+continent:         1 docs,      0.003471 mb, 1 fields, 1 cells,      1 actual cells and      100% filled
+country:           2 docs,      0.00397 mb,  2 fields, 4 cells,      3 actual cells and      75% filled
+eye_color:         1 docs,      0.003471 mb, 1 fields, 1 cells,      1 actual cells and      100% filled
+film:              1 docs,      0.003471 mb, 1 fields, 1 cells,      1 actual cells and      100% filled
+film_genre:        1 docs,      0.003471 mb, 1 fields, 1 cells,      1 actual cells and      100% filled
+filmography:       1 docs,      0.003471 mb, 1 fields, 1 cells,      1 actual cells and      100% filled
+gender:            2 docs,      0.00397 mb,  2 fields, 4 cells,      3 actual cells and      75% filled
+hair_color:        1 docs,      0.003471 mb, 1 fields, 1 cells,      1 actual cells and      100% filled
+person:            207758 docs, 2.998205 mb, 4 fields, 831032 cells, 315510 actual cells and 37% filled
+profession:        171731 docs, 2.490368 mb, 5 fields, 858655 cells, 441165 actual cells and 51% filled
+television_series: 1 docs,      0.003471 mb, 1 fields, 1 cells,      1 actual cells and      100% filled
+
+ES: 756692
+DB: 1689706
+
+
+award:             507 ms
+capital:           104 ms
+city:              139 ms
+city_usa:          99 ms
+continent:         104 ms
+country:           7128 ms
+eye_color:         116 ms
+film:              295 ms
+film_genre:        109 ms
+filmography:       104 ms
+gender:            108 ms
+hair_color:        108 ms
+person:            57654 ms
+profession:        46765 ms
+television_series: 133 ms
+
+Total: 113

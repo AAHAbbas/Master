@@ -1,0 +1,49 @@
+
+Gender:
+	Estimate: 1.0
+	Actual: 1.0
+Award:
+	Estimate: 1.0
+	Actual: 1.0
+Profession:
+	Estimate: 1.0
+	Actual: 1.0
+Eye Color:
+	Estimate: 1.0
+	Actual: 1.0
+Hair Color:
+	Estimate: 1.0
+	Actual: 1.0
+Film Genre:
+	Estimate: 1.0
+	Actual: 1.0
+City USA:
+	Estimate: 5237.65903702234
+	Actual: 2256.0
+Television Series:
+	Estimate: 86458.59160078912
+	Actual: 754.0
+City:
+	Estimate: 180.0
+	Actual: 72.0
+Person:
+	Estimate: 72000.0
+	Actual: 855.0
+Filmography:
+	Estimate: 1.0
+	Actual: 1.0
+Country:
+	Estimate: 48354.93399262428
+	Actual: 2422.0
+Capital:
+	Estimate: 1.0
+	Actual: 1.0
+Film:
+	Estimate: 81791.99470861518
+	Actual: 1960.0
+Continent:
+	Estimate: 195.04628099173559
+	Actual: 100.0
+Overall:
+	Estimate: 294226.22562004265
+	Actual: 8427.0

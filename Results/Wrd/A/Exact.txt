@@ -1,0 +1,92 @@
+
+City USA:
+	1:
+		Cost: 52.0
+		Precision: 0.0019184819037503425
+	2:
+		Cost: 268.0
+		Precision: 0.140738569868617
+	3:
+		Cost: 18.0
+		Precision: 0.0016906171008656853
+	4:
+		Cost: 2.0
+		Precision: 4.1966250560352417E-4
+Television Series:
+	1:
+		Cost: 950.0
+		Precision: 0.0034986808086242363
+	2:
+		Cost: 26.0
+		Precision: 0.0014309109674716808
+	3:
+		Cost: 760.0
+		Precision: 0.0022152490029792356
+	4:
+		Cost: 374.0
+		Precision: 0.0
+City:
+	1:
+		Cost: 6.0
+		Precision: 4.250840527882261E-4
+	2:
+		Cost: 2310.0
+		Precision: 0.00297091013194022
+	3:
+		Cost: 1072.0
+		Precision: 0.0016906171008656855
+	4:
+		Cost: 38982.0
+		Precision: 0.38403804760150445
+Person:
+	1:
+		Cost: 23832.0
+		Precision: 0.0033825765300266896
+	2:
+		Cost: 9040.0
+		Precision: 0.0037514295395206392
+	3:
+		Cost: 2.0
+		Precision: 3.336336729047346E-4
+	4:
+		Cost: 752.0
+		Precision: 1.3251170868353146E-4
+	5:
+		Cost: 256160.0
+		Precision: 0.05517367105235689
+	6:
+		Cost: 24.0
+		Precision: 0.08515743453297789
+	7:
+		Cost: 2.0
+		Precision: 2.819204536045008E-4
+Country:
+	1:
+		Cost: 260.0
+		Precision: 0.1401514434211869
+	2:
+		Cost: 14.0
+		Precision: 9.916357335895787E-4
+	3:
+		Cost: 106.0
+		Precision: 0.0016775834661791492
+	4:
+		Cost: 2.0
+		Precision: 0.0
+	5:
+		Cost: 106.0
+		Precision: 0.004398328345246065
+Film:
+	1:
+		Cost: 426.0
+		Precision: 0.002103120346368752
+Continent:
+	1:
+		Cost: 8.0
+		Precision: 0.0019184819037503425
+	2:
+		Cost: 18.0
+		Precision: 0.1400073797916692
+Overall:
+	Cost: 335572.0
+	Precision: 0.9804979815430754

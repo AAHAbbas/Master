@@ -1,0 +1,37 @@
+award:             1 docs,      0.003471 mb, 1 fields, 1 cells,       1 actual cells and      100% filled
+capital:           1 docs,      0.003471 mb, 1 fields, 1 cells,       1 actual cells and      100% filled
+city:              19491 docs,  0.284239 mb, 2 fields, 38982 cells,   19491 actual cells and  50% filled
+city_usa:          134 docs,    0.007095 mb, 2 fields, 268 cells,     134 actual cells and    50% filled
+continent:         1 docs,      0.003471 mb, 1 fields, 1 cells,       1 actual cells and      100% filled
+country:           1 docs,      0.003471 mb, 1 fields, 1 cells,       1 actual cells and      100% filled
+eye_color:         1 docs,      0.003471 mb, 1 fields, 1 cells,       1 actual cells and      100% filled
+film:              1 docs,      0.003471 mb, 1 fields, 1 cells,       1 actual cells and      100% filled
+film_genre:        1 docs,      0.003471 mb, 1 fields, 1 cells,       1 actual cells and      100% filled
+filmography:       1 docs,      0.003471 mb, 1 fields, 1 cells,       1 actual cells and      100% filled
+gender:            1 docs,      0.003471 mb, 1 fields, 1 cells,       1 actual cells and      100% filled
+hair_color:        1 docs,      0.003471 mb, 1 fields, 1 cells,       1 actual cells and      100% filled
+person:            303141 docs, 4.425624 mb, 7 fields, 2121987 cells, 582080 actual cells and 27% filled
+profession:        1 docs,      0.003471 mb, 1 fields, 1 cells,       1 actual cells and      100% filled
+television_series: 1 docs,      0.003471 mb, 1 fields, 1 cells,       1 actual cells and      100% filled
+
+ES: 601717
+DB: 2161249
+
+
+award:             526 ms
+capital:           131 ms
+city:              1082 ms
+city_usa:          128 ms
+continent:         115 ms
+country:           115 ms
+eye_color:         108 ms
+film:              289 ms
+film_genre:        111 ms
+filmography:       111 ms
+gender:            109 ms
+hair_color:        103 ms
+person:            92966 ms
+profession:        115 ms
+television_series: 127 ms
+
+Total: 96

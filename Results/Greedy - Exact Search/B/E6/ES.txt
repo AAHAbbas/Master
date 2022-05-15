@@ -1,0 +1,37 @@
+award:             1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+capital:           1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+city:              1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+city_usa:          1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+continent:         1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+country:           2 docs,      0.003969 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+eye_color:         1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+film:              1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+film_genre:        1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+filmography:       1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+gender:            2 docs,      0.003969 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+hair_color:        1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+person:            207758 docs, 2.995452 mb, 4 fields, 831032 cells, 315510 actual cells and 37% filled
+profession:        171731 docs, 2.492735 mb, 5 fields, 858655 cells, 441165 actual cells and 51% filled
+television_series: 1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+
+ES: 756692
+DB: 1689706
+
+
+award:             454 ms
+capital:           82 ms
+city:              94 ms
+city_usa:          81 ms
+continent:         81 ms
+country:           6698 ms
+eye_color:         94 ms
+film:              238 ms
+film_genre:        90 ms
+filmography:       81 ms
+gender:            83 ms
+hair_color:        82 ms
+person:            53866 ms
+profession:        44902 ms
+television_series: 105 ms
+
+Total: 107

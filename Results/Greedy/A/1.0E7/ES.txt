@@ -1,0 +1,37 @@
+award:             1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+capital:           1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+city:              19491 docs,  0.284086 mb, 2 fields, 38982 cells,  19491 actual cells and  50% filled
+city_usa:          134 docs,    0.006894 mb, 2 fields, 268 cells,    134 actual cells and    50% filled
+continent:         9 docs,      0.003862 mb, 2 fields, 18 cells,     9 actual cells and      50% filled
+country:           130 docs,    0.006958 mb, 2 fields, 260 cells,    130 actual cells and    50% filled
+film:              1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+eye_color:         1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+film_genre:        1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+filmography:       1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+gender:            1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+hair_color:        1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+person:            207765 docs, 2.997297 mb, 4 fields, 831060 cells, 315519 actual cells and 37% filled
+profession:        2 docs,      0.003969 mb, 2 fields, 4 cells,      3 actual cells and      75% filled
+television_series: 1 docs,      0.00347 mb,  1 fields, 1 cells,      1 actual cells and      100% filled
+
+ES: 335295 cells
+DB: 870601 cells
+
+
+award:             509 ms
+capital:           98 ms
+city:              1033 ms
+city_usa:          138 ms
+continent:         97 ms
+country:           123 ms
+eye_color:         107 ms
+film:              279 ms
+film_genre:        95 ms
+filmography:       91 ms
+gender:            90 ms
+hair_color:        89 ms
+person:            39848 ms
+profession:        10432 ms
+television_series: 107 ms
+
+Total: 53 sec

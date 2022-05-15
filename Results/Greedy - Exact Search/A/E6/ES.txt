@@ -1,0 +1,37 @@
+award:             1 docs,      0.00347 mb,  1 fields, 1 cells,       1 actual cells and      100% filled
+capital:           1 docs,      0.00347 mb,  1 fields, 1 cells,       1 actual cells and      100% filled
+city:              19491 docs,  0.28435 mb,  2 fields, 38982 cells,   19491 actual cells and  50% filled
+city_usa:          134 docs,    0.007078 mb, 2 fields, 268 cells,     134 actual cells and    50% filled
+continent:         9 docs,      0.003862 mb, 2 fields, 18 cells,      9 actual cells and      50% filled
+country:           131 docs,    0.007673 mb, 3 fields, 393 cells,     259 actual cells and    65% filled
+eye_color:         1 docs,      0.00347 mb,  1 fields, 1 cells,       1 actual cells and      100% filled
+film:              1 docs,      0.00347 mb,  1 fields, 1 cells,       1 actual cells and      100% filled
+film_genre:        1 docs,      0.00347 mb,  1 fields, 1 cells,       1 actual cells and      100% filled
+filmography:       1 docs,      0.00347 mb,  1 fields, 1 cells,       1 actual cells and      100% filled
+gender:            1 docs,      0.00347 mb,  1 fields, 1 cells,       1 actual cells and      100% filled
+hair_color:        1 docs,      0.00347 mb,  1 fields, 1 cells,       1 actual cells and      100% filled
+person:            327778 docs, 4.76762 mb,  5 fields, 1638890 cells, 668466 actual cells and 40% filled
+profession:        2 docs,      0.003969 mb, 2 fields, 4 cells,       3 actual cells and      75% filled
+television_series: 1 docs,      0.00347 mb,  1 fields, 1 cells,       1 actual cells and      100% filled
+
+ES: 688371 cells
+DB: 1678564 cells
+
+
+award:             484 ms
+capital:           89 ms
+city:              998 ms
+city_usa:          130 ms
+continent:         96 ms
+country:           6732 ms
+eye_color:         96 ms
+film:              243 ms
+film_genre:        96 ms
+filmography:       84 ms
+gender:            88 ms
+hair_color:        88 ms
+person:            60865 ms
+profession:        10946 ms
+television_series: 101 ms
+
+Total: 81 sec

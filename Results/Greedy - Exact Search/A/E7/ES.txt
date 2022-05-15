@@ -1,0 +1,37 @@
+award:             1 docs,       0.003575 mb,  1 fields,  1 cells,        1 actual cells and       100% filled
+capital:           1 docs,       0.003575 mb,  1 fields,  1 cells,        1 actual cells and       100% filled
+city:              19502 docs,   0.29433 mb,   3 fields,  58506 cells,    29436 actual cells and   50% filled
+city_usa:          134 docs,     0.007894 mb,  3 fields,  402 cells,      234 actual cells and     58% filled
+continent:         9 docs,       0.004418 mb,  3 fields,  27 cells,       11 actual cells and      40% filled
+country:           657319 docs,  9.720186 mb,  6 fields,  3943914 cells,  1882757 actual cells and 47% filled
+eye_color:         1 docs,       0.00347 mb,   1 fields,  1 cells,        1 actual cells and       100% filled
+film:              1 docs,       0.00347 mb,   1 fields,  1 cells,        1 actual cells and       100% filled
+film_genre:        1 docs,       0.00347 mb,   1 fields,  1 cells,        1 actual cells and       100% filled
+filmography:       1 docs,       0.00347 mb,   1 fields,  1 cells,        1 actual cells and       100% filled
+gender:            3 docs,       0.004492 mb,  3 fields,  9 cells,        6 actual cells and       66% filled
+hair_color:        1 docs,       0.00347 mb,   1 fields,  1 cells,        1 actual cells and       100% filled
+person:            1592659 docs, 23.068041 mb, 11 fields, 17519249 cells, 3839496 actual cells and 21% filled
+profession:        171731 docs,  2.496727 mb,  5 fields,  858655 cells,   441165 actual cells and  51% filled
+television_series: 483 docs,     0.017121 mb,  3 fields,  1449 cells,     562 actual cells and     38% filled
+
+ES: 6193674 cells
+DB: 22382218 cells
+
+
+award:             512 ms
+capital:           88 ms
+city:              2766 ms
+city_usa:          148 ms
+continent:         95 ms
+country:           34856 ms
+eye_color:         115 ms
+film:              252 ms
+film_genre:        87 ms
+filmography:       85 ms
+gender:            86 ms
+hair_color:        85 ms
+person:            173402 ms
+profession:        45338 ms
+television_series: 448 ms
+
+Total: 258 sec

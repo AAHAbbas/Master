@@ -1,0 +1,339 @@
+
+Gender:
+	1:
+		Cost: 4.0
+		Precision: 0.0
+Award:
+	1:
+		Cost: 2.0
+		Precision: 0.0
+	2:
+		Cost: 4.0
+		Precision: 0.0
+	3:
+		Cost: 4.0
+		Precision: 0.0
+	4:
+		Cost: 4.0
+		Precision: 0.0
+	5:
+		Cost: 4.0
+		Precision: 0.0
+Profession:
+	1:
+		Cost: 4.0
+		Precision: 0.0
+Eye Color:
+	1:
+		Cost: 4.0
+		Precision: 0.0
+Hair Color:
+	1:
+		Cost: 2.0
+		Precision: 0.0
+City USA:
+	1:
+		Cost: 4.0
+		Precision: 0.0
+	2:
+		Cost: 2.0
+		Precision: 4.1966250560352417E-4
+	3:
+		Cost: 4.0
+		Precision: 0.0
+	4:
+		Cost: 4.0
+		Precision: 0.0
+	5:
+		Cost: 4.0
+		Precision: 0.0
+	6:
+		Cost: 268.0
+		Precision: 0.140738569868617
+	7:
+		Cost: 2.0
+		Precision: 0.0
+	8:
+		Cost: 18.0
+		Precision: 0.0016906171008656853
+	9:
+		Cost: 4.0
+		Precision: 0.0
+	10:
+		Cost: 52.0
+		Precision: 0.0019184819037503425
+Film Genre:
+	1:
+		Cost: 4.0
+		Precision: 0.0
+Television Series:
+	1:
+		Cost: 374.0
+		Precision: 0.0
+	2:
+		Cost: 950.0
+		Precision: 0.0034986808086242363
+	3:
+		Cost: 4.0
+		Precision: 0.0
+	4:
+		Cost: 4.0
+		Precision: 0.0
+	5:
+		Cost: 4.0
+		Precision: 0.0
+	6:
+		Cost: 26.0
+		Precision: 0.0014309109674716808
+	7:
+		Cost: 760.0
+		Precision: 0.0022152490029792356
+	8:
+		Cost: 4.0
+		Precision: 0.0
+	9:
+		Cost: 4.0
+		Precision: 0.0
+City:
+	1:
+		Cost: 4.0
+		Precision: 0.0
+	2:
+		Cost: 2310.0
+		Precision: 0.00297091013194022
+	3:
+		Cost: 4.0
+		Precision: 0.0
+	4:
+		Cost: 1072.0
+		Precision: 0.0016906171008656855
+	5:
+		Cost: 6.0
+		Precision: 4.250840527882261E-4
+	6:
+		Cost: 38982.0
+		Precision: 0.38403804760150445
+	7:
+		Cost: 4.0
+		Precision: 0.0
+	8:
+		Cost: 4.0
+		Precision: 0.0
+	9:
+		Cost: 4.0
+		Precision: 0.0
+	10:
+		Cost: 4.0
+		Precision: 0.0
+	11:
+		Cost: 4.0
+		Precision: 0.0
+Person:
+	1:
+		Cost: 4.0
+		Precision: 0.0
+	2:
+		Cost: 4.0
+		Precision: 0.0
+	3:
+		Cost: 23832.0
+		Precision: 0.0033825765300266896
+	4:
+		Cost: 4.0
+		Precision: 0.0
+	5:
+		Cost: 4.0
+		Precision: 0.0
+	6:
+		Cost: 4.0
+		Precision: 0.0
+	7:
+		Cost: 752.0
+		Precision: 1.3251170868353146E-4
+	8:
+		Cost: 4.0
+		Precision: 0.0
+	9:
+		Cost: 4.0
+		Precision: 0.0
+	10:
+		Cost: 4.0
+		Precision: 0.0
+	11:
+		Cost: 2.0
+		Precision: 3.336336729047346E-4
+	12:
+		Cost: 4.0
+		Precision: 0.0
+	13:
+		Cost: 2.0
+		Precision: 0.0
+	14:
+		Cost: 9040.0
+		Precision: 0.0037514295395206392
+	15:
+		Cost: 4.0
+		Precision: 0.0
+	16:
+		Cost: 2.0
+		Precision: 2.819204536045008E-4
+	17:
+		Cost: 4.0
+		Precision: 0.0
+	18:
+		Cost: 4.0
+		Precision: 0.0
+	19:
+		Cost: 4.0
+		Precision: 0.0
+	20:
+		Cost: 4.0
+		Precision: 0.0
+	21:
+		Cost: 4.0
+		Precision: 0.0
+	22:
+		Cost: 4.0
+		Precision: 0.0
+	23:
+		Cost: 2.0
+		Precision: 0.0
+	24:
+		Cost: 4.0
+		Precision: 0.0
+	25:
+		Cost: 4.0
+		Precision: 0.0
+	26:
+		Cost: 256160.0
+		Precision: 0.05517367105235689
+	27:
+		Cost: 4.0
+		Precision: 0.0
+	28:
+		Cost: 4.0
+		Precision: 0.0
+	29:
+		Cost: 4.0
+		Precision: 0.0
+	30:
+		Cost: 24.0
+		Precision: 0.08515743453297789
+	31:
+		Cost: 4.0
+		Precision: 0.0
+	32:
+		Cost: 4.0
+		Precision: 0.0
+	33:
+		Cost: 4.0
+		Precision: 0.0
+	34:
+		Cost: 4.0
+		Precision: 0.0
+	35:
+		Cost: 4.0
+		Precision: 0.0
+	36:
+		Cost: 4.0
+		Precision: 0.0
+	37:
+		Cost: 2.0
+		Precision: 0.0
+Filmography:
+	1:
+		Cost: 4.0
+		Precision: 0.0
+Country:
+	1:
+		Cost: 4.0
+		Precision: 0.0
+	2:
+		Cost: 14.0
+		Precision: 9.916357335895787E-4
+	3:
+		Cost: 4.0
+		Precision: 0.0
+	4:
+		Cost: 106.0
+		Precision: 0.004398328345246065
+	5:
+		Cost: 4.0
+		Precision: 0.0
+	6:
+		Cost: 260.0
+		Precision: 0.1401514434211869
+	7:
+		Cost: 4.0
+		Precision: 0.0
+	8:
+		Cost: 106.0
+		Precision: 0.0016775834661791492
+	9:
+		Cost: 4.0
+		Precision: 0.0
+	10:
+		Cost: 4.0
+		Precision: 0.0
+	11:
+		Cost: 4.0
+		Precision: 0.0
+	12:
+		Cost: 4.0
+		Precision: 0.0
+	13:
+		Cost: 2.0
+		Precision: 0.0
+	14:
+		Cost: 4.0
+		Precision: 0.0
+	15:
+		Cost: 4.0
+		Precision: 0.0
+	16:
+		Cost: 4.0
+		Precision: 0.0
+Film:
+	1:
+		Cost: 4.0
+		Precision: 0.0
+	2:
+		Cost: 4.0
+		Precision: 0.0
+	3:
+		Cost: 4.0
+		Precision: 0.0
+	4:
+		Cost: 426.0
+		Precision: 0.002103120346368752
+	5:
+		Cost: 4.0
+		Precision: 0.0
+	6:
+		Cost: 4.0
+		Precision: 0.0
+	7:
+		Cost: 4.0
+		Precision: 0.0
+	8:
+		Cost: 4.0
+		Precision: 0.0
+Continent:
+	1:
+		Cost: 4.0
+		Precision: 0.0
+	2:
+		Cost: 18.0
+		Precision: 0.1400073797916692
+	3:
+		Cost: 4.0
+		Precision: 0.0
+	4:
+		Cost: 4.0
+		Precision: 0.0
+	5:
+		Cost: 8.0
+		Precision: 0.0019184819037503425
+Overall:
+	Cost: 335880.0
+	Precision: 0.9804979815430754

@@ -1,0 +1,37 @@
+award:             1 docs,     0.003576 mb, 1 fields,  1 cells,      1 actual cells and      100% filled
+capital:           1 docs,     0.003576 mb, 1 fields,  1 cells,      1 actual cells and      100% filled
+city:              45281 docs, 0.729175 mb, 16 fields, 724496 cells, 163211 actual cells and 22% filled
+city_usa:          17302 docs, 0.410166 mb, 19 fields, 328738 cells, 120471 actual cells and 36% filled
+continent:         10 docs,    0.005868 mb, 10 fields, 100 cells,    28 actual cells and     28% filled
+country:           173 docs,   0.015195 mb, 16 fields, 2768 cells,   1120 actual cells and   40% filled
+eye_color:         1 docs,     0.003576 mb, 1 fields,  1 cells,      1 actual cells and      100% filled
+film:              445 docs,   0.029532 mb, 12 fields, 5340 cells,   3181 actual cells and   59% filled
+film_genre:        1 docs,     0.003576 mb, 1 fields,  1 cells,      1 actual cells and      100% filled
+filmography:       1 docs,     0.003576 mb, 1 fields,  1 cells,      1 actual cells and      100% filled
+gender:            1 docs,     0.003576 mb, 1 fields,  1 cells,      1 actual cells and      100% filled
+hair_color:        1 docs,     0.003576 mb, 1 fields,  1 cells,      1 actual cells and      100% filled
+person:            485 docs,   0.037734 mb, 25 fields, 12125 cells,  4055 actual cells and   33% filled
+profession:        1 docs,     0.003471 mb, 1 fields,  1 cells,      1 actual cells and      100% filled
+television_series: 665 docs,   0.031238 mb, 15 fields, 9975 cells,   2393 actual cells and   23% filled
+
+ES: 294467
+DB: 1083550
+
+
+award:             526 ms
+capital:           100 ms
+city:              126429 ms
+city_usa:          23346 ms
+continent:         115 ms
+country:           125918 ms
+eye_color:         103 ms
+film:              1236926 ms
+film_genre:        111 ms
+filmography:       105 ms
+gender:            102 ms
+hair_color:        108 ms
+person:            487722 ms
+profession:        104 ms
+television_series: 1895 ms
+
+Total: 2003

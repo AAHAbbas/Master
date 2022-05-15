@@ -1,0 +1,1 @@
+{"addAllMissingObjectPropertiesToAllVariables":"false","variables":["http://www.wikidata.org/entity/Q5398426","Datetime"],"root":0,"edges":[{"property":"http://www.wikidata.org/prop/direct/P582","source":0,"target":1}],"addAllMissingDatatypePropertiesToAllVariables":"false"}
